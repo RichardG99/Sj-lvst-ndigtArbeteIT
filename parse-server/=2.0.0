@@ -1,0 +1,6 @@
+
+> libpq@1.8.9 install C:\Users\Nick\Desktop\Dreamscape\parse-server\node_modules\libpq
+> node-gyp rebuild
+
+
+C:\Users\Nick\Desktop\Dreamscape\parse-server\node_modules\libpq>if not defined npm_config_node_gyp (node "C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin\\..\..\node_modules\node-gyp\bin\node-gyp.js" rebuild )  else (node "C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\bin\node-gyp.js" rebuild ) 

@@ -11,7 +11,8 @@ var browserConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: 'babel-loader' },
       { test: /\.(png|jpg|gif)$/i,
         use: [
           {
@@ -22,10 +23,6 @@ var browserConfig = {
           },
         ],
       },
-    ],
-    loaders: [
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-
     ],
   },
   plugins: [
@@ -46,7 +43,8 @@ var serverConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: 'babel-loader' },
       { test: /\.(png|jpg|gif)$/i,
         use: [
           {
@@ -57,10 +55,6 @@ var serverConfig = {
           },
         ],
       },
-    ],
-    loaders: [
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-
     ],
   },
   plugins: [
