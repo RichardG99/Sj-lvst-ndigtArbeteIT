@@ -1,0 +1,33 @@
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import styles from '../styles';
+import HomeBox from '../Components/MyhomepageComponents/HomeBox';
+import MyStories from '../Components/MyhomepageComponents/MyStories';
+
+function Myhomepage(props) {
+  const { authenticate } = props;
+  const { loggedIn } = props;
+  const { setCurrentStory } = props;
+  if (!loggedIn) {
+    return <Redirect to="/loginpage" />;
+  }
+  return (
+    <div style={styles.wrapper}>
+      <h2 style={styles.h3}>Welcome Creator!</h2>
+      <MyStories setCurrentStory={setCurrentStory} />
+      <HomeBox
+        setCurrentStory={setCurrentStory}
+        authenticate={authenticate}
+        loggedIn={loggedIn}
+      />
+    </div>
+  );
+}
+Myhomepage.propTypes = {
+  authenticate: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  setCurrentStory: PropTypes.func.isRequired,
+};
+
+export default Myhomepage;

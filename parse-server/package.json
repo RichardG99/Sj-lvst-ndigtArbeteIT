@@ -1,0 +1,58 @@
+{
+  "name": "dreamscape-ssr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack -w",
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dreamteam",
+  "license": "None",
+  "description": "SSR implementation of Parse - React - Express",
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^3.5.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "file-loader": "^6.0.0",
+    "nodemon": "^1.12.5",
+    "url-loader": "^4.1.0",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "dependencies": {
+    "@google-cloud/speech": "^3.2.0",
+    "cors": "^2.8.4",
+    "draggable": "^4.2.0",
+    "express": "^4.16.2",
+    "isomorphic-fetch": "^2.2.1",
+    "kerberos": "^1.1.3",
+    "parse": "^2.12.0",
+    "parse-server": "^4.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-draggable": "^4.3.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^4.2.2",
+    "serialize-javascript": "^1.4.0"
+  }
+}
