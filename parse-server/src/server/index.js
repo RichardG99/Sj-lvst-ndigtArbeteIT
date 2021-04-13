@@ -14,7 +14,7 @@ const app = express();
 /* ----------------PARSE CODE START ------------------------- */
 
 const databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
-const { S3Adapter } = require('parse-server');
+//const { S3Adapter } = require('parse-server');
 
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
@@ -27,12 +27,12 @@ const api = new ParseServer({
   masterKey: process.env.MASTER_KEY || '', 
   serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',
   javascriptKey: 'DreamScape',
-  filesAdapter: new S3Adapter(
+  /*filesAdapter: new S3Adapter(
     '', // TODO: Add S3_ACCESS_KEY
     '', // TODO: Add S3_SECRET_KEY
     '', // TODO: Add the name of your S3 bucket
     { directAccess: true },
-  ),
+  ),*/
 });
 const mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
