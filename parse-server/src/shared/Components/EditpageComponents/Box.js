@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Book from '../../images/OpenBook2op.png';
+import Book from '../../images/openBook2op.png';
 
 const svgStyle = {
   height: '20px',
