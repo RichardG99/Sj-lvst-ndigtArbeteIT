@@ -5,10 +5,11 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import App from '../shared/App';
 import testHTMLRAW from '../TestForParse/test';
+import settings from '../Settings'
 
 const { ParseServer } = require('parse-server');
 
-const PORT = 1337;
+const PORT = settings.serverPort;
 const app = express();
 
 /* ----------------PARSE CODE START ------------------------- */
@@ -25,7 +26,7 @@ const api = new ParseServer({
   databaseURI: databaseUri || '', // TODO: Add connection string URI for your MongoDB
   appId: process.env.APP_ID || 'myAppId',
   masterKey: process.env.MASTER_KEY || '', 
-  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',
+  serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse',
   javascriptKey: 'DreamScape',
   /*filesAdapter: new S3Adapter(
     '', // TODO: Add S3_ACCESS_KEY
