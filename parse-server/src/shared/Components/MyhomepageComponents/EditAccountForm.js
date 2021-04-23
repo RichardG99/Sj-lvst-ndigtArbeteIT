@@ -34,7 +34,6 @@ class EditAccountForm extends React.Component {
   //Handles submitting the new account data
   handleSubmit(event) {
     const tmpState = this.state;
-    const tmpProps = this.props;
 
     event.preventDefault(); // Prevent opening a new page when clicked
 
@@ -58,6 +57,7 @@ class EditAccountForm extends React.Component {
 
   render() {
     const tmpState = this.state;
+    const tmpProps = this.props;
     return (
       <form>
         <div style={formStyle}>
@@ -114,7 +114,7 @@ class EditAccountForm extends React.Component {
             </label>
           </div>
           <button type="submit" style={styles.buttonStyle} onClick={this.handleSubmit}>Save</button>
-          <button type="button" style={styles.buttonStyle} onClick={this.handleCancel}>Cancel</button>
+          <button type="button" style={styles.buttonStyle} onClick={tmpProps.handleCancel}>Cancel</button>
         </div>
       </form>
     );

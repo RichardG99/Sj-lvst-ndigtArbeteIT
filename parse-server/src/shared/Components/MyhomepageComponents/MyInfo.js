@@ -63,7 +63,7 @@ class MyInfo extends React.Component {
     }
   }
 
-  //This runs when a user cancels the 
+  //This runs when a user cancels the "edit profile information" window
   handleCancel() {
     this.state.showForm = false;
   }
