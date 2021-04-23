@@ -15,19 +15,27 @@ const app = express();
 /* ----------------PARSE CODE START ------------------------- */
 
 const databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
-//const { S3Adapter } = require('parse-server');
+//const { S3Adapter } = require('parse-server'); // We do not use an S3 adapter
 
-if (!databaseUri) {
-  console.log('DATABASE_URI not specified, falling back to localhost.');
+if (databaseUri) {
+  console.log('DATABASE_URI overridden via environment variable for this server session');
 }
+if (process.env.APP_ID) {
+  console.log('APP_ID overridden via environment variable for this server session');
+}
+if (process.env.SERVER_URL) {
+  console.log('SERVER_URL overridden via environment variable for this server session');
+}
+
 
 const api = new ParseServer({
   logLevel: 'warn',
-  databaseURI: databaseUri || '', // TODO: Add connection string URI for your MongoDB
-  appId: process.env.APP_ID || 'myAppId',
+  databaseURI: databaseUri || settings.databaseURI, // We can override our database URI by setting an environment variable
+  appId: process.env.APP_ID || settings.appID, //Same with our app ID...
   masterKey: process.env.MASTER_KEY || '', 
-  serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse',
+  serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse', //...and server URL
   javascriptKey: 'DreamScape',
+  // -- As we do not use an S3 file bucket, these lines are commented out
   /*filesAdapter: new S3Adapter(
     '', // TODO: Add S3_ACCESS_KEY
     '', // TODO: Add S3_SECRET_KEY
