@@ -63,6 +63,16 @@ class MyInfo extends React.Component {
     }
   }
 
+  //This runs when a user cancels the 
+  handleCancel() {
+    this.state.showForm = false;
+  }
+
+  //Turns on our "edit profile data" form
+  enableEditForm() {
+    this.state.showForm = true;
+  }
+
   render() {
     const tmpState = this.state;
     const tmpProps = this.props;
@@ -85,7 +95,7 @@ class MyInfo extends React.Component {
             Email:
             {tmpState.email}
           </p>
-          <button type="button" style={styles.buttonStyle} onClick={this.toggleForm}>Edit Profile</button>
+          <button type="button" style={styles.buttonStyle} onClick={this.enableEditForm}>Edit Profile</button>
           <button type="button" style={styles.buttonStyle}>Change Password</button>
           <Logout
             authenticate={tmpProps.authenticate}
@@ -102,8 +112,7 @@ class MyInfo extends React.Component {
                   lastName={tmpState.lastName}
                   email={tmpState.email}
                   username={tmpState.username}
-                  password={tmpState.firstName}
-                  handleCancel={tmpState.handleCancel}
+                  handleCancel={this.handleCancel}
                 />
               )
               : null
