@@ -72,6 +72,24 @@ function parseGetStories() {
   });
 }
 
+//Function for deleting a story with a given story ID
+// Needs to be linked up to a button of some sort, so we can actually use it
+function parseDeleteStory(storyID) {
+  return new Promise((resolve, reject) => {
+    const StoryObj = Parse.Object.extend('Story');
+    var query = new Parse.Query(StoryObj);
+    query.get(storyID).then((story) => {
+        // The story was retrieved, and should thus be destroyed
+        story.destroy({});
+        resolve();
+      },
+      (error) => {
+        reject(error)
+      }
+    );
+  });
+}
+
 class MyStories extends React.Component {
   constructor(props) {
     super(props);
@@ -92,7 +110,7 @@ class MyStories extends React.Component {
     }
   }
 
-  // TODO: Man måste väll vara inloggad för att ens kunna se dessa stories?
+  // TODO: Man måste väl vara inloggad för att ens kunna se dessa stories?
   handleClickOnStory(storyId) {
     const user = Parse.User.current();
     const tmpProps = this.props;
