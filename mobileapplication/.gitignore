@@ -14,4 +14,4 @@ web-report/
 .DS_Store
 
 # my IP
-src/shared/serverIP.js
+# src/shared/serverIP.js
