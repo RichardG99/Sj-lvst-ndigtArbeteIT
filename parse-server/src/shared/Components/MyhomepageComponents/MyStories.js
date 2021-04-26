@@ -33,15 +33,27 @@ const listItemStyle = {
   padding: '0',
 };
 
-const listButtonStyle = {
+const listEditButtonStyle = {
   border: '1px solid lightgrey',
-  width: '100%',
+  width: '70%',
   height: '100%',
   minHeight: '3em',
   boxSizing: 'border-box',
   margin: '0',
   padding: '1em',
-  textAlign: 'center',
+  textAlign: 'left',
+  cursor: 'pointer',
+};
+
+const listDeleteButtonStyle = {
+  border: '1px solid lightgrey',
+  width: '30%',
+  height: '100%',
+  minHeight: '3em',
+  boxSizing: 'border-box',
+  margin: '0',
+  padding: '1em',
+  textAlign: 'right',
   cursor: 'pointer',
 };
 
@@ -98,6 +110,7 @@ class MyStories extends React.Component {
       redirect: false,
     };
     this.handleClickOnStory = this.handleClickOnStory.bind(this);
+    this.handleDeleteStory = this.handleDeleteStory.bind(this);
   }
 
   componentDidMount() {
@@ -120,6 +133,16 @@ class MyStories extends React.Component {
     } else {
       alert('You must log in first');
     }
+  }  
+  handleDeleteStory(storyId) {
+    const user = Parse.User.current();
+    if (user) {
+      if (confirm("Are you sure you want to delete this story?")) {
+        parseDeleteStory(storyId);
+      }
+    } else {
+      alert('You must log in first');
+    }
   }
 
   render() {
@@ -131,16 +154,22 @@ class MyStories extends React.Component {
     return (
       <div style={myStoriesStyle}>
         <h4 style={styles.h4}>My Stories</h4>
-        <p style={smallParagrah}>- Select Story to Edit -</p>
+        <p style={smallParagrah}>- Select a story to Edit, or press the Delete button to delete it -</p>
         <ul style={listStyle}>
           {tmpState.stories.map((item) => (
             <li key={item.storyId} style={listItemStyle}>
-              <p
-                style={listButtonStyle}
+              <div
+                style={listEditButtonStyle}
                 onClick={() => this.handleClickOnStory(item.storyId)}
               >
                 {item.storyTitle}
-              </p>
+              </div>
+              <div
+                style={listDeleteButtonStyle}
+                onClick={() => this.handleDeleteStory(item.storyId)}
+              >
+                {"DELETE"/* TODO: We want to make this an icon or something instead */}
+              </div>
             </li>
           ))}
         </ul>
