@@ -81,12 +81,16 @@ class MyInfo extends React.Component {
 
   //This runs when a user cancels the "edit profile information" window
   handleCancel() {
-    this.state.showForm = false;
+    this.setState(() => ({
+      showForm: false
+    }))
   }
 
   //Turns on our "edit profile data" form
   enableEditForm() {
-    this.state.showForm = true;
+    this.setState(() => ({
+      showForm: true
+    }))
   }
 
   render() {
