@@ -36,22 +36,26 @@ function Arrow(props) {
   const xDiff = boxAMid.x - boxBMid.x;
   const yDiff = boxAMid.y - boxBMid.y;
 
-  let fromEdge = boxAMid, toEdge = boxBMid;
+  let fromEdge = boxAMid, toEdge = boxBMid, ori;
   if(Math.abs(xDiff) > Math.abs(yDiff)) {
     if(xDiff < 0) {
       fromEdge.x += boxWidth / 2;
       toEdge.x -= boxWidth / 2;
+      ori = "0";
     } else {
       fromEdge.x -= boxWidth / 2;
       toEdge.x += boxWidth / 2;
+      ori = "180";
     }
   } else {
     if(yDiff < 0) {
       fromEdge.y += boxHeight / 2;
       toEdge.y -= boxHeight / 2;
+      ori = "90";
     } else {
       fromEdge.y -= boxHeight / 2;
       toEdge.y += boxHeight / 2;
+      ori = "270";
     }
   }
 
@@ -75,7 +79,7 @@ function Arrow(props) {
           refY="5"
           markerWidth="3"
           markerHeight="3"
-          orient="90"
+          orient={ori}
           stroke={arrowColor}
           fill={arrowColor}
         >
