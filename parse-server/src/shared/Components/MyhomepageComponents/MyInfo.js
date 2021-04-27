@@ -36,7 +36,7 @@ function parseGetProfileInfo() {
 }
 
 //Sends an email allowing the user to reset their password, if needed
-//   Currently unused
+//   Currently does not work: we need to change this to simply be a password edit like the profile editing
 function parseHandlePasswordReset() {
   const user = Parse.User.current();
   Parse.User.requestPasswordReset(user.get('email')).then(() => {
@@ -116,7 +116,7 @@ class MyInfo extends React.Component {
             {tmpState.email}
           </p>
           <button type="button" style={styles.buttonStyle} onClick={this.enableEditForm}>Edit Profile</button>
-          <button type="button" style={styles.buttonStyle} onClick={parseHandlePasswordReset}>Reset Password</button>
+          <button type="button" style={styles.buttonStyle} onClick={parseHandlePasswordReset}>Change Password</button>
           <Logout
             authenticate={tmpProps.authenticate}
             loggedIn={tmpProps.loggedIn}
