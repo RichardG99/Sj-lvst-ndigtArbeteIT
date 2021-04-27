@@ -55,21 +55,6 @@ class EditAccountForm extends React.Component {
     })
   }
 
-  //Sends an email allowing the user to reset their password, if needed
-  handlePasswordReset(event) {
-    event.preventDefault(); // Prevent opening a new page when clicked
-
-    const user = Parse.User.current();
-    Parse.User.requestPasswordReset(user.get('email')).then(() => {
-      console.log(`Successfully changed sent a reset password link`);
-      alert("Password reset link sent!");
-    }).catch((error) => {
-      // Alert the user in case something went wrong with sending the reset link
-      console.log(`Error ${error.code} ${error.message}`);
-      alert("A password reset link could not be sent at the moment: please try again later"); 
-    })
-  }
-
   render() {
     const tmpState = this.state;
     const tmpProps = this.props;

@@ -40,7 +40,7 @@ function parseGetProfileInfo() {
 function parseHandlePasswordReset() {
   const user = Parse.User.current();
   Parse.User.requestPasswordReset(user.get('email')).then(() => {
-    console.log(`Successfully changed sent a reset password link`);
+    console.log(`Successfully sent a reset password link`);
     alert("Password reset link sent!");
   }).catch((error) => {
     // Alert the user in case something went wrong with sending the reset link
@@ -110,7 +110,7 @@ class MyInfo extends React.Component {
             {tmpState.email}
           </p>
           <button type="button" style={styles.buttonStyle} onClick={this.enableEditForm}>Edit Profile</button>
-          <button type="button" style={styles.buttonStyle}>Change Password</button>
+          <button type="button" style={styles.buttonStyle} onClick={parseHandlePasswordReset}>Reset Password</button>
           <Logout
             authenticate={tmpProps.authenticate}
             loggedIn={tmpProps.loggedIn}
