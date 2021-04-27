@@ -14,6 +14,7 @@ const arrowStyle = {
 function Arrow(props) {
   const tmpProps = props;
   const boxWidth = 200; // TODO: get this from props?
+  const boxHeight = 80;
   const menuWidth = 320;
   const arrowCompensation = 10;
 
@@ -22,22 +23,44 @@ function Arrow(props) {
   const fromRect = fromBox.getBoundingClientRect();
   const toRect = toBox.getBoundingClientRect();
 
-  const posnABottom = {
-    x: -menuWidth + fromRect.right + window.scrollX - boxWidth / 2,
-    y: fromRect.bottom + window.scrollY,
+  const boxAMid = {
+    x: -menuWidth + fromRect.left + window.scrollX + boxWidth / 2,
+    y: fromRect.top + window.scrollY + boxHeight / 2,
   };
 
-  const posnBTop = {
-    x: -menuWidth + toRect.right + window.scrollX - boxWidth / 2,
-    y: toRect.top + window.scrollY - arrowCompensation,
+  const boxBMid = {
+    x: -menuWidth + toRect.left + window.scrollX + boxWidth / 2,
+    y: toRect.top + window.scrollY + boxHeight / 2,
   };
+  
+  const xDiff = boxAMid.x - boxBMid.x;
+  const yDiff = boxAMid.y - boxBMid.y;
+
+  let fromEdge = boxAMid, toEdge = boxBMid;
+  if(Math.abs(xDiff) > Math.abs(yDiff)) {
+    if(xDiff < 0) {
+      fromEdge.x += boxWidth / 2;
+      toEdge.x -= boxWidth / 2;
+    } else {
+      fromEdge.x -= boxWidth / 2;
+      toEdge.x += boxWidth / 2;
+    }
+  } else {
+    if(yDiff < 0) {
+      fromEdge.y += boxHeight / 2;
+      toEdge.y -= boxHeight / 2;
+    } else {
+      fromEdge.y -= boxHeight / 2;
+      toEdge.y += boxHeight / 2;
+    }
+  }
 
   const dStrDown = `M ${
-    posnABottom.x},${posnABottom.y} `
+    fromEdge.x},${fromEdge.y} `
         + `C ${
-          posnABottom.x + 20},${posnABottom.y} ${
-          posnBTop.x - 20},${posnBTop.y} ${
-          posnBTop.x},${posnBTop.y}`;
+          fromEdge.x + 20},${fromEdge.y} ${
+          toEdge.x - 20},${toEdge.y} ${
+          toEdge.x},${toEdge.y}`;
 
   const arrowColor = tmpProps.color;
   const id = `${tmpProps.pathId}arrowhead`;
