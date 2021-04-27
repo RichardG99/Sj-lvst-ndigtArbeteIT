@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../styles';
+import Parse from '../../common';
 
 const formStyle = {
   boxSizing: 'border-box',
