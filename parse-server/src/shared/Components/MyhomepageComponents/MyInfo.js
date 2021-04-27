@@ -75,6 +75,8 @@ class MyInfo extends React.Component {
         }));
       });
     }
+    this.handleCancel = this.handleCancel.bind(this);
+    this.enableEditForm = this.enableEditForm.bind(this);
   }
 
   //This runs when a user cancels the "edit profile information" window
