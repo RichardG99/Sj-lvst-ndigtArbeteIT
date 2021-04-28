@@ -37,7 +37,12 @@ function Arrow(props) {
   const yDiff = boxAMid.y - boxBMid.y;
 
   let fromEdge = boxAMid, toEdge = boxBMid, ori;
-  if(Math.abs(xDiff) > Math.abs(yDiff)) {
+  if(fromBox == toBox) {
+    fromEdge.y = toEdge.y = toEdge.y + boxHeight / 2;
+    fromEdge.x -= 40;
+    toEdge.x += 40;
+    ori = "270";
+  } else if(Math.abs(xDiff) > Math.abs(yDiff)) {
     if(xDiff < 0) {
       fromEdge.x += boxWidth / 2;
       toEdge.x -= boxWidth / 2;
@@ -61,9 +66,11 @@ function Arrow(props) {
 
   const dStrDown = `M ${
     fromEdge.x},${fromEdge.y} `
-        + `C ${
-          fromEdge.x + 20},${fromEdge.y} ${
-          toEdge.x - 20},${toEdge.y} ${
+        + (fromBox == toBox)
+        ? `A 40 40 0 0 0 ${toEdge.x},${toEdge.y}`
+        : `C ${
+          fromEdge.x},${fromEdge.y} ${
+          toEdge.x},${toEdge.y} ${
           toEdge.x},${toEdge.y}`;
 
   const arrowColor = tmpProps.color;
