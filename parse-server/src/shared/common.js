@@ -1,6 +1,6 @@
 import settings from '../Settings'
 
-const Parse = require('parse/node');
+const Parse = require('parse');
 
 // Initializes the parse app and sets its ID and javascript key
 Parse.initialize(settings.appID, 'DreamScape');
