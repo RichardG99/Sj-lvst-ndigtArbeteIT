@@ -86,7 +86,7 @@ function Arrow(props) {
           refY="5"
           markerWidth="3"
           markerHeight="3"
-          orient={ori}
+          orient="90" //{ori}
           stroke={arrowColor}
           fill={arrowColor}
         >
