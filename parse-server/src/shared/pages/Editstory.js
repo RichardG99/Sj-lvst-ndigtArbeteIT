@@ -959,6 +959,8 @@ class Editstory extends React.Component {
             currentStoryDesc={tmpState.currentStoryDesc}
             onStoryInfoChange={this.onStoryInfoChange}
             saveStoryInfo={this.saveStoryInfo}
+            publishStory={this.publishStory}
+            deleteStory={this.deleteStory}
 
             currentBoxId={tmpState.currentBoxId}
             currentBoxTitle={tmpState.currentBoxTitle}
