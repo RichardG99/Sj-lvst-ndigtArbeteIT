@@ -33,8 +33,8 @@ function Arrow(props) {
     y: toRect.top + window.scrollY + boxHeight / 2,
   };
   
-  const xDiff = boxAMid.x - boxBMid.x;
-  const yDiff = boxAMid.y - boxBMid.y;
+  const xDiff = Math.trunc(boxAMid.x - boxBMid.x);
+  const yDiff = Math.trunc(boxAMid.y - boxBMid.y);
 
   console.log("xdiff: " + xDiff + " yDiff" + yDiff);
 
