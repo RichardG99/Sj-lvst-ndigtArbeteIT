@@ -564,8 +564,9 @@ class Editstory extends React.Component {
    * @param node The box's node(?)
    * @param x X-coordinate of the box
    * @param y Y-coordinate of the box
+   * @param boxCommand String-based command the box will run when entered
    */
-  onClickBox(boxId, boxTitle, boxText, audioUrl, node, x, y) {
+  onClickBox(boxId, boxTitle, boxText, audioUrl, node, x, y, boxCommand) {
     const tmpState = this.state;
     if (tmpState.choosingBoxForPath) {
       this.addPath(boxId, node);
@@ -597,6 +598,7 @@ class Editstory extends React.Component {
         currentBoxText: boxText,
         currentBoxAudio: audioUrl,
         currentBoxNode: node,
+        currentBoxCommand: boxCommand,
         x,  
         y,
         currentPathId: '',
