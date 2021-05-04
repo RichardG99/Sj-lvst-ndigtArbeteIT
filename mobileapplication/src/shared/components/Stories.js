@@ -29,6 +29,7 @@ export default class Stories extends React.Component {
         this.getAllStories();
     }
 
+    // Empty comment 
     getAllStories = () => {
         const Story = Parse.Object.extend("Story");
         const query = new Parse.Query(Story);
