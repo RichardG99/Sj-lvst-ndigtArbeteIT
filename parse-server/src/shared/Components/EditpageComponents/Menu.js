@@ -87,10 +87,14 @@ class Menu extends React.Component {
 
   handlePublishStory() {
     // TODO: Add functionaloty to publish story
+    const tmpProps = this.props;
+    tmpProps.publishStory();
   }
 
   handleDeleteStory() {
     // TODO: Add functionality to delete story
+    const tmpProps = this.props;
+    tmpProps.deleteStory();
   }
 
   render() {
@@ -147,7 +151,9 @@ Menu.propTypes = {
 
   addNewBox: PropTypes.func.isRequired,
   saveStoryInfo: PropTypes.func.isRequired,
-
+  deleteStory: PropTypes.func.isRequired,
+  publishStory: PropTypes.func.isRequired,
+  
   currentStoryTitle: PropTypes.string.isRequired,
   //  currentStoryDesc: PropTypes.string.isRequired, FIXME: set default value
   onStoryInfoChange: PropTypes.func.isRequired,

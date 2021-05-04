@@ -48,6 +48,49 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
 }
 
 /**
+ * Publishes a story so users can detect it in the phone app
+ * @param storyId ID of the story to publish
+ */
+function parsePublishStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.set('isPublished', true);
+      story.save().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Deletes a story from the database
+ * @param storyId ID of the story to delete
+ */
+function parseDeleteStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.destroy().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
+/**
  * Saves a box with given data
  * @param boxId Box ID of the box to save
  * @param boxTitle Title of the box
@@ -57,7 +100,7 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
  * @param y Y-coordinate of the box in the editor
  * @param boxCommand The string-based command the box executes when it is reached
  **/
-function parseSaveBox(boxId, boxTitle, boxText, audioURL, x, y, boxCommand) {
+function parseSaveBox(boxId, boxTitle, boxText, audioURL, x, y, boxCommand) {  
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
     const query = new Parse.Query(Box);
@@ -454,6 +497,7 @@ class Editstory extends React.Component {
       waitingForBoxNode: false,
       showBoxInfo: false,
       showPathInfo: false,
+      isPublished: false,
     };
     this.onClickBox = this.onClickBox.bind(this);
     this.onClickPath = this.onClickPath.bind(this);
@@ -470,6 +514,8 @@ class Editstory extends React.Component {
     this.deletePath = this.deletePath.bind(this);
     this.loadStory = this.loadStory.bind(this);
     this.saveStoryInfo = this.saveStoryInfo.bind(this);
+    this.deleteStory = this.deleteStory.bind(this);
+    this.publishStory = this.publishStory.bind(this);
     this.getBoxRef = this.getBoxRef.bind(this);
     this.deletePathsConnectedToTheBox = this.deletePathsConnectedToBox.bind(this);
     this.deletePathWithPathId = this.deletePathWithPathId.bind(this);
@@ -758,8 +804,8 @@ class Editstory extends React.Component {
       if (!storyId) {
         storyId = 'GAXuyImQMC'; //TODO: this should throw an error, not default to an arbitrary story ID
       }
-      const x = 300;
-      const y = 120;
+      const x = 300 + (Math.random() * 200) - 100;
+      const y = 120 + (Math.random() * 100) - 50;
       parseCreateNewBox(storyId, x, y).then((boxId) => {
         const newBox = {
           boxId,
@@ -845,6 +891,19 @@ class Editstory extends React.Component {
   }
 
   /**
+   * Publishes the current story so it is accessible by users of the phone app
+   */
+  publishStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parsePublishStory(storyId).then(() => {
+      }, (error) => {
+        console.log(`error publishStory: ${error}`);
+      });
+  }
+
+  /**
    * Saves general info such as description and title about the current story
    */
   saveStoryInfo() {
@@ -856,6 +915,21 @@ class Editstory extends React.Component {
     parseSaveStoryInfo(storyId, storyTitle, storyDesc).then(() => {
     }, (error) => {
       console.log(`error saveStoryInfo: ${error}`);
+    });
+  }
+
+
+  /**
+   * Deletes the current story and moves the user back to the home page
+   */
+  deleteStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parseDeleteStory(storyId).then(() => {
+      location.reload(); //Reloading brings us back to the homepage as our story ID will no longer be valid
+    }, (error) => {
+      console.log(`error deleteStory: ${error}`);
     });
   }
 
@@ -1073,6 +1147,8 @@ class Editstory extends React.Component {
             currentStoryDesc={tmpState.currentStoryDesc}
             onStoryInfoChange={this.onStoryInfoChange}
             saveStoryInfo={this.saveStoryInfo}
+            publishStory={this.publishStory}
+            deleteStory={this.deleteStory}
 
             currentBoxId={tmpState.currentBoxId}
             currentBoxTitle={tmpState.currentBoxTitle}
