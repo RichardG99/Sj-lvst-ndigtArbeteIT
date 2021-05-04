@@ -381,6 +381,7 @@ class Editstory extends React.Component {
       waitingForBoxNode: false,
       showBoxInfo: false,
       showPathInfo: false,
+      isPublished: false,
     };
     this.onClickBox = this.onClickBox.bind(this);
     this.onClickPath = this.onClickPath.bind(this);
@@ -744,8 +745,8 @@ class Editstory extends React.Component {
 
   publishStory() {
     const tmpState = this.state;
-    const tmpProps = this.props;
-    tmpProps.isPublished = "true";
+    tmpProps = this.props;
+    tmpProps.isPublished = true;
     this.saveStoryInfo();
   }
 
