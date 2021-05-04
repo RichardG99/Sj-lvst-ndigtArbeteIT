@@ -150,7 +150,9 @@ Menu.propTypes = {
 
   addNewBox: PropTypes.func.isRequired,
   saveStoryInfo: PropTypes.func.isRequired,
-
+  deleteStory: PropTypes.func.isRequired,
+  publishStory: PropTypes.func.isRequired,
+  
   currentStoryTitle: PropTypes.string.isRequired,
   //  currentStoryDesc: PropTypes.string.isRequired, FIXME: set default value
   onStoryInfoChange: PropTypes.func.isRequired,
