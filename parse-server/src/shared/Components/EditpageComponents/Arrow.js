@@ -24,19 +24,19 @@ function Arrow(props) {
   const toRect = toBox.getBoundingClientRect();
 
   const boxAMid = {
-    x: -menuWidth + fromRect.left + window.scrollX + boxWidth / 2,
-    y: fromRect.top + window.scrollY + boxHeight / 2,
+    x: Math.trunc(-menuWidth + fromRect.left + window.scrollX + boxWidth / 2),
+    y: Math.trunc(fromRect.top + window.scrollY + boxHeight / 2),
   };
 
   const boxBMid = {
-    x: -menuWidth + toRect.left + window.scrollX + boxWidth / 2,
-    y: toRect.top + window.scrollY + boxHeight / 2,
+    x: Math.trunc(-menuWidth + toRect.left + window.scrollX + boxWidth / 2),
+    y: Math.trunc(toRect.top + window.scrollY + boxHeight / 2),
   };
   
   const xDiff = Math.trunc(boxAMid.x - boxBMid.x);
   const yDiff = Math.trunc(boxAMid.y - boxBMid.y);
 
-  console.log("xdiff: " + xDiff + " yDiff" + yDiff);
+  console.log("xdiff: " + xDiff + " ydiff: " + yDiff);
 
   let fromEdge = boxAMid, toEdge = boxBMid, ori;
   if(fromBox == toBox) {
@@ -70,9 +70,9 @@ function Arrow(props) {
 
   const dStrDown = `M ${
     fromEdge.x},${fromEdge.y} `
-        + (fromBox == toBox)
+        + /* (fromBox == toBox)
         ? `A 40 40 0 0 0 ${toEdge.x},${toEdge.y}`
-        : `C ${
+        : */`C ${
           fromEdge.x},${fromEdge.y} ${
           toEdge.x},${toEdge.y} ${
           toEdge.x},${toEdge.y}`;
@@ -90,7 +90,7 @@ function Arrow(props) {
           refY="5"
           markerWidth="3"
           markerHeight="3"
-          orient="90" //{ori}
+          orient={ori}
           stroke={arrowColor}
           fill={arrowColor}
         >
