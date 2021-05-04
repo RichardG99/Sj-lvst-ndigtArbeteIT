@@ -87,6 +87,8 @@ class Menu extends React.Component {
 
   handlePublishStory() {
     // TODO: Add functionaloty to publish story
+    const tmpProps = this.props;
+    tmpProps.publishStory();
   }
 
   handleDeleteStory() {

@@ -398,6 +398,7 @@ class Editstory extends React.Component {
     this.loadStory = this.loadStory.bind(this);
     this.saveStoryInfo = this.saveStoryInfo.bind(this);
     this.deleteStory = this.deleteStory.bind(this);
+    this.publishStory = this.publishStory.bind(this);
     this.getBoxRef = this.getBoxRef.bind(this);
     this.deletePathsConnectedToTheBox = this.deletePathsConnectedToTheBox.bind(this);
     this.deletePathWithPathId = this.deletePathWithPathId.bind(this);
@@ -739,6 +740,13 @@ class Editstory extends React.Component {
         nextBoxId: null,
       });
     }
+  }
+
+  publishStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    tmpProps.isPublished = "true";
+    this.saveStoryInfo();
   }
 
   saveStoryInfo() {
