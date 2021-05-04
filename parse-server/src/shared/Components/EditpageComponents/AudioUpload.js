@@ -90,7 +90,6 @@ class AudioUpload extends React.Component {
         <audio style={audioStyle} controls ref={this.audioPlayer}>
           <source
             src={tmpProps.currentBoxAudio}
-            type="audio/mp3" //TODO: Setting this to audio/* breaks the embedded player. Leaving it as audio/mp3 still lets you play other file types.
           />
           <p>
             Your browser does not support HTML5 audio.
