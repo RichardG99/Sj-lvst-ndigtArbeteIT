@@ -745,7 +745,7 @@ class Editstory extends React.Component {
 
   publishStory() {
     const tmpState = this.state;
-    tmpProps = this.props;
+    var tmpProps = this.props;
     tmpProps.isPublished = true;
     this.saveStoryInfo();
   }
