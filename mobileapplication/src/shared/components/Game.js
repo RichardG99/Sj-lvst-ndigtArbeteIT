@@ -122,6 +122,7 @@ export default class Game extends React.Component {
       const query = new Parse.Query(Box);
       await query.get(listOfURLs[i]).then(async (box) => {
         audioURL = box.get("audio_url");
+        console.log("debug: audioURL:"+audioURL + " ,index:" + i);
         const downloadedAudio = await this.downloadAudio(audioURL, "audio" + i + ".mp3");
         this.potentialStoriesURI[i] = {status: 1, address: downloadedAudio.fileObjectMeta}
       })
