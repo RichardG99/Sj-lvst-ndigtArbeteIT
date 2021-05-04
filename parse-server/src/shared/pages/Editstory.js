@@ -41,6 +41,24 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
   });
 }
 
+function parsePublishStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.set('isPublished', true);
+      story.save().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
 function parseDeleteStory(storyId) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
@@ -745,10 +763,13 @@ class Editstory extends React.Component {
 
   publishStory() {
     const tmpState = this.state;
-    var tmpProps = this.props;
-    tmpProps.isPublished = true;
-    this.saveStoryInfo();
-  }
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parsePublishStory(storyId).then(() => {
+      }, (error) => {
+        console.log(`error publishStory: ${error}`);
+      });
+    }
 
   saveStoryInfo() {
     const tmpState = this.state;
@@ -768,7 +789,7 @@ class Editstory extends React.Component {
     const storyId = tmpProps.currentStory;
     parseDeleteStory(storyId).then(() => {
     }, (error) => {
-      console.log(`error saveStoryInfo: ${error}`);
+      console.log(`error deleteStory: ${error}`);
     });
   }
 
