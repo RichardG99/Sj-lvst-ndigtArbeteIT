@@ -41,6 +41,23 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
   });
 }
 
+function parseDeleteStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.destroy().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
 function parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y) {
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
@@ -380,6 +397,7 @@ class Editstory extends React.Component {
     this.deletePath = this.deletePath.bind(this);
     this.loadStory = this.loadStory.bind(this);
     this.saveStoryInfo = this.saveStoryInfo.bind(this);
+    this.deleteStory = this.deleteStory.bind(this);
     this.getBoxRef = this.getBoxRef.bind(this);
     this.deletePathsConnectedToTheBox = this.deletePathsConnectedToTheBox.bind(this);
     this.deletePathWithPathId = this.deletePathWithPathId.bind(this);
@@ -645,8 +663,8 @@ class Editstory extends React.Component {
       if (!storyId) {
         storyId = 'GAXuyImQMC';
       }
-      const x = 300;
-      const y = 120;
+      const x = 300 + (Math.random() * 200) - 100;
+      const y = 120 + (Math.random() * 100) - 50;
       parseCreateNewBox(storyId, x, y).then((boxId) => {
         const newBox = {
           boxId,
@@ -730,6 +748,16 @@ class Editstory extends React.Component {
     const storyDesc = tmpState.currentStoryDesc;
     const storyId = tmpProps.currentStory;
     parseSaveStoryInfo(storyId, storyTitle, storyDesc).then(() => {
+    }, (error) => {
+      console.log(`error saveStoryInfo: ${error}`);
+    });
+  }
+
+  deleteStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parseDeleteStory(storyId).then(() => {
     }, (error) => {
       console.log(`error saveStoryInfo: ${error}`);
     });

@@ -91,6 +91,8 @@ class Menu extends React.Component {
 
   handleDeleteStory() {
     // TODO: Add functionality to delete story
+    const tmpProps = this.props;
+    tmpProps.deleteStory();
   }
 
   render() {
