@@ -66,7 +66,7 @@ function Arrow(props) {
     }
   }
 
-  console.log("from" + fromEdge + " to " + toEdge);
+  console.log("from (" + fromEdge.x + "," + fromEdge.y + ") to (" + toEdge.x + "," + toEdge.y + ")");
 
   const dStrDown = `M ${
     fromEdge.x},${fromEdge.y} `
