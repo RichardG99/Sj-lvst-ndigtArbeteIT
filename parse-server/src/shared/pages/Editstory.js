@@ -41,6 +41,41 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
   });
 }
 
+function parsePublishStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.set('isPublished', true);
+      story.save().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
+function parseDeleteStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.destroy().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
 function parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y) {
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
@@ -364,6 +399,7 @@ class Editstory extends React.Component {
       waitingForBoxNode: false,
       showBoxInfo: false,
       showPathInfo: false,
+      isPublished: false,
     };
     this.onClickBox = this.onClickBox.bind(this);
     this.onClickPath = this.onClickPath.bind(this);
@@ -380,6 +416,8 @@ class Editstory extends React.Component {
     this.deletePath = this.deletePath.bind(this);
     this.loadStory = this.loadStory.bind(this);
     this.saveStoryInfo = this.saveStoryInfo.bind(this);
+    this.deleteStory = this.deleteStory.bind(this);
+    this.publishStory = this.publishStory.bind(this);
     this.getBoxRef = this.getBoxRef.bind(this);
     this.deletePathsConnectedToTheBox = this.deletePathsConnectedToTheBox.bind(this);
     this.deletePathWithPathId = this.deletePathWithPathId.bind(this);
@@ -645,8 +683,8 @@ class Editstory extends React.Component {
       if (!storyId) {
         storyId = 'GAXuyImQMC';
       }
-      const x = 300;
-      const y = 120;
+      const x = 300 + (Math.random() * 200) - 100;
+      const y = 120 + (Math.random() * 100) - 50;
       parseCreateNewBox(storyId, x, y).then((boxId) => {
         const newBox = {
           boxId,
@@ -723,6 +761,16 @@ class Editstory extends React.Component {
     }
   }
 
+  publishStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parsePublishStory(storyId).then(() => {
+      }, (error) => {
+        console.log(`error publishStory: ${error}`);
+      });
+    }
+
   saveStoryInfo() {
     const tmpState = this.state;
     const tmpProps = this.props;
@@ -732,6 +780,20 @@ class Editstory extends React.Component {
     parseSaveStoryInfo(storyId, storyTitle, storyDesc).then(() => {
     }, (error) => {
       console.log(`error saveStoryInfo: ${error}`);
+    });
+  }
+
+  /**
+   * Deletes the current story and moves the user back to the home page
+   */
+  deleteStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parseDeleteStory(storyId).then(() => {
+      location.reload(); //Reloading brings us back to the homepage as our story ID will no longer be valid
+    }, (error) => {
+      console.log(`error deleteStory: ${error}`);
     });
   }
 
@@ -923,6 +985,8 @@ class Editstory extends React.Component {
             currentStoryDesc={tmpState.currentStoryDesc}
             onStoryInfoChange={this.onStoryInfoChange}
             saveStoryInfo={this.saveStoryInfo}
+            publishStory={this.publishStory}
+            deleteStory={this.deleteStory}
 
             currentBoxId={tmpState.currentBoxId}
             currentBoxTitle={tmpState.currentBoxTitle}
