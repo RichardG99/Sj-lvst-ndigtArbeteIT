@@ -783,11 +783,15 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Deletes the current story and moves the user back to the home page
+   */
   deleteStory() {
     const tmpState = this.state;
     const tmpProps = this.props;
     const storyId = tmpProps.currentStory;
     parseDeleteStory(storyId).then(() => {
+      location.reload(); //Reloading brings us back to the homepage as our story ID will no longer be valid
     }, (error) => {
       console.log(`error deleteStory: ${error}`);
     });
