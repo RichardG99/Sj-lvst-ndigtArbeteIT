@@ -36,6 +36,8 @@ function Arrow(props) {
   const xDiff = boxAMid.x - boxBMid.x;
   const yDiff = boxAMid.y - boxBMid.y;
 
+  console.log("xdiff: " + xDiff + " yDiff" + yDiff);
+
   let fromEdge = boxAMid, toEdge = boxBMid, ori;
   if(fromBox == toBox) {
     fromEdge.y = toEdge.y = toEdge.y + boxHeight / 2;
@@ -63,6 +65,8 @@ function Arrow(props) {
       ori = "270";
     }
   }
+
+  console.log("from" + fromEdge + " to " + toEdge);
 
   const dStrDown = `M ${
     fromEdge.x},${fromEdge.y} `
