@@ -65,6 +65,12 @@ function parseDeleteStory(storyId) {
     const query = new Parse.Query(Story);
 
     query.get(storyId).then((story) => {
+      story.boxes.forEach(boxId => {
+        parseDeleteBox(boxId);
+      });
+      story.paths.forEach(pathID => {
+        parseDeletePath(pathID);
+      });
       story.destroy().then(() => {
         resolve('success');
       }, (error) => {
