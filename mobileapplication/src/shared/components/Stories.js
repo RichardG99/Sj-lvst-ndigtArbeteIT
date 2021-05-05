@@ -29,11 +29,12 @@ export default class Stories extends React.Component {
         this.getAllStories();
     }
 
+    // Empty comment 
     getAllStories = () => {
         const Story = Parse.Object.extend("Story");
         const query = new Parse.Query(Story);
         query.limit(1000); // TODO :limits the amount of stories we can fetch, might want a way to make this uncapped.
-        query.find().then((stories) => {
+        query.equalTo("isPublished", "true").find().then((stories) => {
             console.log(stories.length)
           this.setState({stories: stories});
         });

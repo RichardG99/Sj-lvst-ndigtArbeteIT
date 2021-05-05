@@ -87,10 +87,14 @@ class Menu extends React.Component {
 
   handlePublishStory() {
     // TODO: Add functionaloty to publish story
+    const tmpProps = this.props;
+    tmpProps.publishStory();
   }
 
   handleDeleteStory() {
     // TODO: Add functionality to delete story
+    const tmpProps = this.props;
+    tmpProps.deleteStory();
   }
 
   render() {
@@ -102,6 +106,7 @@ class Menu extends React.Component {
                   currentBoxTitle={tmpProps.currentBoxTitle}
                   currentBoxText={tmpProps.currentBoxText}
                   currentBoxAudio={tmpProps.currentBoxAudio}
+                  currentBoxCommand={tmpProps.currentBoxCommand}
                   x={tmpProps.x}
                   y={tmpProps.y}
                   onBoxInfoChange={tmpProps.onBoxInfoChange}
@@ -146,7 +151,9 @@ Menu.propTypes = {
 
   addNewBox: PropTypes.func.isRequired,
   saveStoryInfo: PropTypes.func.isRequired,
-
+  deleteStory: PropTypes.func.isRequired,
+  publishStory: PropTypes.func.isRequired,
+  
   currentStoryTitle: PropTypes.string.isRequired,
   //  currentStoryDesc: PropTypes.string.isRequired, FIXME: set default value
   onStoryInfoChange: PropTypes.func.isRequired,
@@ -154,6 +161,7 @@ Menu.propTypes = {
   currentBoxTitle: PropTypes.string.isRequired,
   currentBoxText: PropTypes.string.isRequired,
   currentBoxAudio: PropTypes.string.isRequired,
+  currentBoxCommand: PropTypes.string.isRequired,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
   onBoxInfoChange: PropTypes.func.isRequired,
