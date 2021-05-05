@@ -68,10 +68,10 @@ class MyInfo extends React.Component {
       parseGetProfileInfo().then((userInformation) => {
         const userInfo = userInformation;
         this.setState(() => ({
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          username: userInfo.username,
-          email: userInfo.email,
+          firstName: userInfo.firstName ? userInfo.firstName : "None",
+          lastName: userInfo.lastName ? userInfo.lastName : "None",
+          username: userInfo.username ? userInfo.username : "None",
+          email: userInfo.email ? userInfo.email : "None",
         }));
       });
     }
