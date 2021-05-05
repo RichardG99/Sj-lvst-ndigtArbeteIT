@@ -88,6 +88,35 @@ function parseGetStories() {
 // Needs to be linked up to a button of some sort, so we can actually use it
 function parseDeleteStory(storyID) {
   return new Promise((resolve, reject) => {
+    //Destroy paths related to the story
+    const PathObj = Parse.Object.extend('Path');
+    var pathQuery = new Parse.Query(PathObj);
+    pathQuery.equalTo('storyId', storyId);
+    query.find().then((paths) => {
+      const pathConst = paths;
+      for (let i = 0; i < pathConst.length; i++) {
+        const path = pathConst[i];
+        path.destroy({});
+      }
+    }, (error) => {
+      reject(error);
+    });
+
+    //Destroy boxes related to the story
+    const BoxObj = Parse.Object.extend('Box');
+    var boxQuery = new Parse.Query(BoxObj);
+    boxQuery.equalTo('storyId', storyId);
+    query.find().then((boxes) => {
+      const boxConst = boxes;
+      for (let i = 0; i < boxConst.length; i++) {
+        const box = boxConst[i];
+        box.destroy({});
+      }
+    }, (error) => {
+      reject(error);
+    });
+
+    //Finally, destroy the story object itself
     const StoryObj = Parse.Object.extend('Story');
     var query = new Parse.Query(StoryObj);
     query.get(storyID).then((story) => {
