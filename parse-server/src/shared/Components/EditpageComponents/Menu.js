@@ -106,6 +106,7 @@ class Menu extends React.Component {
                   currentBoxTitle={tmpProps.currentBoxTitle}
                   currentBoxText={tmpProps.currentBoxText}
                   currentBoxAudio={tmpProps.currentBoxAudio}
+                  currentBoxCommand={tmpProps.currentBoxCommand}
                   x={tmpProps.x}
                   y={tmpProps.y}
                   onBoxInfoChange={tmpProps.onBoxInfoChange}
@@ -160,6 +161,7 @@ Menu.propTypes = {
   currentBoxTitle: PropTypes.string.isRequired,
   currentBoxText: PropTypes.string.isRequired,
   currentBoxAudio: PropTypes.string.isRequired,
+  currentBoxCommand: PropTypes.string.isRequired,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
   onBoxInfoChange: PropTypes.func.isRequired,
