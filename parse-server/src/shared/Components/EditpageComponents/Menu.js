@@ -123,6 +123,7 @@ class Menu extends React.Component {
                   currentPathFrom={tmpProps.currentPathFrom}
                   currentPathTo={tmpProps.currentPathTo}
                   currentPathKeyword={tmpProps.currentPathKeyword}
+                  currentPathCondition={tmpProps.currentPathCondition}
                   onPathInfoChange={tmpProps.onPathInfoChange}
                   savePath={tmpProps.savePath}
                   deletePath={tmpProps.deletePath}
@@ -175,6 +176,7 @@ Menu.propTypes = {
   currentPathFrom: PropTypes.string.isRequired,
   currentPathTo: PropTypes.string.isRequired,
   currentPathKeyword: PropTypes.string.isRequired,
+  currentPathCondition: PropTypes.string.isRequired,
   onPathInfoChange: PropTypes.func.isRequired,
   savePath: PropTypes.func.isRequired,
   deletePath: PropTypes.func.isRequired,

@@ -80,6 +80,20 @@ class PathInfo extends React.Component {
             <InfoBox text="Keyword is the word the listener must speak to take this path" />
           </div>
           <br />
+          <div style={keyWordInputStyle}>
+            <label htmlFor="currentPathCondition">
+              Conditions
+              <input
+                type="text"
+                value={tmpProps.currentPathCondition}
+                placeholder="Enter conditions..."
+                onChange={this.handleChange}
+                name="currentPathCondition"
+              />
+            </label>
+
+            <InfoBox text="The conditions listed here must be fulfilled for the user to go down this path. See the HELP menu for details on how to use Conditions." />
+          </div>
           <button type="submit" style={buttonStyle}><img draggable="false" style={imgStyle} src={Save}/>Save Path</button>
           <button type="button" style={buttonStyle} onClick={tmpProps.deletePath}><img draggable="false" style={imgStyle} src={Bin}/> Delete Path</button>
         </form>
@@ -92,6 +106,7 @@ PathInfo.propTypes = {
   onPathInfoChange: PropTypes.func.isRequired,
   deletePath: PropTypes.func.isRequired,
   currentPathKeyword: PropTypes.string.isRequired,
+  currentPathCondition: PropTypes.string.isRequired,
 
 };
 

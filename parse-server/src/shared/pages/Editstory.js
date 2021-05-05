@@ -193,16 +193,18 @@ function parseSetStoryStartingBoxId(storyId, startingBoxId) {
 }
 
 /**
- * Saves a path and its condition
+ * Saves a path and its keyword/condition
  * @param pathId ID of the path to save
+ * @param pathKeyword The keyword this path listens for
  * @param pathCondition The string for the condition the path should have
  **/
-function parseSavePath(pathId, pathCondition) {
+function parseSavePath(pathId, pathKeyword, pathCondition) {
   return new Promise((resolve, reject) => {
     const Path = Parse.Object.extend('Path');
     const query = new Parse.Query(Path);
 
     query.get(pathId).then((path) => {
+      path.set('keyword', pathKeyword);
       path.set('condition', pathCondition);
 
       path.save().then(() => {
@@ -267,7 +269,7 @@ function parseCreateNewBox(storyId, x, y) {
 }
 
 /**
- * Creates a new path between two boxes, with an empty condition
+ * Creates a new path between two boxes, with an empty condition and keyword
  * @param storyId ID of the story to manipulate
  * @param fromId Box ID of the box where this path begins
  * @param toId Box ID of the box where this path ends
@@ -280,6 +282,7 @@ function parseCreateNewPath(storyId, fromId, toId) {
     newPath.set('storyId', storyId);
     newPath.set('fromId', fromId);
     newPath.set('toId', toId);
+    newPath.set('keyword', '');
     newPath.set('condition', '');
 
     newPath.save().then((path) => {
@@ -406,6 +409,7 @@ function parseGetStoryPaths(storyId, boxNodes) {
           fromBoxNode,
           pathTo,
           toBoxNode,
+          keyword: path.get('keyword'),
           condition: path.get('condition'),
         };
         returnPaths.push(newPath);
@@ -487,6 +491,7 @@ class Editstory extends React.Component {
       currentPathId: '',
       currentPathFrom: '',
       currentPathTo: '',
+      currentPathKeyword: '',
       currentPathCondition: '',
 
       //General state information
@@ -604,6 +609,7 @@ class Editstory extends React.Component {
         currentPathId: '',
         currentPathFrom: '',
         currentPathTo: '',
+        currentPathKeyword: '',
         currentPathCondition: '',
       }, () => {
         updateCoordinates(boxId, x, y);
@@ -616,9 +622,10 @@ class Editstory extends React.Component {
    * @param pathId ID of the path that was just clicked
    * @param pathFrom Box ID of the box this path starts at
    * @param pathTo Box ID of the box this path ends at
+   * @param keyword The keyword this path listens for
    * @param condition The condition string of this path
    */
-  onClickPath(pathId, pathFrom, pathTo, condition) {
+  onClickPath(pathId, pathFrom, pathTo, keyword, condition) {
     const tmpState = this.state;
     if(tmpState.showBoxInfo) {
       this.saveBox(tmpState);
@@ -646,6 +653,7 @@ class Editstory extends React.Component {
       currentPathId: pathId,
       currentPathFrom: pathFrom,
       currentPathTo: pathTo,
+      currentPathKeyword: keyword,
       currentPathCondition: condition,
     });
   }
@@ -672,6 +680,7 @@ class Editstory extends React.Component {
       currentPathId: '',
       currentPathFrom: '',
       currentPathTo: '',
+      currentPathKeyword: '',
       currentPathCondition: '',
     })
   }
@@ -683,7 +692,7 @@ class Editstory extends React.Component {
         tmpState.currentBoxText, tmpState.currentBoxAudio, tmpState.x, tmpState.y, tmpState.currentBoxCommand);
     }
     else if(tmpState.showPathInfo && (tmpState.currentPathId != '')) {
-      parseSavePath(tmpState.currentPathId, tmpState.currentPathCondition);
+      parseSavePath(tmpState.currentPathId, tmpState.currentPathKeyword, tmpState.currentPathCondition);
     }
   }
 
@@ -860,6 +869,7 @@ class Editstory extends React.Component {
           fromBoxNode: tmpState.currentBoxNode,
           pathTo,
           toBoxNode: tmpState.nextBoxNode,
+          keyword: '',
           condition: '',
         };
 
@@ -870,6 +880,7 @@ class Editstory extends React.Component {
           currentPathId: pathId,
           currentPathFrom: pathFrom,
           currentPathTo: pathTo,
+          currentPathKeyword: '',
           currentPathCondition: '',
         });
       });
@@ -985,13 +996,14 @@ class Editstory extends React.Component {
     const pathId = tmpState.currentPathId;
     const pathFrom = tmpState.currentPathFrom;
     const pathTo = tmpState.currentPathTo;
+    const pathKeyword = tmpState.currentPathKeyword;
     const pathCondition = tmpState.currentPathCondition;
 
     if (pathId === '') {
       return;
     }
 
-    parseSavePath(pathId, pathCondition).then(() => {
+    parseSavePath(pathId, pathKeyword, pathCondition).then(() => {
       const newPaths = [];
       const { paths } = tmpState;
       for (let i = 0; i < paths.length; i += 1) {
@@ -1005,6 +1017,7 @@ class Editstory extends React.Component {
             fromBoxNode,
             pathTo,
             toBoxNode,
+            keyword: pathKeyword,
             condition: pathCondition,
           };
           newPaths.push(newPath);
@@ -1121,6 +1134,7 @@ class Editstory extends React.Component {
         currentPathId: '',
         currentPathFrom: '',
         currentPathTo: '',
+        currentPathKeyword: '',
         currentPathCondition: '',
       });
     }, (error) => {
@@ -1168,6 +1182,7 @@ class Editstory extends React.Component {
             currentPathId={tmpState.currentPathId}
             currentPathFrom={tmpState.currentPathFrom}
             currentPathTo={tmpState.currentPathTo}
+            currentPathKeyword={tmpState.currentPathKeyword}
             currentPathCondition={tmpState.currentPathCondition}
             saveBox={this.saveBox}
             savePath={this.savePath}
