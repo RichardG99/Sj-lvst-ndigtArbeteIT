@@ -70,12 +70,12 @@ function Arrow(props) {
 
   const dStrDown = `M ${
     fromEdge.x},${fromEdge.y} `
-        + /* (fromBox == toBox)
-        ? `A 40 40 0 0 0 ${toEdge.x},${toEdge.y}`
-        : */`C ${
+        +  ((fromBox == toBox)
+        ? `A 40,40 0 0 0 ${toEdge.x},${toEdge.y}`
+        : `C ${
           fromEdge.x},${fromEdge.y} ${
           toEdge.x},${toEdge.y} ${
-          toEdge.x},${toEdge.y}`;
+          toEdge.x},${toEdge.y}`);
 
   const arrowColor = tmpProps.color;
   const id = `${tmpProps.pathId}arrowhead`;
