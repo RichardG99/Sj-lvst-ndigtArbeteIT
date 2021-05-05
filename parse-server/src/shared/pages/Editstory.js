@@ -22,6 +22,12 @@ const editStoryStyle = {
   backgroundSize: '40px 40px, 40px 40px, 20px 20px, 20px 20px',
 };
 
+/**
+ * Saves general information about a story such as title and description
+ * @param storyId ID of the story to save data about
+ * @param storyTitle Title of the story
+ * @param storyDesc Description of the story
+ **/
 function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
@@ -41,7 +47,60 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
   });
 }
 
-function parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y) {
+/**
+ * Publishes a story so users can detect it in the phone app
+ * @param storyId ID of the story to publish
+ */
+function parsePublishStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.set('isPublished', true);
+      story.save().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Deletes a story from the database
+ * @param storyId ID of the story to delete
+ */
+function parseDeleteStory(storyId) {
+  return new Promise((resolve, reject) => {
+    const Story = Parse.Object.extend('Story');
+    const query = new Parse.Query(Story);
+
+    query.get(storyId).then((story) => {
+      story.destroy().then(() => {
+        resolve('success');
+      }, (error) => {
+        reject(error);
+      });
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Saves a box with given data
+ * @param boxId Box ID of the box to save
+ * @param boxTitle Title of the box
+ * @param boxText Text the box should contain
+ * @param audioURL URL to the sound file the box will play
+ * @param x X-coordinate of the box in the editor
+ * @param y Y-coordinate of the box in the editor
+ * @param boxCommand The string-based command the box executes when it is reached
+ **/
+function parseSaveBox(boxId, boxTitle, boxText, audioURL, x, y, boxCommand) {  
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
     const query = new Parse.Query(Box);
@@ -49,9 +108,10 @@ function parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y) {
     query.get(boxId).then((box) => {
       box.set('title', boxTitle);
       box.set('text', boxText);
-      box.set('audio_url', boxUrl);
+      box.set('audio_url', audioURL);
       box.set('x', x);
       box.set('y', y);
+      box.set('command', boxCommand);
 
       box.save().then(() => {
         resolve('success');
@@ -64,6 +124,10 @@ function parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y) {
   });
 }
 
+/**
+ * Deletes a box
+ * @param boxId Box ID of the box to delete
+ **/
 function parseDeleteBox(boxId) {
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
@@ -81,6 +145,10 @@ function parseDeleteBox(boxId) {
   });
 }
 
+/**
+ * Resets a story so it has no starting box
+ * @param storyID ID of the story to reset starting box on
+ **/
 function parseUnsetStoryStartingBoxId(storyId) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
@@ -100,6 +168,11 @@ function parseUnsetStoryStartingBoxId(storyId) {
   });
 }
 
+/**
+ * Sets the starting box of a story
+ * @param storyID ID of the story to manipulate
+ * @param startingBoxId Box ID of the new starting box of the story
+ **/
 function parseSetStoryStartingBoxId(storyId, startingBoxId) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
@@ -119,13 +192,18 @@ function parseSetStoryStartingBoxId(storyId, startingBoxId) {
   });
 }
 
-function parseSavePath(pathId, pathKeyword) {
+/**
+ * Saves a path and its condition
+ * @param pathId ID of the path to save
+ * @param pathCondition The string for the condition the path should have
+ **/
+function parseSavePath(pathId, pathCondition) {
   return new Promise((resolve, reject) => {
     const Path = Parse.Object.extend('Path');
     const query = new Parse.Query(Path);
 
     query.get(pathId).then((path) => {
-      path.set('keyword', pathKeyword);
+      path.set('condition', pathCondition);
 
       path.save().then(() => {
         resolve('success');
@@ -138,6 +216,10 @@ function parseSavePath(pathId, pathKeyword) {
   });
 }
 
+/**
+ * Deletes a path with a given ID
+ * @param pathId ID of the path to delete
+ **/
 function parseDeletePath(pathId) {
   return new Promise((resolve, reject) => {
     const Path = Parse.Object.extend('Path');
@@ -155,18 +237,25 @@ function parseDeletePath(pathId) {
   });
 }
 
+/**
+ * Creates a box and stores it in the database
+ * @param storyId ID of the story to manipulate
+ * @param x X-coordinate of the new box
+ * @param y Y-coordinate of the new box
+ **/
 function parseCreateNewBox(storyId, x, y) {
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
     const newBox = new Box();
 
-    newBox.set('storyId', storyId);
-    newBox.set('title', '');
-    newBox.set('text', '');
-    newBox.set('audio_url', '');
-    newBox.set('paths', '');
-    newBox.set('x', x);
-    newBox.set('y', y);
+    newBox.set('storyId', storyId); //ID of the story
+    newBox.set('title', ''); //Title of the box
+    newBox.set('text', ''); //Text in the box
+    newBox.set('audio_url', ''); //URL to the audio the box will play
+    newBox.set('paths', ''); //List of all the paths that this box has. I think this is currently unused
+    newBox.set('x', x); //X-coordinate of the box in the editor
+    newBox.set('y', y); //Y-coordinate of the box in the editor
+    newBox.set('command', ''); //What command the box should run once entered (such as x=5)
 
     newBox.save().then((box) => {
       const boxId = box.id;
@@ -177,6 +266,12 @@ function parseCreateNewBox(storyId, x, y) {
   });
 }
 
+/**
+ * Creates a new path between two boxes, with an empty condition
+ * @param storyId ID of the story to manipulate
+ * @param fromId Box ID of the box where this path begins
+ * @param toId Box ID of the box where this path ends
+ **/
 function parseCreateNewPath(storyId, fromId, toId) {
   return new Promise((resolve, reject) => {
     const Path = Parse.Object.extend('Path');
@@ -185,7 +280,7 @@ function parseCreateNewPath(storyId, fromId, toId) {
     newPath.set('storyId', storyId);
     newPath.set('fromId', fromId);
     newPath.set('toId', toId);
-    newPath.set('keyword', '');
+    newPath.set('condition', '');
 
     newPath.save().then((path) => {
       const pathId = path.id;
@@ -196,6 +291,10 @@ function parseCreateNewPath(storyId, fromId, toId) {
   });
 }
 
+/**
+ * Gets general info about a story, such as title and description
+ * @param storyId ID of the story to retrieve info about
+ **/
 function parseGetStoryInfo(storyId) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
@@ -215,7 +314,10 @@ function parseGetStoryInfo(storyId) {
   });
 }
 
-
+/**
+ * Gets the ID of the starting box in a story
+ * @param storyId ID of the story to retrieve from
+ **/
 function parseGetStoryStartingBox(storyId) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
@@ -230,6 +332,10 @@ function parseGetStoryStartingBox(storyId) {
 }
 
 
+/**
+ * Gets all the story boxes from a story
+ * @param storyId ID of the story to get boxes from
+ **/
 function parseGetStoryBoxes(storyId) {
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
@@ -247,6 +353,7 @@ function parseGetStoryBoxes(storyId) {
           url: box.get('audio_url'),
           x: box.get('x'),
           y: box.get('y'),
+          command: box.get('command'),
         };
         returnBoxes.push(newBox);
       }
@@ -257,6 +364,11 @@ function parseGetStoryBoxes(storyId) {
   });
 }
 
+/**
+ * Gets all the story paths from a story and its boxes
+ * @param storyId ID of the story to get paths from
+ * @param boxNodes All the box data in the story. Preferably gained from calling parseGetStoryBoxes()
+ **/
 function parseGetStoryPaths(storyId, boxNodes) {
   return new Promise((resolve, reject) => {
     const Path = Parse.Object.extend('Path');
@@ -294,7 +406,7 @@ function parseGetStoryPaths(storyId, boxNodes) {
           fromBoxNode,
           pathTo,
           toBoxNode,
-          keyword: path.get('keyword'),
+          condition: path.get('condition'),
         };
         returnPaths.push(newPath);
       }
@@ -305,6 +417,12 @@ function parseGetStoryPaths(storyId, boxNodes) {
   });
 }
 
+/**
+ * Updates the position of a box in the editing view
+ * @param boxId ID of the box to move
+ * @param x New X-coordinate of the box
+ * @param y New Y-coordinate of the box
+ **/
 function parseUpdateCoordinates(boxId, x, y) {
   return new Promise((resolve, reject) => {
     const Box = Parse.Object.extend('Box');
@@ -325,6 +443,12 @@ function parseUpdateCoordinates(boxId, x, y) {
   });
 }
 
+/**
+ * Semi-silent-fail version of parseUpdateCoordinates(): logs errors, but does not register them as actual errors
+ * @param boxId ID of the box to move
+ * @param x New X-coordinate of the box
+ * @param y New Y-coordinate of the box
+ **/
 function updateCoordinates(boxId, x, y) {
   parseUpdateCoordinates(boxId, x, y).then(() => {
   }, (error) => {
@@ -336,11 +460,15 @@ class Editstory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //Whether the component has mounted yet or not
       isMounted: false,
 
+      //Information about the current story
       currentStoryTitle: '',
       currentStoryDesc: '',
       currentStartingBoxId: '',
+
+      //Information about the currently selected box
       currentBoxId: '',
       currentBoxTitle: '',
       currentBoxText: '',
@@ -348,15 +476,20 @@ class Editstory extends React.Component {
       currentBoxNode: null,
       x: 0,
       y: 0,
+      currentBoxCommand: '',
 
+      //Used when creating a new path between two boxes
       choosingBoxForPath: false,
       nextBoxId: null,
       nextBoxNode: null,
 
+      //Information about the currently selected path
       currentPathId: '',
       currentPathFrom: '',
       currentPathTo: '',
-      currentPathKeyword: '',
+      currentPathCondition: '',
+
+      //General state information
       paths: [],
       boxes: [],
       boxNodes: [],
@@ -364,6 +497,7 @@ class Editstory extends React.Component {
       waitingForBoxNode: false,
       showBoxInfo: false,
       showPathInfo: false,
+      isPublished: false,
     };
     this.onClickBox = this.onClickBox.bind(this);
     this.onClickPath = this.onClickPath.bind(this);
@@ -380,8 +514,10 @@ class Editstory extends React.Component {
     this.deletePath = this.deletePath.bind(this);
     this.loadStory = this.loadStory.bind(this);
     this.saveStoryInfo = this.saveStoryInfo.bind(this);
+    this.deleteStory = this.deleteStory.bind(this);
+    this.publishStory = this.publishStory.bind(this);
     this.getBoxRef = this.getBoxRef.bind(this);
-    this.deletePathsConnectedToTheBox = this.deletePathsConnectedToTheBox.bind(this);
+    this.deletePathsConnectedToTheBox = this.deletePathsConnectedToBox.bind(this);
     this.deletePathWithPathId = this.deletePathWithPathId.bind(this);
     this.handleMakeStartingBox = this.handleMakeStartingBox.bind(this);
   }
@@ -419,7 +555,18 @@ class Editstory extends React.Component {
     }
   }
 
-  onClickBox(boxId, boxTitle, boxText, boxUrl, node, x, y) {
+  /**
+   * Runs whenever a box is clicked
+   * @param boxId ID of the box that was just clicked
+   * @param boxTitle Title of the box
+   * @param boxText Text in the box
+   * @param audioUrl URL to the audio the box will play
+   * @param node The box's node(?)
+   * @param x X-coordinate of the box
+   * @param y Y-coordinate of the box
+   * @param boxCommand String-based command the box will run when entered
+   */
+  onClickBox(boxId, boxTitle, boxText, audioUrl, node, x, y, boxCommand) {
     const tmpState = this.state;
     if (tmpState.choosingBoxForPath) {
       this.addPath(boxId, node);
@@ -449,21 +596,29 @@ class Editstory extends React.Component {
         currentBoxId: boxId,
         currentBoxTitle: boxTitle,
         currentBoxText: boxText,
-        currentBoxAudio: boxUrl,
+        currentBoxAudio: audioUrl,
         currentBoxNode: node,
+        currentBoxCommand: boxCommand,
         x,  
         y,
         currentPathId: '',
         currentPathFrom: '',
         currentPathTo: '',
-        currentPathKeyword: '',
+        currentPathCondition: '',
       }, () => {
         updateCoordinates(boxId, x, y);
       });
     }
   }
 
-  onClickPath(pathId, pathFrom, pathTo, keyword) {
+  /**
+   * Runs whenever a path is clicked
+   * @param pathId ID of the path that was just clicked
+   * @param pathFrom Box ID of the box this path starts at
+   * @param pathTo Box ID of the box this path ends at
+   * @param condition The condition string of this path
+   */
+  onClickPath(pathId, pathFrom, pathTo, condition) {
     const tmpState = this.state;
     if(tmpState.showBoxInfo) {
       this.saveBox(tmpState);
@@ -491,7 +646,7 @@ class Editstory extends React.Component {
       currentPathId: pathId,
       currentPathFrom: pathFrom,
       currentPathTo: pathTo,
-      currentPathKeyword: keyword,
+      currentPathCondition: condition,
     });
   }
 
@@ -517,7 +672,7 @@ class Editstory extends React.Component {
       currentPathId: '',
       currentPathFrom: '',
       currentPathTo: '',
-      currentPathKeyword: '',
+      currentPathCondition: '',
     })
   }
 
@@ -525,10 +680,10 @@ class Editstory extends React.Component {
     const tmpState = this.state;
     if(tmpState.showBoxInfo && (tmpState.currentBoxId != '')) {
       parseSaveBox(tmpState.currentBoxId, tmpState.currentBoxTitle, 
-        tmpState.currentBoxText, tmpState.currentBoxAudio, tmpState.x, tmpState.y);
+        tmpState.currentBoxText, tmpState.currentBoxAudio, tmpState.x, tmpState.y, tmpState.currentBoxCommand);
     }
     else if(tmpState.showPathInfo && (tmpState.currentPathId != '')) {
-      parseSavePath(tmpState.currentPathId, tmpState.currentPathKeyword);
+      parseSavePath(tmpState.currentPathId, tmpState.currentPathCondition);
     }
   }
 
@@ -573,11 +728,14 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Loads in the data of the current story
+   */
   loadStory() {
     const tmpProps = this.props;
     let storyId = tmpProps.currentStory;
     if (!storyId) {
-      storyId = 'GAXuyImQMC';
+      storyId = 'GAXuyImQMC'; //TODO: this should throw an error, not default to an arbitrary story ID
     }
     console.log(`current storyId: ${storyId}`);
 
@@ -595,8 +753,6 @@ class Editstory extends React.Component {
         console.log(`StartingBoxId: ${startingBoxId}`);
       }
     });
-
-    // TOOO: vad händer om användaren raderar starting box?
 
 
     parseGetStoryBoxes(storyId).then((boxes) => {
@@ -624,6 +780,9 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Makes the currently selected box the starting box of the story
+   */
   handleMakeStartingBox() {
     const tmpState = this.state;
     const tmpProps = this.props;
@@ -636,17 +795,19 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Creates a new box in the current story
+   */
   addNewBox() {
     const tmpState = this.state;
     const tmpProps = this.props;
     return new Promise((resolve) => {
-      // TODO: Hard coding storyId, should crash instead?
       let storyId = tmpProps.currentStory;
       if (!storyId) {
-        storyId = 'GAXuyImQMC';
+        storyId = 'GAXuyImQMC'; //TODO: this should throw an error, not default to an arbitrary story ID
       }
-      const x = 300;
-      const y = 120;
+      const x = 300 + (Math.random() * 200) - 100;
+      const y = 120 + (Math.random() * 100) - 50;
       parseCreateNewBox(storyId, x, y).then((boxId) => {
         const newBox = {
           boxId,
@@ -672,6 +833,11 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Finilizes adding a path between two boxes; assumes that handleAddPath() was called first
+   * @param boxId The box that the path should end at
+   * @param node Node(?) of the box that the path should end at
+   */
   addPath(boxId, node) {
     this.setState({
       nextBoxId: boxId,
@@ -682,7 +848,7 @@ class Editstory extends React.Component {
       const tmpProps = this.props;
       let storyId = tmpProps.currentStory;
       if (!storyId) {
-        storyId = 'GAXuyImQMC'; // TODO shouldn't this be removed?
+        storyId = 'GAXuyImQMC'; // TODO: This should throw an error rather than default to an arbitrary story ID
       }
       const pathFrom = tmpState.currentBoxId;
       const pathTo = tmpState.nextBoxId;
@@ -694,7 +860,7 @@ class Editstory extends React.Component {
           fromBoxNode: tmpState.currentBoxNode,
           pathTo,
           toBoxNode: tmpState.nextBoxNode,
-          keyword: '',
+          condition: '',
         };
 
         const newPaths = tmpState.paths.slice();
@@ -704,12 +870,15 @@ class Editstory extends React.Component {
           currentPathId: pathId,
           currentPathFrom: pathFrom,
           currentPathTo: pathTo,
-          currentPathKeyword: '',
+          currentPathCondition: '',
         });
       });
     });
   }
 
+  /**
+   * Starts adding a new path from the currently selected box, allowing a second box to be selected to finalize the path creation
+   */
   handleAddPath() {
     const tmpState = this.state;
     const boxId = tmpState.currentBoxId;
@@ -723,6 +892,22 @@ class Editstory extends React.Component {
     }
   }
 
+  /**
+   * Publishes the current story so it is accessible by users of the phone app
+   */
+  publishStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parsePublishStory(storyId).then(() => {
+      }, (error) => {
+        console.log(`error publishStory: ${error}`);
+      });
+  }
+
+  /**
+   * Saves general info such as description and title about the current story
+   */
   saveStoryInfo() {
     const tmpState = this.state;
     const tmpProps = this.props;
@@ -735,6 +920,25 @@ class Editstory extends React.Component {
     });
   }
 
+
+  /**
+   * Deletes the current story and moves the user back to the home page
+   */
+  deleteStory() {
+    const tmpState = this.state;
+    const tmpProps = this.props;
+    const storyId = tmpProps.currentStory;
+    parseDeleteStory(storyId).then(() => {
+      location.reload(); //Reloading brings us back to the homepage as our story ID will no longer be valid
+    }, (error) => {
+      console.log(`error deleteStory: ${error}`);
+    });
+  }
+
+  /**
+   * Saves the currently selected box (or if a diffent state is passed in, the box selected in that state)
+   * @param oldState Optional: if provided, the function uses oldState to determine all state-related variables, rather than the current state
+   */
   saveBox(oldState) {
     const tmpState = oldState ? oldState : this.state;
     const boxId = tmpState.currentBoxId;
@@ -743,12 +947,13 @@ class Editstory extends React.Component {
     const boxUrl = tmpState.currentBoxAudio;
     const { x } = tmpState;
     const { y } = tmpState;
+    const boxCommand = tmpState.currentBoxCommand;
 
     if (boxId === '') {
       return;
     }
 
-    parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y).then(() => {
+    parseSaveBox(boxId, boxTitle, boxText, boxUrl, x, y, boxCommand).then(() => {
       const newBox = {
         boxId,
         title: boxTitle,
@@ -771,18 +976,22 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Saves the currently selected path (or if a diffent state is passed in, the path selected in that state)
+   * @param oldState Optional: if provided, the function uses oldState to determine all state-related variables, rather than the current state
+   */
   savePath(oldState) {
     const tmpState = oldState ? oldState : this.state;
     const pathId = tmpState.currentPathId;
     const pathFrom = tmpState.currentPathFrom;
     const pathTo = tmpState.currentPathTo;
-    const pathKeyword = tmpState.currentPathKeyword;
+    const pathCondition = tmpState.currentPathCondition;
 
     if (pathId === '') {
       return;
     }
 
-    parseSavePath(pathId, pathKeyword).then(() => {
+    parseSavePath(pathId, pathCondition).then(() => {
       const newPaths = [];
       const { paths } = tmpState;
       for (let i = 0; i < paths.length; i += 1) {
@@ -796,7 +1005,7 @@ class Editstory extends React.Component {
             fromBoxNode,
             pathTo,
             toBoxNode,
-            keyword: pathKeyword,
+            condition: pathCondition,
           };
           newPaths.push(newPath);
         } else {
@@ -809,6 +1018,9 @@ class Editstory extends React.Component {
     });
   }
 
+  /**
+   * Asks the user whether they want to delete the currently selected box, and deletes it if so
+   */
   deleteBox() {
     const tmpState = this.state;
     const tmpProps = this.props;
@@ -819,7 +1031,7 @@ class Editstory extends React.Component {
     }
 
     if (confirm('Are you sure you want to delete this box?')) {
-      this.deletePathsConnectedToTheBox(boxId);
+      this.deletePathsConnectedToBox(boxId);
       if (boxId === tmpState.currentStartingBoxId) {
         const storyId = tmpProps.currentStory;
         parseUnsetStoryStartingBoxId(storyId);
@@ -855,7 +1067,11 @@ class Editstory extends React.Component {
     }
   }
 
-  deletePathsConnectedToTheBox(boxId) {
+  /**
+   * Deletes all paths connected to a box
+   * @param boxId Box ID of the box to delete paths from
+   */
+  deletePathsConnectedToBox(boxId) {
     const tmpState = this.state;
     const { paths } = tmpState;
     for (let i = 0; i < paths.length; i += 1) {
@@ -866,6 +1082,9 @@ class Editstory extends React.Component {
     }
   }
 
+  /**
+   * Asks the user whether they want to delete the currently selected path, and deletes it if they answer yes
+   */
   deletePath() {
     const tmpState = this.state;
     const pathId = tmpState.currentPathId;
@@ -881,6 +1100,10 @@ class Editstory extends React.Component {
     }
   }
 
+  /**
+   * Deletes a given path and updates the state to reflect this
+   * @param pathId ID of the path to delete
+   */
   deletePathWithPathId(pathId) {
     parseDeletePath(pathId).then(() => {
       const tmpState = this.state;
@@ -898,13 +1121,16 @@ class Editstory extends React.Component {
         currentPathId: '',
         currentPathFrom: '',
         currentPathTo: '',
-        currentPathKeyword: '',
+        currentPathCondition: '',
       });
     }, (error) => {
       console.log(`error deletebox: ${error}`);
     });
   }
 
+  /**
+   * Main rendering function
+   */
   render() {
     const tmpProps = this.props;
     if (!tmpProps.loggedIn) {
@@ -923,11 +1149,14 @@ class Editstory extends React.Component {
             currentStoryDesc={tmpState.currentStoryDesc}
             onStoryInfoChange={this.onStoryInfoChange}
             saveStoryInfo={this.saveStoryInfo}
+            publishStory={this.publishStory}
+            deleteStory={this.deleteStory}
 
             currentBoxId={tmpState.currentBoxId}
             currentBoxTitle={tmpState.currentBoxTitle}
             currentBoxText={tmpState.currentBoxText}
             currentBoxAudio={tmpState.currentBoxAudio}
+            currentBoxCommand={tmpState.currentBoxCommand}
             x={tmpState.x}
             y={tmpState.y}
 
@@ -939,7 +1168,7 @@ class Editstory extends React.Component {
             currentPathId={tmpState.currentPathId}
             currentPathFrom={tmpState.currentPathFrom}
             currentPathTo={tmpState.currentPathTo}
-            currentPathKeyword={tmpState.currentPathKeyword}
+            currentPathCondition={tmpState.currentPathCondition}
             saveBox={this.saveBox}
             savePath={this.savePath}
             deleteBox={this.deleteBox}
