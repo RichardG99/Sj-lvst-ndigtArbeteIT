@@ -38,61 +38,72 @@ function Arrow(props) {
 
   console.log("xdiff: " + xDiff + " ydiff: " + yDiff);
 
-  let fromEdge = boxAMid, toEdge = boxBMid, ori;
+  let fromEdge = boxAMid, toEdge = boxBMid, ori = -1;
   if(fromBox == toBox) { // this path is a loop
     fromEdge.y = toEdge.y = toEdge.y + boxHeight / 2;
     fromEdge.x -= 40;
     toEdge.x += 40;
     ori = "270";
-  } else if(Math.abs(xDiff) > 2*Math.abs(yDiff)) { // this path is mostly left or right
+  } else if(Math.abs(xDiff) > 2.5*Math.abs(yDiff)) { // this path is mostly left or right
     if(xDiff < 0) {
       fromEdge.x += boxWidth / 2;
-      toEdge.x -= boxWidth / 2;
-      ori = "0";
+      toEdge.x -= boxWidth / 2 + arrowCompensation;
+      //ori = "0";
     } else {
       fromEdge.x -= boxWidth / 2;
-      toEdge.x += boxWidth / 2;
-      ori = "180";
+      toEdge.x += boxWidth / 2 + arrowCompensation;
+      //ori = "180";
     }
   } else if(Math.abs(xDiff) < Math.abs(yDiff)) { // this path is mostly up or down
+    // note the asymmetrical if cases: this is because boxes are much wider than they are high
     if(yDiff < 0) {
       fromEdge.y += boxHeight / 2;
-      toEdge.y -= boxHeight / 2;
-      ori = "90";
+      toEdge.y -= boxHeight / 2 + arrowCompensation;
+      //ori = "90";
     } else {
       fromEdge.y -= boxHeight / 2;
-      toEdge.y += boxHeight / 2;
-      ori = "270";
+      toEdge.y += boxHeight / 2 + arrowCompensation;
+      //ori = "270";
     }
   } else { // this path is diagonal
     if(xDiff < 0 && yDiff < 0) { // path is down and right
       fromEdge.x += boxWidth / 2;
       fromEdge.y += boxHeight / 2;
-      toEdge.x -= boxWidth / 2;
-      toEdge.y -= boxHeight / 2;
-      ori = "45";
+      toEdge.x -= boxWidth / 2 + arrowCompensation;
+      toEdge.y -= boxHeight / 2 + arrowCompensation;
+      //ori = "45";
     } else if(xDiff < 0 && yDiff > 0) { // path is up and right
       fromEdge.x += boxWidth / 2;
       fromEdge.y -= boxHeight / 2;
-      toEdge.x -= boxWidth / 2;
-      toEdge.y += boxHeight / 2;
-      ori = "315";
+      toEdge.x -= boxWidth / 2 + arrowCompensation;
+      toEdge.y += boxHeight / 2 + arrowCompensation;
+      //ori = "315";
     } else if(xDiff > 0 && yDiff < 0) { // path is down and left
       fromEdge.x -= boxWidth / 2;
       fromEdge.y += boxHeight / 2;
-      toEdge.x += boxWidth / 2;
-      toEdge.y -= boxHeight / 2;
-      ori = "135";
+      toEdge.x += boxWidth / 2 + arrowCompensation;
+      toEdge.y -= boxHeight / 2 + arrowCompensation;
+      //ori = "135";
     } else { // path is up and left
       fromEdge.x -= boxWidth / 2;
       fromEdge.y -= boxHeight / 2;
-      toEdge.x += boxWidth / 2;
-      toEdge.y += boxHeight / 2;
-      ori = "225";
+      toEdge.x += boxWidth / 2 + arrowCompensation;
+      toEdge.y += boxHeight / 2 + arrowCompensation;
+      //ori = "225";
     }
   }
 
   console.log("from (" + fromEdge.x + "," + fromEdge.y + ") to (" + toEdge.x + "," + toEdge.y + ")");
+  console.log("Angle: " + (Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x)
+        * 180 / Math.PI + 180));
+  if(ori < 0) {
+    ori = Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x);
+    if(ori < 0)
+      ori = Math.abs(ori);
+    else
+      ori = 2*Math.PI-ori;
+    ori = ori * 180 / Math.PI;
+  }
 
   const dStrDown = `M ${
     fromEdge.x},${fromEdge.y} `
