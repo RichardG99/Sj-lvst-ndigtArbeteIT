@@ -43,6 +43,7 @@ const listEditButtonStyle = {
   padding: '1em',
   textAlign: 'left',
   cursor: 'pointer',
+  float: 'left',
 };
 
 const listDeleteButtonStyle = {
@@ -55,6 +56,7 @@ const listDeleteButtonStyle = {
   padding: '1em',
   textAlign: 'right',
   cursor: 'pointer',
+  float: 'right',
 };
 
 
