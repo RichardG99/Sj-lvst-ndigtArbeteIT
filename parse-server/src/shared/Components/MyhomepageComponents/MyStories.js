@@ -19,6 +19,7 @@ const listStyle = {
   border: '1px solid grey',
   margin: '0',
   padding: '0',
+  "list-style-type": 'none',
 };
 
 const smallParagrah = {
@@ -88,7 +89,7 @@ function parseGetStories() {
 
 //Function for deleting a story with a given story ID
 // Needs to be linked up to a button of some sort, so we can actually use it
-function parseDeleteStory(storyID) {
+function parseDeleteStory(storyId) {
   return new Promise((resolve, reject) => {
     //Destroy paths related to the story
     const PathObj = Parse.Object.extend('Path');
@@ -121,7 +122,7 @@ function parseDeleteStory(storyID) {
     //Finally, destroy the story object itself
     const StoryObj = Parse.Object.extend('Story');
     var query = new Parse.Query(StoryObj);
-    query.get(storyID).then((story) => {
+    query.get(storyId).then((story) => {
         // The story was retrieved, and should thus be destroyed
         story.destroy({});
         resolve();
