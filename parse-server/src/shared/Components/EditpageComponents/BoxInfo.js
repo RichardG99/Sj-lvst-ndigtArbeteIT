@@ -134,7 +134,7 @@ class BoxInfo extends React.Component {
       <div style={boxInfoStyle}>
         <h4 style={{ textAlign: 'center' }}>Edit Box</h4>
         <form onSubmit={this.handleSubmit}>
-          <div className="container">
+          <div className="container"> {/* TODO: Make this scroll to properly allow all content to be displayed */}
             <div style={titleTextStyle}>
               <label htmlFor="currentBoxTitle">
                 Title
@@ -156,6 +156,17 @@ class BoxInfo extends React.Component {
                 placeholder="Start writing this chapter here..."
                 onChange={this.handleChange}
                 name="currentBoxText"
+              />
+
+              <br />
+              <textarea
+                type="text"
+                rows="4"
+                cols="40"
+                value={tmpProps.currentBoxCommand}
+                placeholder="Write any commands that should run in this chapter here..."
+                onChange={this.handleChange}
+                name="currentBoxCommand"
               />
             </div>
             <AudioUpload
@@ -193,6 +204,7 @@ BoxInfo.propTypes = {
   currentBoxAudio: PropTypes.string.isRequired,
   currentBoxText: PropTypes.string.isRequired,
   currentBoxTitle: PropTypes.string.isRequired,
+  currentBoxCommand: PropTypes.string.isRequired,
   choosingBoxForPath: PropTypes.bool.isRequired,
   saveBox: PropTypes.func.isRequired,
   handleAddPath: PropTypes.func.isRequired,

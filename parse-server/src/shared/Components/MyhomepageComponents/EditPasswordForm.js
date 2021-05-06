@@ -35,19 +35,23 @@ class EditPasswordForm extends React.Component {
 
     event.preventDefault(); // Prevent opening a new page when clicked
 
-    //Gets our user and sets their various attributes
-    const user = Parse.User.current();
-    user.set('password', tmpState.password);
+    if (tmpState.password === '') {
+      alert("Your password cannot consist of 0 characters");
+    } else {
+      //Gets our user and sets their various attributes
+      const user = Parse.User.current();
+      user.set('password', tmpState.password);
 
-    user.save().then(() => {
-      // Refresh our page to ensure fresh data, and give a feed-forward feeling for the user
-      console.log(`Successfully changed user password`);
-      window.location.reload();
-    }).catch((error) => {
-      // Alert the user in case something went wrong with data saving
-      alert("Something went wrong when changing your password! Try again later (your password has not been changed)"); 
-      console.log(`Error ${error.code} ${error.message}`);
-    })
+      user.save().then(() => {
+        // Refresh our page to ensure fresh data, and give a feed-forward feeling for the user
+        console.log(`Successfully changed user password`);
+        window.location.reload();
+      }).catch((error) => {
+        // Alert the user in case something went wrong with data saving
+        alert("Something went wrong when changing your password! Try again later (your password has not been changed)"); 
+        console.log(`Error ${error.code} ${error.message}`);
+      });
+    }
   }
 
   render() {
