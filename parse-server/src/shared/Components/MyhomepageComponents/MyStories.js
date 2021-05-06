@@ -19,7 +19,7 @@ const listStyle = {
   border: '1px solid grey',
   margin: '0',
   padding: '0',
-  "list-style-type": 'none',
+  listStyleType: 'none',
 };
 
 const smallParagrah = {
@@ -95,7 +95,7 @@ function parseDeleteStory(storyId) {
     const PathObj = Parse.Object.extend('Path');
     var pathQuery = new Parse.Query(PathObj);
     pathQuery.equalTo('storyId', storyId);
-    query.find().then((paths) => {
+    pathQuery.find().then((paths) => {
       const pathConst = paths;
       for (let i = 0; i < pathConst.length; i++) {
         const path = pathConst[i];
@@ -109,7 +109,7 @@ function parseDeleteStory(storyId) {
     const BoxObj = Parse.Object.extend('Box');
     var boxQuery = new Parse.Query(BoxObj);
     boxQuery.equalTo('storyId', storyId);
-    query.find().then((boxes) => {
+    boxQuery.find().then((boxes) => {
       const boxConst = boxes;
       for (let i = 0; i < boxConst.length; i++) {
         const box = boxConst[i];
@@ -121,8 +121,8 @@ function parseDeleteStory(storyId) {
 
     //Finally, destroy the story object itself
     const StoryObj = Parse.Object.extend('Story');
-    var query = new Parse.Query(StoryObj);
-    query.get(storyId).then((story) => {
+    var storyQuery = new Parse.Query(StoryObj);
+    storyQuery.get(storyId).then((story) => {
         // The story was retrieved, and should thus be destroyed
         story.destroy({});
         resolve();
