@@ -36,7 +36,7 @@ Path.propTypes = {
   pathId: PropTypes.string.isRequired,
   pathFrom: PropTypes.string.isRequired,
   pathTo: PropTypes.string.isRequired,
-  keyword: PropTypes.string.isRequired,
+  condition: PropTypes.string.isRequired,
   onClickPath: PropTypes.func.isRequired,
   // fromBoxNode: PropTypes.objectOf(PropTypes.object()).isRequired, // FIXME define this Object
   // toBoxNode: PropTypes.objectOf(PropTypes.object()).isRequired, // FIXME define this Object
