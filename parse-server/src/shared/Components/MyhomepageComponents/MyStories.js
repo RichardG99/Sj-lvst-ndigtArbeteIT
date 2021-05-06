@@ -170,7 +170,12 @@ class MyStories extends React.Component {
     const user = Parse.User.current();
     if (user) {
       if (confirm("Are you sure you want to delete this story?")) {
-        parseDeleteStory(storyId);
+        parseDeleteStory(storyId).then(()=>{
+          location.reload();
+        }, (error)=>{
+          alert("Something went wrong when deleting the story; try again later");
+          console.log(error);
+        });
       }
     } else {
       alert('You must log in first');
