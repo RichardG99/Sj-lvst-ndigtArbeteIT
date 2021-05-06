@@ -24,27 +24,27 @@ function Arrow(props) {
   const toRect = toBox.getBoundingClientRect();
 
   const boxAMid = {
-    x: Math.trunc(-menuWidth + fromRect.left + window.scrollX + boxWidth / 2),
-    y: Math.trunc(fromRect.top + window.scrollY + boxHeight / 2),
+    x: -menuWidth + fromRect.left + window.scrollX + boxWidth / 2,
+    y: fromRect.top + window.scrollY + boxHeight / 2,
   };
 
   const boxBMid = {
-    x: Math.trunc(-menuWidth + toRect.left + window.scrollX + boxWidth / 2),
-    y: Math.trunc(toRect.top + window.scrollY + boxHeight / 2),
+    x: -menuWidth + toRect.left + window.scrollX + boxWidth / 2,
+    y: toRect.top + window.scrollY + boxHeight / 2,
   };
   
-  const xDiff = Math.trunc(boxAMid.x - boxBMid.x);
-  const yDiff = Math.trunc(boxAMid.y - boxBMid.y);
+  const xDiff = boxAMid.x - boxBMid.x;
+  const yDiff = boxAMid.y - boxBMid.y;
 
   console.log("xdiff: " + xDiff + " ydiff: " + yDiff);
 
   let fromEdge = boxAMid, toEdge = boxBMid, ori;
-  if(fromBox == toBox) {
+  if(fromBox == toBox) { // this path is a loop
     fromEdge.y = toEdge.y = toEdge.y + boxHeight / 2;
     fromEdge.x -= 40;
     toEdge.x += 40;
     ori = "270";
-  } else if(Math.abs(xDiff) > Math.abs(yDiff)) {
+  } else if(Math.abs(xDiff) > 2*Math.abs(yDiff)) { // this path is mostly left or right
     if(xDiff < 0) {
       fromEdge.x += boxWidth / 2;
       toEdge.x -= boxWidth / 2;
@@ -54,7 +54,7 @@ function Arrow(props) {
       toEdge.x += boxWidth / 2;
       ori = "180";
     }
-  } else {
+  } else if(Math.abs(xDiff) < Math.abs(yDiff)) { // this path is mostly up or down
     if(yDiff < 0) {
       fromEdge.y += boxHeight / 2;
       toEdge.y -= boxHeight / 2;
@@ -63,6 +63,32 @@ function Arrow(props) {
       fromEdge.y -= boxHeight / 2;
       toEdge.y += boxHeight / 2;
       ori = "270";
+    }
+  } else { // this path is diagonal
+    if(xDiff < 0 && yDiff < 0) { // path is down and right
+      fromEdge.x += boxWidth / 2;
+      fromEdge.y += boxHeight / 2;
+      toEdge.x -= boxWidth / 2;
+      toEdge.y -= boxHeight / 2;
+      ori = "45";
+    } else if(xDiff < 0 && yDiff > 0) { // path is up and right
+      fromEdge.x += boxWidth / 2;
+      fromEdge.y -= boxHeight / 2;
+      toEdge.x -= boxWidth / 2;
+      toEdge.y += boxHeight / 2;
+      ori = "315";
+    } else if(xDiff > 0 && yDiff < 0) { // path is down and left
+      fromEdge.x -= boxWidth / 2;
+      fromEdge.y += boxHeight / 2;
+      toEdge.x += boxWidth / 2;
+      toEdge.y -= boxHeight / 2;
+      ori = "135";
+    } else { // path is up and left
+      fromEdge.x -= boxWidth / 2;
+      fromEdge.y -= boxHeight / 2;
+      toEdge.x += boxWidth / 2;
+      toEdge.y += boxHeight / 2;
+      ori = "225";
     }
   }
 
