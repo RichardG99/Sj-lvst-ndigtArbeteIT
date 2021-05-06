@@ -124,11 +124,14 @@ function parseDeleteStory(storyId) {
     var storyQuery = new Parse.Query(StoryObj);
     storyQuery.get(storyId).then((story) => {
         // The story was retrieved, and should thus be destroyed
-        story.destroy({});
-        resolve();
+        story.destroy({}).then(()=>{
+          resolve();
+        }, (error)=>{
+          reject(error);
+        });
       },
       (error) => {
-        reject(error)
+        reject(error);
       }
     );
   });
