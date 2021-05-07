@@ -99,12 +99,12 @@ class EditPasswordForm extends React.Component {
           </div>
           <div style={inputDivStyle}>
             <label htmlFor="confirmPassword">
-              Confirm New Password:
+              Confirm Password:
               <input
                 type="password"
                 value={tmpState.confirmPassword}
                 onChange={this.handleChange}
-                placeholder="Enter new password again"
+                placeholder="Enter new password"
                 name="confirmPassword"
                 required
               />
