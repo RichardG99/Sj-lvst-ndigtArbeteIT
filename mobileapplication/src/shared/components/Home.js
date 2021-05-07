@@ -49,7 +49,7 @@ export default class Home extends React.Component {
     <View style={styles.container}>
       <Button
         style={styles.button}
-        title="Go to Stories"
+        title="Find new stories"
         type="clear"
         icon={{name: 'cloud'}}
         onPress={() => this.props.navigation.navigate('Stories')}
