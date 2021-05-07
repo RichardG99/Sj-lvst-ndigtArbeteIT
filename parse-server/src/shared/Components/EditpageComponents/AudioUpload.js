@@ -80,7 +80,7 @@ class AudioUpload extends React.Component {
           Choose audio file to upload
           <input
             type="file"
-            accept=".mp3"
+            accept="audio/*"
             name="currentFileValue"
             ref={this.fileInput}
             onChange={this.handleChange}
@@ -90,7 +90,6 @@ class AudioUpload extends React.Component {
         <audio style={audioStyle} controls ref={this.audioPlayer}>
           <source
             src={tmpProps.currentBoxAudio}
-            type="audio/mp3"
           />
           <p>
             Your browser does not support HTML5 audio.
