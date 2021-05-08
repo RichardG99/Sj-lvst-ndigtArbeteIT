@@ -10,6 +10,10 @@ class Loginpage extends React.Component {
     const tmpProps = this.props;
     this.authenticate = tmpProps.authenticate;
   }
+  
+  componentDidMount() {
+    this.authenticate();
+  }
 
   render() {
     const tmpProps = this.props;
