@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Parse from '../common';
 import EditingPage from '../Components/EditpageComponents/EditingPage';
 import Menu from '../Components/EditpageComponents/Menu';
+import Infobox from '../Components/EditpageComponents/Infobox';
 
 const backgroundBoxStyle = {
   backgroundColor: 'hsl(33, 70%, 95%)',
@@ -1222,6 +1223,7 @@ class Editstory extends React.Component {
             showBoxInfo={tmpState.showBoxInfo}
             showPathInfo={tmpState.showPathInfo}
           />
+          <Infobox />
         </div>
       </div>
     );
