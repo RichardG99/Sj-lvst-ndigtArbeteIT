@@ -32,6 +32,7 @@ const innerStyle = {
   border: '2px solid #f0f0f0',
   borderRadius: '6px',
   fontSize: '11px',
+  overflow:auto
 };
 
 const infoButtonStyle = {
@@ -97,13 +98,13 @@ class Infobox extends React.Component {
               other variables:
                 userHasUmbrella := 1
                 userHoldsUmbrellaInHand := userHasUmbrella
-              They also support basic mathematical operations such as + and -:
-                applesInBasket := 5 - 4 + 2
-              This would set applesInBasket to 3, as one would expect.
+              They also support basic addition:
+                applesInBasket := 5 + 2
+              This would set applesInBasket to 7, as one would expect.
 
               A condition on the other hand is something a Path checks before it allows the user to progress along it. This can be as simple as checking whether the user has an umbrella:
                 userHasUmbrella = 1
-              Or as complex as one wants it to be. Here is for example a setup where the user has to walk 1000 steps as well as remove their umbrella before progressing:
+              Or as complex as one wants it to be. Here is for example a setup where the user has to walk more than 1000 steps as well as remove their umbrella before progressing:
                 @step {'>'} 1000
                 userHasUmbrella = 0
               This also supports basic math, like the Actions. This, for example, requires the steps taken to be 1000 higher than "previousStepsTaken":
