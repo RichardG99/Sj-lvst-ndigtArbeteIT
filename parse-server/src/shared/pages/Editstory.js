@@ -856,6 +856,7 @@ class Editstory extends React.Component {
           url: '',
           x,
           y,
+          command: '',
           isStartingBox: false,
         };
         const newBoxes = tmpState.boxes.slice();
@@ -866,6 +867,7 @@ class Editstory extends React.Component {
           currentBoxTitle: 'Untitled',
           currentBoxText: '',
           currentBoxAudio: '',
+          currentBoxCommand: '',
           waitingForBoxNode: true,
         }));
         resolve(boxId);

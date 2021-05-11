@@ -23,12 +23,12 @@ class DraggableBox extends React.Component {
     this.onClickInnerBox = this.onClickInnerBox.bind(this);
   }
 
-  onClickInnerBox(boxId, boxTitle, boxText, boxUrl, node) {
+  onClickInnerBox(boxId, boxTitle, boxText, boxUrl, node, boxCommand) {
     const tmpState = this.state;
     const tmpProps = this.props;
     const { x } = tmpState.deltaPosition;
     const { y } = tmpState.deltaPosition;
-    tmpProps.onClickBox(boxId, boxTitle, boxText, boxUrl, node, x, y);
+    tmpProps.onClickBox(boxId, boxTitle, boxText, boxUrl, node, x, y, boxCommand);
   }
 
   handleDrag(e, ui) {
@@ -66,6 +66,7 @@ class DraggableBox extends React.Component {
               title={tmpProps.title}
               text={tmpProps.text}
               url={tmpProps.url}
+              boxCommand={tmpProps.boxCommand}
               isStartingBox={tmpProps.isStartingBox}
               style={tmpProps.style}
             />
@@ -84,6 +85,7 @@ DraggableBox.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  boxCommand: PropTypes.string.isRequired,
   isStartingBox: PropTypes.bool.isRequired,
   // style: PropTypes??? FIXME
 };

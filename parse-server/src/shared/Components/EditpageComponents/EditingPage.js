@@ -65,6 +65,7 @@ class EditingPage extends React.Component {
               url={box.url}
               x={box.x}
               y={box.y}
+              boxCommand={box.command}
               onClickBox={tmpProps.onClickBox}
               getBoxRef={tmpProps.getBoxRef}
               isStartingBox={(box.boxId === currentStartingBoxId)}
