@@ -11,7 +11,7 @@ const pathInfoStyle = {
   backgroundColor: 'white',
   border: '2px solid #f0f0f0',
   borderRadius: '6px',
-  overflow:auto
+  overflow: 'auto'
 };
 
 const buttonStyle = {
