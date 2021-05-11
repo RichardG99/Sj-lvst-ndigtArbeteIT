@@ -175,10 +175,7 @@ Menu.propTypes = {
   currentPathId: PropTypes.string.isRequired,
   currentPathFrom: PropTypes.string.isRequired,
   currentPathTo: PropTypes.string.isRequired,
-<<<<<<< HEAD
-=======
   currentPathKeyword: PropTypes.string.isRequired,
->>>>>>> 6a1d21f6017d2da14a0cef22d929c5537513c11a
   currentPathCondition: PropTypes.string.isRequired,
   onPathInfoChange: PropTypes.func.isRequired,
   savePath: PropTypes.func.isRequired,
