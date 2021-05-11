@@ -60,9 +60,9 @@ const imgStyle = {
 class Infobox extends React.Component {
   constructor(props) {
     super(props);
-    this.setState({
+    this.state = {
       extendedInfo: false,
-    });
+    };
   }
 
   render() {
