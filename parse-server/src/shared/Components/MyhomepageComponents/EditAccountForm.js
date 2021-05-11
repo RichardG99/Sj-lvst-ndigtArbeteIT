@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../styles';
+import Parse from '../../common';
 
 const formStyle = {
   boxSizing: 'border-box',
@@ -21,7 +22,6 @@ class EditAccountForm extends React.Component {
       lastName: properties.lastName,
       email: properties.email,
       username: properties.username,
-      password: properties.password,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,20 +32,33 @@ class EditAccountForm extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  //Handles submitting the new account data
   handleSubmit(event) {
-    // TODO: remove this alert when connecting frontend to server
-
     const tmpState = this.state;
-    alert(`name: ${tmpState.firstName} ${tmpState.lastName
-    }, email: ${tmpState.email}, username: ${tmpState.username
-    } and password: ${tmpState.password}`);
+
     event.preventDefault(); // Prevent opening a new page when clicked
-    // TODO: create post request here to update user info
-    // TODO: If submit succeeded, make the MyInfo component show the new info
+
+    //Gets our user and sets their various attributes
+    const user = Parse.User.current();
+    user.set('username', tmpState.username);
+    user.set('email', tmpState.email);
+    user.set('firstName', tmpState.firstName);
+    user.set('lastName', tmpState.lastName);
+
+    user.save().then(() => {
+      // Refresh our page to ensure fresh data, and give a feed-forward feeling for the user
+      console.log(`Successfully changed user data`);
+      window.location.reload();
+    }).catch((error) => {
+      // Alert the user in case something went wrong with data saving
+      alert("Something went wrong when changing your profile data! Try again later (no changes were saved)"); 
+      console.log(`Error ${error.code} ${error.message}`);
+    })
   }
 
   render() {
     const tmpState = this.state;
+    const tmpProps = this.props;
     return (
       <form>
         <div style={formStyle}>
@@ -102,7 +115,7 @@ class EditAccountForm extends React.Component {
             </label>
           </div>
           <button type="submit" style={styles.buttonStyle} onClick={this.handleSubmit}>Save</button>
-          <button type="button" style={styles.buttonStyle} onClick={this.handleCancel}>Cancel</button>
+          <button type="button" style={styles.buttonStyle} onClick={tmpProps.handleCancel}>Cancel</button>
         </div>
       </form>
     );
@@ -113,7 +126,6 @@ EditAccountForm.propTypes = {
   lastName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
   handleCancel: PropTypes.func.isRequired,
 };
 

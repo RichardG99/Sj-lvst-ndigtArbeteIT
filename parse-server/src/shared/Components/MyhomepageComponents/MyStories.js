@@ -19,6 +19,7 @@ const listStyle = {
   border: '1px solid grey',
   margin: '0',
   padding: '0',
+  listStyleType: 'none',
 };
 
 const smallParagrah = {
@@ -33,16 +34,30 @@ const listItemStyle = {
   padding: '0',
 };
 
-const listButtonStyle = {
+const listEditButtonStyle = {
   border: '1px solid lightgrey',
-  width: '100%',
+  width: '70%',
   height: '100%',
   minHeight: '3em',
   boxSizing: 'border-box',
   margin: '0',
   padding: '1em',
-  textAlign: 'center',
+  textAlign: 'left',
   cursor: 'pointer',
+  float: 'left',
+};
+
+const listDeleteButtonStyle = {
+  border: '1px solid lightgrey',
+  width: '30%',
+  height: '100%',
+  minHeight: '3em',
+  boxSizing: 'border-box',
+  margin: '0',
+  padding: '1em',
+  textAlign: 'right',
+  cursor: 'pointer',
+  float: 'right',
 };
 
 
@@ -72,6 +87,56 @@ function parseGetStories() {
   });
 }
 
+//Function for deleting a story with a given story ID
+// Needs to be linked up to a button of some sort, so we can actually use it
+function parseDeleteStory(storyId) {
+  return new Promise((resolve, reject) => {
+    //Destroy paths related to the story
+    const PathObj = Parse.Object.extend('Path');
+    var pathQuery = new Parse.Query(PathObj);
+    pathQuery.equalTo('storyId', storyId);
+    pathQuery.find().then((paths) => {
+      const pathConst = paths;
+      for (let i = 0; i < pathConst.length; i++) {
+        const path = pathConst[i];
+        path.destroy({});
+      }
+    }, (error) => {
+      reject(error);
+    });
+
+    //Destroy boxes related to the story
+    const BoxObj = Parse.Object.extend('Box');
+    var boxQuery = new Parse.Query(BoxObj);
+    boxQuery.equalTo('storyId', storyId);
+    boxQuery.find().then((boxes) => {
+      const boxConst = boxes;
+      for (let i = 0; i < boxConst.length; i++) {
+        const box = boxConst[i];
+        box.destroy({});
+      }
+    }, (error) => {
+      reject(error);
+    });
+
+    //Finally, destroy the story object itself
+    const StoryObj = Parse.Object.extend('Story');
+    var storyQuery = new Parse.Query(StoryObj);
+    storyQuery.get(storyId).then((story) => {
+        // The story was retrieved, and should thus be destroyed
+        story.destroy({}).then(()=>{
+          resolve();
+        }, (error)=>{
+          reject(error);
+        });
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+}
+
 class MyStories extends React.Component {
   constructor(props) {
     super(props);
@@ -80,6 +145,7 @@ class MyStories extends React.Component {
       redirect: false,
     };
     this.handleClickOnStory = this.handleClickOnStory.bind(this);
+    this.handleDeleteStory = this.handleDeleteStory.bind(this);
   }
 
   componentDidMount() {
@@ -92,13 +158,28 @@ class MyStories extends React.Component {
     }
   }
 
-  // TODO: Man måste väll vara inloggad för att ens kunna se dessa stories?
+  // TODO: Man måste väl vara inloggad för att ens kunna se dessa stories?
   handleClickOnStory(storyId) {
     const user = Parse.User.current();
     const tmpProps = this.props;
     if (user) {
       tmpProps.setCurrentStory(storyId);
       this.setState(() => ({ redirect: true }));
+    } else {
+      alert('You must log in first');
+    }
+  }  
+  handleDeleteStory(storyId) {
+    const user = Parse.User.current();
+    if (user) {
+      if (confirm("Are you sure you want to delete this story?")) {
+        parseDeleteStory(storyId).then(()=>{
+          location.reload();
+        }, (error)=>{
+          alert("Something went wrong when deleting the story; try again later");
+          console.log(error);
+        });
+      }
     } else {
       alert('You must log in first');
     }
@@ -113,16 +194,22 @@ class MyStories extends React.Component {
     return (
       <div style={myStoriesStyle}>
         <h4 style={styles.h4}>My Stories</h4>
-        <p style={smallParagrah}>- Select Story to Edit -</p>
+        <p style={smallParagrah}>- Select a story to Edit, or press the Delete button to delete it -</p>
         <ul style={listStyle}>
           {tmpState.stories.map((item) => (
             <li key={item.storyId} style={listItemStyle}>
-              <p
-                style={listButtonStyle}
+              <div
+                style={listEditButtonStyle}
                 onClick={() => this.handleClickOnStory(item.storyId)}
               >
                 {item.storyTitle}
-              </p>
+              </div>
+              <div
+                style={listDeleteButtonStyle}
+                onClick={() => this.handleDeleteStory(item.storyId)}
+              >
+                {"DELETE"/* TODO: We want to make this an icon or something instead */}
+              </div>
             </li>
           ))}
         </ul>

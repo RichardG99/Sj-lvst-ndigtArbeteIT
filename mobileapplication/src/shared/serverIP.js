@@ -1,2 +1,2 @@
-const serverIP = "dream.cellis.studio"
+const serverIP = "dev.cellis.studio"
 export default serverIP;

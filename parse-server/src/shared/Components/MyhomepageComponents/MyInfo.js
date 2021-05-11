@@ -4,6 +4,7 @@ import Parse from '../../common';
 import styles from '../../styles';
 import Logout from './Logout';
 import EditAccountForm from './EditAccountForm';
+import EditPasswordForm from './EditPasswordForm';
 
 const myInfoStyle = {
   boxSizing: 'border-box',
@@ -35,6 +36,21 @@ function parseGetProfileInfo() {
   });
 }
 
+//Sends an email allowing the user to reset their password, if needed
+//   Currently does not work: we need to change this to simply be a password edit like the profile editing
+//   Currently disabled
+function parseHandlePasswordReset() {
+  const user = Parse.User.current();
+  Parse.User.requestPasswordReset(user.get('email')).then(() => {
+    console.log(`Successfully sent a reset password link`);
+    alert("Password reset link sent!");
+  }).catch((error) => {
+    // Alert the user in case something went wrong with sending the reset link
+    console.log(`Error ${error.code} ${error.message}`);
+    alert("A password reset link could not be sent at the moment: please try again later"); 
+  })
+}
+
 class MyInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +59,9 @@ class MyInfo extends React.Component {
       lastName: null,
       email: null,
       username: null,
+      password: null,
       showForm: false,
+      showPasswordForm: false,
     };
   }
 
@@ -54,13 +72,41 @@ class MyInfo extends React.Component {
       parseGetProfileInfo().then((userInformation) => {
         const userInfo = userInformation;
         this.setState(() => ({
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          username: userInfo.username,
-          email: userInfo.email,
+          firstName: userInfo.firstName ? userInfo.firstName : "None",
+          lastName: userInfo.lastName ? userInfo.lastName : "None",
+          username: userInfo.username ? userInfo.username : "None",
+          email: userInfo.email ? userInfo.email : "None",
+          password: "",
         }));
       });
     }
+    this.handleCancel = this.handleCancel.bind(this);
+    this.enableEditForm = this.enableEditForm.bind(this);
+    this.enablePasswordForm = this.enablePasswordForm.bind(this);
+  }
+
+  //This runs when a user cancels the "edit profile information" window
+  handleCancel() {
+    this.setState(() => ({
+      showForm: false,
+      showPasswordForm: false
+    }))
+  }
+
+  //Turns on our "edit profile data" form
+  enableEditForm() {
+    this.setState(() => ({
+      showForm: true,
+      showPasswordForm: false
+    }))
+  }
+
+  //Turns on our "edit profile data" form
+  enablePasswordForm() {
+    this.setState(() => ({
+      showForm: false,
+      showPasswordForm: true
+    }))
   }
 
   render() {
@@ -85,8 +131,8 @@ class MyInfo extends React.Component {
             Email:
             {tmpState.email}
           </p>
-          <button type="button" style={styles.buttonStyle} onClick={this.toggleForm}>Edit Profile</button>
-          <button type="button" style={styles.buttonStyle}>Change Password</button>
+          <button type="button" style={styles.buttonStyle} onClick={this.enableEditForm}>Edit Profile</button>
+          <button type="button" style={styles.buttonStyle} onClick={this.enablePasswordForm}>Change Password</button>
           <Logout
             authenticate={tmpProps.authenticate}
             loggedIn={tmpProps.loggedIn}
@@ -102,8 +148,17 @@ class MyInfo extends React.Component {
                   lastName={tmpState.lastName}
                   email={tmpState.email}
                   username={tmpState.username}
-                  password={tmpState.firstName}
-                  handleCancel={tmpState.handleCancel}
+                  handleCancel={this.handleCancel}
+                />
+              )
+              : null
+          }
+          {
+            tmpState.showPasswordForm
+              ? (
+                <EditPasswordForm
+                  password={tmpState.password}
+                  handleCancel={this.handleCancel}
                 />
               )
               : null
