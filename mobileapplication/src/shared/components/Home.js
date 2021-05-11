@@ -15,27 +15,23 @@ export default class Home extends React.Component {
       activeStory: null,// ID of current story that you're listening to.
       activeStoryBoxID: "tmp",
       loggedIn: true,
-      username: 'Dreas',
-      password: 'dreas'
+      username: "",
     }
+    this.logout=this.logout.bind();
   }
   componentDidMount(){
     this.authenticate();
   } 
-  login = () => {
-    Parse.User.logIn(this.state.username, this.state.password);
-  }
   logout = async () => {
     Parse.User.logOut();
+    this.props.navigation.navigate('Login');
   }
-  //TODO: remove hard coded user and replace with a user that is logged in
   authenticate = async () => {
     Parse.User.currentAsync().then((user) => {
       if (!user) {
-        console.log("Logging in as ", this.state.username, " with the password ", this.state.password);
-        Parse.User.logIn(this.state.username, this.state.password);
+        this.props.navigation.navigate('Login')
       } else {
-        console.log(user);
+        this.setState( {username: user.get('username')});
       }
     });
   }
@@ -47,6 +43,9 @@ export default class Home extends React.Component {
   render() {
     return (
     <View style={styles.container}>
+      <Text h3
+        title={"Hello ", this.state.username}
+      />
       <Button
         style={styles.button}
         title="Go to Stories"
@@ -60,6 +59,12 @@ export default class Home extends React.Component {
         type="clear"
         title="Go to My Library"
         onPress={() => this.props.navigation.navigate('My Library')}
+      />
+      <Button
+        style={styles.button} 
+        type="clear"
+        title="Logout"
+        onPress={() => this.logout() }
       />
       {
         this.debugging ?

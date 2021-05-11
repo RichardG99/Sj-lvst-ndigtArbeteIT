@@ -20,30 +20,19 @@ export default class Home extends React.Component {
     }
   }
   componentDidMount(){
-    //this.authenticate();
   } 
-  login = () => {
-    console.log(this.state.username, this.state.password);
-    Parse.User.logIn(this.state.username, this.state.password);
+  login()  {
+    //console.log(this.state.username, this.state.password);
+    //console.log("Connecting to", Parse.CoreManager.get('SERVER_URL'));
+    Parse.User.logIn(this.state.username, this.state.password).then( 
+        () => { console.log(`Logged in as ${this.state.username}!`);
+                    this.props.navigation.navigate('Home')},
+        (error) => { console.log("Login failed: ", error)}
+    );
   }
+  
   logout = async () => {
     Parse.User.logOut();
-  }
-  //TODO: remove hard coded user and replace with a user that is logged in
-  authenticate ()  {
-    return new Promise((resolve,reject) => {
-      Parse.User.currentAsync.then((user) => {
-        if (!user) {
-          console.log("Logging in as ", this.state.username, " with the password ", this.state.password);
-          Parse.User.logIn(this.state.username, this.state.password);
-        } else {
-          console.log(user);
-        }
-        resolve(user);
-      },
-      (error) => { reject(error) }
-      );
-    })
   }
   // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
   LogItAll = async () => {
@@ -63,15 +52,12 @@ export default class Home extends React.Component {
         style={styles.button}
         title="Login"
         type="clear"
-        //icon={{name: 'cloud'}}
-        onPress={() => this.authenticate().then( () => this.props.navigation.navigate('Home'),
-        (error) => console.log("Login failed"))}
+        onPress={() => { this.login() } }
       />
       <Button
         style={styles.button}
         title="Create Account"
         type="clear"
-        //icon={{name: 'cloud'}}
         onPress={() => this.props.navigation.navigate('AddUser')}
       />
       {
