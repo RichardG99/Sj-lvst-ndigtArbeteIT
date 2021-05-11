@@ -16,6 +16,7 @@ const mainStyle = {
   boxShadow: '5px 5px 14px rgba(0,0,0, 0.2)',
   borderTopRightRadius: '6px',
   borderBottomRightRadius: '6px',
+  overflow: 'auto'
 };
 
 const innerStyle = {
@@ -26,7 +27,6 @@ const innerStyle = {
   border: '2px solid #f0f0f0',
   borderRadius: '6px',
   fontSize: '11px',
-  overflow: 'auto'
 };
 
 const infoButtonStyle = {
@@ -103,37 +103,37 @@ class Infobox extends React.Component {
               <h3>Actions and Conditions</h3>
               Two central concepts in DreamScape are Actions and Conditions (for those who know programming, this corresponds to Set and If respectively). An Action is something that occurs
               as soon as a user reaches a box and the sound file for that box starts happening. This is usually setting the value of something (such as "set 'userHasUmbrella' to 1"). The
-              syntax for this is simple:
-                userHasUmbrella := 1
+              syntax for this is simple:<br />
+                userHasUmbrella := 1<br />
               This sets userHasUmbrella to the value 1 (which can be thought of as "True"). Thus, if a Condition reads userHasUmbrella after reaching that box, it'll have the value 1. Most
               things that haven't been set default to simply being 0, except if they are Special Values (we'll talk about those shortly). Also note that variables can be set to the value of 
-              other variables:
-                userHasUmbrella := 1
-                userHoldsUmbrellaInHand := userHasUmbrella
-              They also support basic addition:
-                applesInBasket := 5 + 2
-              This would set applesInBasket to 7, as one would expect.
+              other variables:<br />
+                userHasUmbrella := 1<br />
+                userHoldsUmbrellaInHand := userHasUmbrella<br />
+              They also support basic addition:<br />
+                applesInBasket := 5 + 2<br />
+              This would set applesInBasket to 7, as one would expect.<br /><br />
 
-              A condition on the other hand is something a Path checks before it allows the user to progress along it. This can be as simple as checking whether the user has an umbrella:
-                userHasUmbrella = 1
-              Or as complex as one wants it to be. Here is for example a setup where the user has to walk more than 1000 steps as well as remove their umbrella before progressing:
-                @step {'>'} 1000
-                userHasUmbrella = 0
-              This also supports basic math, like the Actions. This, for example, requires the steps taken to be 1000 higher than "previousStepsTaken":
-                @step = 1000 + previousStepsTaken
+              A condition on the other hand is something a Path checks before it allows the user to progress along it. This can be as simple as checking whether the user has an umbrella:<br />
+                userHasUmbrella = 1<br />
+              Or as complex as one wants it to be. Here is for example a setup where the user has to walk more than 1000 steps as well as remove their umbrella before progressing:<br />
+                @step {'>'} 1000<br />
+                userHasUmbrella = 0<br />
+              This also supports basic math, like the Actions. This, for example, requires the steps taken to be 1000 higher than "previousStepsTaken":<br />
+                @step = 1000 + previousStepsTaken<br />
               
 
               <h3>Special values</h3>
               Some built-in values can be read from to determine things such as sensor output or which hardware the user allows the story to use. These always start with a "@" sign, so don't
-              name any of your own variables that! A list of these and how they work are:
+              name any of your own variables that! A list of these and how they work are:<br /><br />
 
-              @step
-              When read, gives you how many steps the user has taken since the beginning of the story. Defaults to 0 if it cannot be read.
+              @step<br />
+              When read, gives you how many steps the user has taken since the beginning of the story. Defaults to 0 if it cannot be read.<br /><br />
 
-              @step_isavailable
-              Has the value 1 if the step counter is available for the user, and 0 otherwise
+              @step_isavailable<br />
+              Has the value 1 if the step counter is available for the user, and 0 otherwise<br /><br />
 
-              @time
+              @time<br />
               When read, gives you the current time of day, counted in minutes (for example, 2:15 PM would give 14*60 + 15=855). Always available to read: no default.
             </div>
           </div>

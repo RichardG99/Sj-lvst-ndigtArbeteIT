@@ -23,6 +23,7 @@ const menuStyle = {
   boxShadow: '5px 5px 14px rgba(0,0,0, 0.2)',
   borderTopRightRadius: '6px',
   borderBottomRightRadius: '6px',
+  overflow: 'auto'
 };
 
 const buttonStyle = {
