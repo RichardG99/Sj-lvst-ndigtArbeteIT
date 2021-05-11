@@ -82,7 +82,7 @@ class Infobox extends React.Component {
       <div style={innerStyle}>
         <form onSubmit={this.handleSubmit}>
           <div className="container"> {/* TODO: Make this scroll to properly allow all content to be displayed on all screen sizes */}
-            <div style={titleTextStyle}>
+            <div>
               Welcome to DreamScape's web editor! The basic idea of the editor is based around Boxes and Paths; a Box can be thought of as a chapter in normal books, while a Path links
               several Boxes together allowing the user to progress between chapters. To create a new Box, simply press the "Add New Box" button up in the left corner. To create a Path, 
               first click on a Box, then press the "Add Path from Box" button that appears and click on a second Box. A Path (which looks sorta like an arrow) should now point from the 
