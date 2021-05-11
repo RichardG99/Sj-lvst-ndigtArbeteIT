@@ -63,7 +63,7 @@ class Infobox extends React.Component {
    * Toggles the info box between just a button and
    */
   toggleInfo() {
-    tmpState = this.state;
+    const tmpState = this.state;
     if (tmpState.extendedInfo) {
       this.setState({
         extendedInfo: false
@@ -77,7 +77,7 @@ class Infobox extends React.Component {
 
   render() {
     const tmpProps = this.props;
-    tmpState = this.state;
+    const tmpState = this.state;
     let displayContent = tmpState.extendedInfo ? (
       <div style={innerStyle}>
         <form onSubmit={this.handleSubmit}>
