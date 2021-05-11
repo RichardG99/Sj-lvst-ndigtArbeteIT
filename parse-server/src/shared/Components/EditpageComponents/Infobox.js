@@ -1,21 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import BoxInfo from './BoxInfo';
-import PathInfo from './PathInfo';
-import StoryInfo from './StoryInfo';
-import Plus from '../../images/plus.png';
 import Bin from '../../images/bin.png';
-import Save from '../../images/save.png';
-import Paperplane from '../../images/paperplane_114200.png';
 
 const mainStyle = {
   position: 'fixed',
   fontFamily: 'Verdana, Geneva, sans-serif',
   fontSize: '11px',
   padding: '10px',
-  left: '0px',
-  width: '300px',
+  right: '0px',
+  width: '250px',
   backgroundColor: 'hsla(33, 40%, 95%, 1)', // '#fafafa',
   zIndex: '10000',
   border: '2px solid hsla(33, 40%, 90%, 1)',
