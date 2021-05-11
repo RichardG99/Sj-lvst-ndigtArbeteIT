@@ -6,6 +6,7 @@ const mainStyle = {
   fontFamily: 'Verdana, Geneva, sans-serif',
   fontSize: '11px',
   padding: '10px',
+  tep: '0px',
   right: '0px',
   width: '250px',
   backgroundColor: 'hsla(33, 40%, 95%, 1)', // '#fafafa',
@@ -55,6 +56,22 @@ class Infobox extends React.Component {
     this.state = {
       extendedInfo: false,
     };
+    this.toggleInfo = this.toggleInfo.bind(this);
+  }
+
+  /**
+   * Toggles the info box between just a button and
+   */
+  toggleInfo() {
+    if (this.extendedInfo) {
+      this.setState({
+        extendedInfo: false
+      });
+    } else {
+      this.setState({
+        extendedInfo: true
+      });
+    }
   }
 
   render() {
@@ -124,7 +141,7 @@ class Infobox extends React.Component {
     //TODO: Fix image and alignment
     return (
       <div style={mainStyle}>
-        <button type="button" style={infoButtonStyle} onClick={tmpProps.deleteBox}><img draggable="false" style={imgStyle} src={Bin}/> Info </button>
+        <button type="button" style={infoButtonStyle} onClick={this.toggleInfo}><img draggable="false" style={imgStyle} src={Bin}/> Info </button>
         {displayContent}
       </div>
     );

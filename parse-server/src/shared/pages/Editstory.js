@@ -1210,6 +1210,7 @@ class Editstory extends React.Component {
             handleMakeStartingBox={this.handleMakeStartingBox}
             onClickNavLink={this.onClickNavLink}
           />
+          <Infobox />
           <EditingPage
             boxes={tmpState.boxes}
             currentStartingBoxId={tmpState.currentStartingBoxId}
@@ -1223,7 +1224,6 @@ class Editstory extends React.Component {
             showBoxInfo={tmpState.showBoxInfo}
             showPathInfo={tmpState.showPathInfo}
           />
-          <Infobox />
         </div>
       </div>
     );
@@ -1235,6 +1235,5 @@ Editstory.propTypes = {
   currentStory: PropTypes.string.isRequired,
   toggleHeader: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-
 };
 export default Editstory;
