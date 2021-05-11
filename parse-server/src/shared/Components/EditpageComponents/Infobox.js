@@ -54,7 +54,7 @@ class Infobox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      extendedInfo: false,
+      extendedInfo: true,
     };
     this.toggleInfo = this.toggleInfo.bind(this);
   }
