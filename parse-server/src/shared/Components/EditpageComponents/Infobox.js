@@ -63,7 +63,8 @@ class Infobox extends React.Component {
    * Toggles the info box between just a button and
    */
   toggleInfo() {
-    if (this.extendedInfo) {
+    tmpState = this.state;
+    if (tmpState.extendedInfo) {
       this.setState({
         extendedInfo: false
       });
@@ -72,12 +73,12 @@ class Infobox extends React.Component {
         extendedInfo: true
       });
     }
-    console.log(this.extendedInfo);
   }
 
   render() {
     const tmpProps = this.props;
-    let displayContent = this.extendedInfo === true ? (
+    tmpState = this.state;
+    let displayContent = tmpState.extendedInfo ? (
       <div style={innerStyle}>
         <form onSubmit={this.handleSubmit}>
           <div className="container"> {/* TODO: Make this scroll to properly allow all content to be displayed on all screen sizes */}
