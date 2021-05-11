@@ -1,5 +1,5 @@
 import React from 'react';
-import Bin from '../../images/bin.png';
+import Bin from '../../images/help.png';
 
 const mainStyle = {
   position: 'fixed',
@@ -55,7 +55,7 @@ class Infobox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      extendedInfo: true,
+      extendedInfo: false,
     };
     this.toggleInfo = this.toggleInfo.bind(this);
   }
