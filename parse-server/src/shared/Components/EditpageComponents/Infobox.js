@@ -72,6 +72,7 @@ class Infobox extends React.Component {
         extendedInfo: true
       });
     }
+    console.log(this.extendedInfo);
   }
 
   render() {
