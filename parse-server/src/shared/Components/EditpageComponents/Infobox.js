@@ -76,7 +76,7 @@ class Infobox extends React.Component {
 
   render() {
     const tmpProps = this.props;
-    let displayContent = this.extendedInfo ? (
+    let displayContent = this.extendedInfo === true ? (
       <div style={innerStyle}>
         <form onSubmit={this.handleSubmit}>
           <div className="container"> {/* TODO: Make this scroll to properly allow all content to be displayed on all screen sizes */}
