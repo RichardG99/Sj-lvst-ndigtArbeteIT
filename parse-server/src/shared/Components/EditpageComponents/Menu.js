@@ -16,6 +16,7 @@ const menuStyle = {
   padding: '10px',
   left: '0px',
   width: '300px',
+  maxHeight: '100vh',
   backgroundColor: 'hsla(33, 40%, 95%, 1)', // '#fafafa',
   zIndex: '10000',
   border: '2px solid hsla(33, 40%, 90%, 1)',
