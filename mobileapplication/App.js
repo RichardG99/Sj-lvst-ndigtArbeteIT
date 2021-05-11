@@ -8,6 +8,8 @@ import { Audio } from 'expo-av';
 import { render } from 'react-dom';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
+import Login from "./src/shared/components/Login.js";
+import AddUser from "./src/shared/components/AddUser.js";
 import Game from "./src/shared/components/Game.js";
 import Home from "./src/shared/components/Home.js";
 import Stories from "./src/shared/components/Stories.js";
@@ -114,7 +116,9 @@ export default class App extends React.Component {
   render() {
     return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="AddUser" component={AddUser} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Stories" component={Stories} />
             <Stack.Screen name="Game" component={Game} />
