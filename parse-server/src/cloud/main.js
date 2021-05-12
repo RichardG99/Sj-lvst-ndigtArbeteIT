@@ -37,6 +37,6 @@ speechToText.recognize(params)
   })
   .catch(err => {
     console.log('error:', err);
-    throw err;
+    return err;
   });
 });
