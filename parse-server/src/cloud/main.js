@@ -29,7 +29,7 @@ Parse.Cloud.define('speechToTextCall', async (req, res) => {
     recognizeStream.on('data', function(event) { onEvent('Data:', event); });
     recognizeStream.on('error', function(event) { onEvent('Error:', event); });
     recognizeStream.on('close', function(event) { onEvent('Close:', event); });
-};
+});
 
 // Display events on the console.
 function onEvent(name, event) {
