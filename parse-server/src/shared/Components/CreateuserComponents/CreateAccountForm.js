@@ -60,9 +60,13 @@ class CreateAccountForm extends React.Component {
     user.set('lastName', tmpState.lastName);
     user.set('myLibrary', []);
 
-    user.signUp().then(() => {
-      tmpProps.redirectPage();
-      console.log(`Success, welcome ${tmpState.username}`);
+    user.signUp().then((loggedInUser) => {
+      Parse.User.logIn(tmpState.username, tmpState.password).then(()=> {
+        console.log(`Success, welcome ${tmpState.username}`);
+        tmpProps.redirectPage();
+      }, (error) => {
+        console.log(`Error ${error.code} ${error.message}`);
+      });
     }).catch((error) => {
       console.log(`Error ${error.code} ${error.message}`);
     });
