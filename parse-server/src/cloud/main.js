@@ -20,7 +20,7 @@ const params = {
   maxAlternatives: 3,
 };*/
 
-Parse.Cloud.define('speechToText', async (req, res) => {
+Parse.Cloud.define('speechToTextCall', async (req, res) => {
 
   const params = {
     audio: fs.createReadStream('/home/unroot/audio-file.flac'),
