@@ -21,7 +21,7 @@ const speechToText = new SpeechToTextV1({
 
 Parse.Cloud.define('speechToTextCall', async (req, res) => {
     // Create the stream.
-    const recognizeStream = speechToText.recognizeUsingWebSocket(params);
+    const recognizeStream = speechToText.recognizeUsingWebSocket(req.params);
     // Pipe in the audio.
     fs.createReadStream('/home/unroot/audio-file.flac').pipe(recognizeStream);
 
