@@ -2,13 +2,13 @@
 var settings = {};
 
 //Whether our server is currently designated as a developer build: this should only be "false" on a live server
-settings.devmode = true;
+settings.devmode = false;
 
 //The server URL, port, appID and database URI that our live server is deployed on
-var liveServerURL = "http://dev.cellis.studio";
-var liveServerPort = 1991;
-var liveAppID = "dreamscape_live";
-var liveDatabaseURI = ""; //TODO: add a live database URI
+var liveServerURL = "https://augmentedaud.io";
+var liveServerPort = 1337;
+var liveAppID = "AugAud";
+var liveDatabaseURI = "mongodb://localhost"; //TODO: add a live database URI
 
 //The server URL, port, appID and database URI that our development server is deployed on
 var devServerURL = "http://dev.cellis.studio";
