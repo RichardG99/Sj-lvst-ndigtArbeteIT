@@ -14,6 +14,7 @@ const boxInfoStyle = {
   border: '2px solid #f0f0f0',
   borderRadius: '6px',
   fontSize: '11px',
+  overflow: 'auto'
 };
 const buttonStyle = {
   width: '95%',

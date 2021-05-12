@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Parse from '../common';
 import EditingPage from '../Components/EditpageComponents/EditingPage';
 import Menu from '../Components/EditpageComponents/Menu';
+import Infobox from '../Components/EditpageComponents/Infobox';
 
 const backgroundBoxStyle = {
   backgroundColor: 'hsl(33, 70%, 95%)',
@@ -1209,6 +1210,7 @@ class Editstory extends React.Component {
             handleMakeStartingBox={this.handleMakeStartingBox}
             onClickNavLink={this.onClickNavLink}
           />
+          <Infobox />
           <EditingPage
             boxes={tmpState.boxes}
             currentStartingBoxId={tmpState.currentStartingBoxId}
@@ -1233,6 +1235,5 @@ Editstory.propTypes = {
   currentStory: PropTypes.string.isRequired,
   toggleHeader: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-
 };
 export default Editstory;
