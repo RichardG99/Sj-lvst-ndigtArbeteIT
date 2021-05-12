@@ -9,14 +9,14 @@ const speechToText = new SpeechToTextV1({
     serviceUrl: 'https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/b21c4259-c531-453f-aed5-044be6ef3995',
   });
 
-const params = {
+/*const params = {
     objectMode: true,
     contentType: 'audio/flac',
     model: 'en-US_BroadbandModel',
     keywords: ['colorado', 'tornado', 'tornadoes'],
     keywordsThreshold: 0.5,
     maxAlternatives: 3,
-  };
+  };*/
 
 
 Parse.Cloud.define('speechToTextCall', async (req, res) => {
