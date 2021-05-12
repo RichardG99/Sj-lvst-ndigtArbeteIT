@@ -21,7 +21,6 @@ const params = {
 };*/
 
 Parse.Cloud.define('speechToTextCall', async (req, res) => {
-  return "hello world";
   const params = {
     audio: fs.createReadStream('/home/unroot/audio-file.flac'),
     contentType: 'audio/flac',
