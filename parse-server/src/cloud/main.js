@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { IamAuthenticator } = require('ibm-watson/auth');
 const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
-​
+
 const speechToText = new SpeechToTextV1({
   authenticator: new IamAuthenticator({
     apikey: 'X8ZVJHf4nhZ-bSNy72vsbXSvruT1dbYqRhYhPy1qh1nV',
@@ -19,9 +19,9 @@ const params = {
   keywordsThreshold: 0.5,
   maxAlternatives: 3,
 };*/
-​
+
 Parse.Cloud.define('speechToText', async (req, res) => {
-​
+
   const params = {
     audio: fs.createReadStream('/home/unroot/audio-file.flac'),
     contentType: 'audio/flac',
