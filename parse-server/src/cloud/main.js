@@ -8,7 +8,7 @@ const speechToText = new SpeechToTextV1({
   }),
   serviceUrl: 'https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/b21c4259-c531-453f-aed5-044be6ef3995',
 });
-​
+
 /* In the client you need to create this object and send it as params
 const params = {
   objectMode: true,
