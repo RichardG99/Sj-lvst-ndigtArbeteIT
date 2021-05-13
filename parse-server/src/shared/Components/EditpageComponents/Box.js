@@ -44,6 +44,8 @@ class Box extends React.Component {
     const boxUrl = tmpProps.url;
     const boxCommand = tmpProps.boxCommand;
     const node = this.boxRef.current;
+    console.log("Box.js:"); //LOGGING : REMOVE
+    console.log(boxCommand);
     tmpProps.onClickInnerBox(boxId, boxTitle, boxText, boxUrl, node, boxCommand);
   }
 

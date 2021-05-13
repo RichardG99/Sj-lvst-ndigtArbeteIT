@@ -626,6 +626,9 @@ class Editstory extends React.Component {
         return;
       }
 
+      console.log("EditStory.js:"); // LOGGING: REMOVE
+      console.log(boxCommand);
+
       this.setState({
         showBoxInfo: true,
         showPathInfo: false,
@@ -679,6 +682,7 @@ class Editstory extends React.Component {
       currentBoxText: '',
       currentBoxAudio: '',
       currentBoxNode: '',
+      currentBoxCommand: '',
       x: 0, 
       y: 0,
       currentPathId: pathId,
@@ -706,6 +710,7 @@ class Editstory extends React.Component {
       currentBoxText: '',
       currentBoxAudio: '',
       currentBoxNode: '',
+      currentBoxCommand: '',
       x: 0, 
       y: 0,
       currentPathId: '',

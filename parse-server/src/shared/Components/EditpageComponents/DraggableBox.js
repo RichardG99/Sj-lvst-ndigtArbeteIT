@@ -28,6 +28,8 @@ class DraggableBox extends React.Component {
     const tmpProps = this.props;
     const { x } = tmpState.deltaPosition;
     const { y } = tmpState.deltaPosition;
+    console.log("DraggableBox.js:"); // LOGGING: REMOVE
+    console.log(boxCommand);
     tmpProps.onClickBox(boxId, boxTitle, boxText, boxUrl, node, x, y, boxCommand);
   }
 
