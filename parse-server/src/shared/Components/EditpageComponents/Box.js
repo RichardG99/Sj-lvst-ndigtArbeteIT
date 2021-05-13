@@ -44,14 +44,14 @@ class Box extends React.Component {
     const boxUrl = tmpProps.url;
     const boxCommand = tmpProps.boxCommand;
     const node = this.boxRef.current;
-    console.log("Box.js:"); //LOGGING : REMOVE
-    console.log(boxCommand);
     tmpProps.onClickInnerBox(boxId, boxTitle, boxText, boxUrl, node, boxCommand);
   }
 
   //<polygon points="0,0 20,0 10,20"/>
   render() {
     const tmpProps = this.props;
+    console.log("Box.js:"); //LOGGING : REMOVE
+    console.log(tmpProps.boxCommand);
     return (
       <button type="button" onClick={this.onClickMe} ref={this.boxRef} style={tmpProps.style}>
         <div style={divStyle}>

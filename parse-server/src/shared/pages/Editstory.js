@@ -626,9 +626,6 @@ class Editstory extends React.Component {
         return;
       }
 
-      console.log("EditStory.js:"); // LOGGING: REMOVE
-      console.log(boxCommand);
-
       this.setState({
         showBoxInfo: true,
         showPathInfo: false,

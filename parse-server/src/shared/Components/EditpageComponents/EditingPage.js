@@ -52,6 +52,8 @@ class EditingPage extends React.Component {
     const { currentStartingBoxId } = tmpProps;
     const { currentBoxId } = tmpProps;
     const { currentPathId } = tmpProps;
+    console.log("EditingPage.js:"); //LOGGING : REMOVE
+    console.log(tmpProps.boxes);
 
     return (
       <div style={editingPageStyle} onClick={tmpProps.onClickPage}>
