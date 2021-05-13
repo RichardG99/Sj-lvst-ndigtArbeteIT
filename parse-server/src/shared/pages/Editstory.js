@@ -1186,6 +1186,7 @@ class Editstory extends React.Component {
     if (!tmpProps.loggedIn) {
       return <Redirect to="/loginpage" />;
     }
+    const tmpState = this.state;
     return (
       <div className="wrapper" style={backgroundBoxStyle}>
         <div style={editStoryStyle}>
