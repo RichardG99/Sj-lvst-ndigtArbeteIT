@@ -1005,6 +1005,7 @@ class Editstory extends React.Component {
         title: boxTitle,
         text: boxText,
         url: boxUrl,
+        command: boxCommand,
         x: 0,
         y: 0,
       };

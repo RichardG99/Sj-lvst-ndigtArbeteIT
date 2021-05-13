@@ -50,8 +50,6 @@ class DraggableBox extends React.Component {
         y: {this.state.deltaPosition.y.toFixed(0)}
       </div>
     */
-    console.log("DraggableBox.js:"); //LOGGING : REMOVE
-    console.log(tmpProps.boxCommand);
     return (
       <Draggable
         handle=".handle"

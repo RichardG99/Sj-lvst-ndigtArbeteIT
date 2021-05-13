@@ -50,8 +50,6 @@ class Box extends React.Component {
   //<polygon points="0,0 20,0 10,20"/>
   render() {
     const tmpProps = this.props;
-    console.log("Box.js:"); //LOGGING : REMOVE
-    console.log(tmpProps.boxCommand);
     return (
       <button type="button" onClick={this.onClickMe} ref={this.boxRef} style={tmpProps.style}>
         <div style={divStyle}>
