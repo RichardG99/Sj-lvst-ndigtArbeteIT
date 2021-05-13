@@ -15,7 +15,8 @@ class Path extends React.Component {
     const { pathFrom } = tmpProps;
     const { pathTo } = tmpProps;
     const { keyword } = tmpProps;
-    tmpProps.onClickPath(pathId, pathFrom, pathTo, keyword);
+    const { condition } = tmpProps;
+    tmpProps.onClickPath(pathId, pathFrom, pathTo, keyword, condition);
   }
 
   // TODO: change to showing box nr instead of box id
