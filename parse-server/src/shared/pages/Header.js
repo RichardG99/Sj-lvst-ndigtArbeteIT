@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Background from './images/paper.jpg';
+import TitleImage from './images/augmentedaudio.png';
 
 /**
  * File handling the title header of the website
@@ -32,7 +32,7 @@ const Header = () => (
 
 const Title = () => (
   <NavLink to="/" className="link">
-    <img src={Background} alt="AugmentedAud.io Logo" style={titleStyle}></img>
+    <img src={TitleImage} alt="AugmentedAud.io Logo" style={titleStyle}></img>
   </NavLink>
 );
 
