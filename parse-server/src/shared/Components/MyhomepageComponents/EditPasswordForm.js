@@ -39,7 +39,7 @@ class EditPasswordForm extends React.Component {
 
     if (tmpState.newPassword == '') {
       alert("Your password cannot consist of 0 characters!");
-    } if (tmpState.newPassword !== tmpState.confirmPassword) {
+    } else if (tmpState.newPassword !== tmpState.confirmPassword) {
       alert("Confirmation password must match new password");
     } else {
       //Gets our user
