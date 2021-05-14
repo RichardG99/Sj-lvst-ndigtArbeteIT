@@ -21,16 +21,18 @@ const params = {
 };*/
 
 Parse.Cloud.define('speechToTextCall', async (req, res) => {
-  /*const params = {
-    audio: fs.createReadStream('/home/unroot/audio-file.flac'),
-    contentType: 'audio/flac',
+  let base64data = req.params.audio;
+  fs.writeFileSync('file.webm', Buffer.from(base64data.replace('data:audio/webm; codecs=opus;base64,', ''), 'base64'));
+  const recognizeParams = {
+    audio: fs.createReadStream('file.webm'),
+    contentType: 'audio/webm',
     wordAlternativesThreshold: 0.9,
     model: 'en-US_BroadbandModel',
-    keywords: ['colorado', 'tornado', 'tornadoes'],
+    keywords: req.params.keywords,
     keywordsThreshold: 0.5,
-  };*/
+  };
   
-return speechToText.recognize(req.params)
+return speechToText.recognize(recognizeParams)
   .then(speechRecognitionResults => {
     //return "halloj";
     //JSON.stringify(speechRecognitionResults, null, 2));
