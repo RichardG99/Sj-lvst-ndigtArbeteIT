@@ -1200,7 +1200,6 @@ class Editstory extends React.Component {
             saveStoryInfo={this.saveStoryInfo}
             publishStory={this.publishStory}
             deleteStory={this.deleteStory}
-
             currentBoxId={tmpState.currentBoxId}
             currentBoxTitle={tmpState.currentBoxTitle}
             currentBoxText={tmpState.currentBoxText}
