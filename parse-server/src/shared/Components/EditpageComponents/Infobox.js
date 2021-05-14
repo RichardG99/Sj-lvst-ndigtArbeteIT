@@ -84,7 +84,7 @@ class Infobox extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div className="container"> {/* TODO: Make this scroll to properly allow all content to be displayed on all screen sizes */}
             <div>
-              Welcome to DreamScape's web editor! The basic idea of the editor is based around Boxes and Paths; a Box can be thought of as a chapter in normal books, while a Path links
+              Welcome to AugmentedAudio's web editor! The basic idea of the editor is based around Boxes and Paths; a Box can be thought of as a chapter in normal books, while a Path links
               several Boxes together allowing the user to progress between chapters. To create a new Box, simply press the "Add New Box" button up in the left corner. To create a Path, 
               first click on a Box, then press the "Add Path from Box" button that appears and click on a second Box. A Path (which looks sorta like an arrow) should now point from the 
               first Box to the second one.
@@ -101,7 +101,7 @@ class Infobox extends React.Component {
               "Actions and Conditions").
 
               <h3>Actions and Conditions</h3>
-              Two central concepts in DreamScape are Actions and Conditions (for those who know programming, this corresponds to Set and If respectively). An Action is something that occurs
+              Two central concepts in AugmentedAudio are Actions and Conditions (for those who know programming, this corresponds to Set and If respectively). An Action is something that occurs
               as soon as a user reaches a box and the sound file for that box starts happening. This is usually setting the value of something (such as "set 'userHasUmbrella' to 1"). The
               syntax for this is simple:<br />
                 userHasUmbrella := 1<br />

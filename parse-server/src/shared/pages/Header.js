@@ -1,5 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import TitleImage from './images/augmentedaudio.png';
+
+/**
+ * File handling the title header of the website
+ */
+
 
 const headerStyle = {
   fontFamily: '\'Palatino Linotype\', \'Book Antiqua\', Palatino, serif',
@@ -26,7 +32,7 @@ const Header = () => (
 
 const Title = () => (
   <NavLink to="/" className="link">
-    <h1 style={titleStyle}>DreamScape</h1>
+    <img src={TitleImage} alt="AugmentedAud.io Logo" style={titleStyle}></img>
   </NavLink>
 );
 
