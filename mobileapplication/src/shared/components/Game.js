@@ -1,5 +1,5 @@
 import * as Permissions from 'expo-permissions';
-import "../local_modules/DreamScapeAudio.js";
+import "../local_modules/AugmentedAudio.js";
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import {Button} from 'react-native-elements'
@@ -202,7 +202,7 @@ export default class Game extends React.Component {
   }
   // TODO fix a _onTrackEnd function.. ...
   // TODO remake this part... honestly  its bingo bango...
-  playDreamScape = async () => {
+  playAugmentedAudio = async () => {
     await this.setState({playing: true}) // Currently playing 
     Brightness.setSystemBrightnessAsync(0); // Lower Screen Brightness 
     this.trackEnded = false;
@@ -359,7 +359,7 @@ export default class Game extends React.Component {
       return; // game ended during load phase / starting phase
     }
   }
-  pauseDreamScape = async () => {
+  pauseAugmentedAudio = async () => {
     this.setState({playing: false}) // No Longer Playing
     await forcePauseAudio();
     Brightness.setSystemBrightnessAsync(1); // Raise Screen Brightness
@@ -376,7 +376,7 @@ export default class Game extends React.Component {
     console.log("pausing at time : " +this.currentTime);
   }
 
-  stopDreamScape = async () => {
+  stopAugmentedAudio = async () => {
 
   }
   sleep = (ms) => {
@@ -400,7 +400,7 @@ export default class Game extends React.Component {
             width: 9999, // TODO make this fullscreen not fixed value    
             backgroundColor: 'black'
           }}
-            onPress={this.pauseDreamScape}
+            onPress={this.pauseAugmentedAudio}
           >
             <View>
               
@@ -433,8 +433,8 @@ export default class Game extends React.Component {
           <Button 
             style={styles.button}
             icon={{name: 'play-circle', type: 'font-awesome'}}
-            title='Play DreamScape'
-            onPress={this.playDreamScape}
+            title='Play Story'
+            onPress={this.playAugmentedAudio}
           />
           <Button 
             

@@ -5,7 +5,7 @@ import Path from './Path';
 
 const editingPageStyle = {
   position: 'relative',
-  left: '320px',
+  left: '340px',
   height: '4000px',
   width: '4000px',
   backgroundColor: 'rgb(252,242,230, 0)',

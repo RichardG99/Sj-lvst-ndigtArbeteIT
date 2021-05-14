@@ -35,7 +35,7 @@ const api = new ParseServer({
   appId: process.env.APP_ID || settings.appID, //Same with our app ID...
   masterKey: process.env.MASTER_KEY || '', 
   serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse', //...and server URL
-  javascriptKey: 'DreamScape',
+  javascriptKey: 'AugmentedAudio',
   // -- As we do not use an S3 file bucket, these lines are commented out
   /*filesAdapter: new S3Adapter(
     '', // TODO: Add S3_ACCESS_KEY

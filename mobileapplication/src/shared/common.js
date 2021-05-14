@@ -4,7 +4,7 @@ import ParseReact from 'parse-react/react-native';
 import serverIP from './serverIP';
 
 Parse.setAsyncStorage(AsyncStorage);
-Parse.initialize('myAppId', 'DreamScape');
+Parse.initialize('myAppId', 'AugmentedAudio');
 Parse.CoreManager.set('SERVER_URL', `http://${serverIP}:1337/parse`);
 /*
 // add file containing this @ ./serverIP

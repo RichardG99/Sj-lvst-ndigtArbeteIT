@@ -967,17 +967,21 @@ class Editstory extends React.Component {
 
 
   /**
-   * Deletes the current story and moves the user back to the home page
+   * Asks the user whether they want to delete the current story, and moves the user back to the home page should they go through with it
    */
   deleteStory() {
     const tmpState = this.state;
     const tmpProps = this.props;
     const storyId = tmpProps.currentStory;
-    parseDeleteStory(storyId).then(() => {
-      location.reload(); //Reloading brings us back to the homepage as our story ID will no longer be valid
-    }, (error) => {
-      console.log(`error deleteStory: ${error}`);
-    });
+
+    
+    if (confirm("Are you sure you want to delete this story?")) {
+      parseDeleteStory(storyId).then(() => {
+        location.reload(); //Reloading brings us back to the homepage as our story ID will no longer be valid
+      }, (error) => {
+        console.log(`error deleteStory: ${error}`);
+      });
+    }
   }
 
   /**
