@@ -7,7 +7,7 @@ settings.devmode = true;
 //The server URL, port, appID and database URI that our live server is deployed on
 var liveServerURL = "http://dev.cellis.studio";
 var liveServerPort = 1991;
-var liveAppID = "dreamscape_live";
+var liveAppID = "augmented_audio";
 var liveDatabaseURI = ""; //TODO: add a live database URI
 
 //The server URL, port, appID and database URI that our development server is deployed on

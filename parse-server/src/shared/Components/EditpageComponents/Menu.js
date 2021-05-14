@@ -15,7 +15,7 @@ const menuStyle = {
   fontSize: '11px',
   padding: '10px',
   left: '0px',
-  width: '300px',
+  width: '320px',
   maxHeight: '95vh',
   backgroundColor: 'hsla(33, 40%, 95%, 1)', // '#fafafa',
   zIndex: '10000',
