@@ -2,12 +2,12 @@ import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 
 /* ----------------------------------------- AUDIO SETTINGS -----------------------------------------*/
-const RECORDING_OPTIONS_PRESET_HIGH_QUALIT = {
+const RECORDING_OPTIONS_PRESET_IBM_WATSON = {
   android: {
-    extension: '.awb',
-    outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_AMR_WB, // Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4
-    audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AMR_WB, // Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC
-    sampleRate: 16000, // 44100
+    extension: '.webm',
+    outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_WEBM, // Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4
+    audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_OPUS, // Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC
+    sampleRate: 48000// 44100
     numberOfChannels: 1, // 2
     bitRate: 128000,
   },
@@ -64,7 +64,7 @@ record = async () => {
   await setAudioModeRecording();
   const newRecording = new Audio.Recording();
 
-  await newRecording.prepareToRecordAsync(RECORDING_OPTIONS_PRESET_HIGH_QUALIT);
+  await newRecording.prepareToRecordAsync(RECORDING_OPTIONS_PRESET_IBM_WATSON);
   // recording.setOnRecordingStatusUpdate(add some callback function so we can do something with audio??)
   recording = newRecording;
 
