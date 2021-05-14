@@ -87,12 +87,14 @@ class BoxInfo extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleAddPath = tmpProps.handleAddPath.bind(this);
+    this.handleMakeStartingBox = this.handleMakeStartingBox.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const tmpProps = this.props;
     tmpProps.saveBox();
+    tmpProps.setStatus('Box saved successfully!');
   }
 
   handleChange(event) {
@@ -100,6 +102,12 @@ class BoxInfo extends React.Component {
     const { value } = event.target;
     const tmpProps = this.props;
     tmpProps.onBoxInfoChange(name, value);
+  }
+
+  handleMakeStartingBox(event) {
+    const tmpProps = this.props;
+    tmpProps.handleMakeStartingBox(event);
+    tmpProps.setStatus('This box is now starting box');
   }
 
   render() {
@@ -173,9 +181,10 @@ class BoxInfo extends React.Component {
             <AudioUpload
               currentBoxAudio={tmpProps.currentBoxAudio}
               onBoxInfoChange={tmpProps.onBoxInfoChange}
+              setStatus={tmpProps.setStatus}
             />
             <button type="button" style={buttonStyle} onClick={this.handleAddPath}><img draggable="false" style={imgStyle} src={Plus}/> Add Path from Box</button>
-            <button type="button" style={buttonStyle} onClick={tmpProps.handleMakeStartingBox}><img draggable="false" style={imgStoryStyle} src={Book}/> Start Story Here </button>
+            <button type="button" style={buttonStyle} onClick={this.handleMakeStartingBox}><img draggable="false" style={imgStoryStyle} src={Book}/> Start Story Here </button>
             <br />
             <button type="submit" style={buttonStyle}><img draggable="false" style={imgStyle} src={Save}/> Save Box</button>
             <button type="button" style={buttonDeleteStyle} onClick={tmpProps.deleteBox}><img draggable="false" style={imgStyle} src={Bin}/> Delete Box </button>
@@ -209,6 +218,7 @@ BoxInfo.propTypes = {
   choosingBoxForPath: PropTypes.bool.isRequired,
   saveBox: PropTypes.func.isRequired,
   handleAddPath: PropTypes.func.isRequired,
+  setStatus: PropTypes.func.isRequired,
 
 
 };

@@ -6,6 +6,11 @@ const labelStyle = {
   margin: '1em 0',
 };
 
+const statusStyle = {
+  margin: '1em 0',
+  color: 'red'
+};
+
 const inputStyle = {
   width: '100%',
   marginBottom: '1em',
@@ -35,6 +40,7 @@ class CreateAccountForm extends React.Component {
       email: '',
       username: '',
       password: '',
+      statusText: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,9 +71,11 @@ class CreateAccountForm extends React.Component {
         console.log(`Success, welcome ${tmpState.username}`);
         tmpProps.redirectPage();
       }, (error) => {
+        this.setState( {statusText: `Error ${error.code}: ${error.message}`});
         console.log(`Error ${error.code} ${error.message}`);
       });
     }).catch((error) => {
+      this.setState( {statusText: `Error ${error.code}: ${error.message}`});
       console.log(`Error ${error.code} ${error.message}`);
     });
   }
@@ -143,6 +151,11 @@ class CreateAccountForm extends React.Component {
               />
             </label>
           </div>
+          
+            <label style={statusStyle} htmlFor="statusText">
+              {this.state.statusText}
+            </label>
+          
           <button style={createAccountButtonStyle} type="submit">Create Account</button>
         </div>
       </form>

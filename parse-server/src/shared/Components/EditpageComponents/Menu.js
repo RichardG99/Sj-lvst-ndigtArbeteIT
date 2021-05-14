@@ -52,6 +52,16 @@ const buttonAddBoxStyle = {
   cursor: 'pointer',
 };
 
+const statusStyle = {
+  margin: '1em 0',
+  color: 'green',
+}
+
+const errorStyle = {
+  margin: '1em 0',
+  color: 'red',
+}
+
 const imgAddStyle = {
   width: '14px',
   position: 'relative',
@@ -74,6 +84,10 @@ class Menu extends React.Component {
     this.handlePublishStory = this.handlePublishStory.bind(this);
     this.handleDeleteStory = this.handleDeleteStory.bind(this);
     this.handleAddBox = this.handleAddBox.bind(this);
+    this.state = {
+      statusText: '',
+      errorText: '',
+    };
   }
 
   handleAddBox() {
@@ -84,6 +98,7 @@ class Menu extends React.Component {
   handleSaveStory() {
     const tmpProps = this.props;
     tmpProps.saveStoryInfo();
+    setStatus('Story saved successfully');
     // TODO: Add any other saving functionality?
   }
 
@@ -91,12 +106,21 @@ class Menu extends React.Component {
     // TODO: Add functionaloty to publish story
     const tmpProps = this.props;
     tmpProps.publishStory();
+    setStatus('Story published successfully');
   }
 
   handleDeleteStory() {
     // TODO: Add functionality to delete story
     const tmpProps = this.props;
     tmpProps.deleteStory();
+  }
+
+  setStatus(str) {
+    if(str.indexOf('rror') > -1) {
+      this.setState({statusText: '', errorText: str});
+    } else {
+      this.setState({statusText: str, errorText: ''});
+    }
   }
 
   render() {
@@ -117,6 +141,7 @@ class Menu extends React.Component {
                   handleAddPath={tmpProps.handleAddPath}
                   choosingBoxForPath={tmpProps.choosingBoxForPath}
                   handleMakeStartingBox={tmpProps.handleMakeStartingBox}
+                  setStatus={this.setStatus.bind(this)}
                 />;
     }
     else if (tmpProps.showPathInfo){
@@ -129,6 +154,7 @@ class Menu extends React.Component {
                   onPathInfoChange={tmpProps.onPathInfoChange}
                   savePath={tmpProps.savePath}
                   deletePath={tmpProps.deletePath}
+                  setStatus={this.setStatus.bind(this)}
                 />
     }
 
@@ -145,6 +171,8 @@ class Menu extends React.Component {
         <button type="button" style={buttonStyle} onClick={this.handlePublishStory}><img draggable="false" style={imgStyle} src={Paperplane}/>Publish Story</button>
         <button type="button" style={buttonStyle} onClick={this.handleDeleteStory}><img draggable="false" style={imgStyle} src={Bin}/> Delete Story</button>
         <button type="button" style={buttonAddBoxStyle} onClick={this.handleAddBox}><img draggable="false" style={imgAddStyle} src={Plus}/>Add New Box</button>
+        <label style={statusStyle}> {this.state.statusText}</label>
+        <label style={errorStyle}>{this.state.errorText}</label>
         {infoBox}
       </div>
     );
