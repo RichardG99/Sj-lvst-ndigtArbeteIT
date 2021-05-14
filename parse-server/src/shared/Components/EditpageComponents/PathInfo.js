@@ -110,7 +110,7 @@ PathInfo.propTypes = {
   deletePath: PropTypes.func.isRequired,
   currentPathKeyword: PropTypes.string.isRequired,
   currentPathCondition: PropTypes.string.isRequired,
-
+  setStatus: PropTypes.func.isRequired,
 };
 
 export default PathInfo;

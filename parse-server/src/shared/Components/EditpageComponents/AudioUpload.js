@@ -67,8 +67,10 @@ class AudioUpload extends React.Component {
     parseSaveFile(name, file).then((url) => {
       this.fileInput.current.value = null;
       tmpProps.onBoxInfoChange('currentBoxAudio', url);
+      tmpProps.setStatus('Audio file uploaded successfully!');
     }, (error) => {
       console.log(`error fileupload: ${error}`);
+      tmpProps.setStatus('Error uploading audio:', error);
     });
   }
 
@@ -108,5 +110,6 @@ class AudioUpload extends React.Component {
 AudioUpload.propTypes = {
   currentBoxAudio: PropTypes.string.isRequired,
   onBoxInfoChange: PropTypes.func.isRequired,
+  setStatus: PropTypes.func.isRequired,
 };
 export default AudioUpload;

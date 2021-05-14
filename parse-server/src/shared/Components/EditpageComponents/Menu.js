@@ -57,6 +57,11 @@ const statusStyle = {
   color: 'green',
 }
 
+const errorStyle = {
+  margin: '1em 0',
+  color: 'red',
+}
+
 const imgAddStyle = {
   width: '14px',
   position: 'relative',
@@ -80,7 +85,8 @@ class Menu extends React.Component {
     this.handleDeleteStory = this.handleDeleteStory.bind(this);
     this.handleAddBox = this.handleAddBox.bind(this);
     this.state = {
-      statusText: ''
+      statusText: '',
+      errorText: '',
     };
   }
 
@@ -92,7 +98,7 @@ class Menu extends React.Component {
   handleSaveStory() {
     const tmpProps = this.props;
     tmpProps.saveStoryInfo();
-    this.setState({statusText: 'Story saved successfully'});
+    setStatus('Story saved successfully');
     // TODO: Add any other saving functionality?
   }
 
@@ -100,7 +106,7 @@ class Menu extends React.Component {
     // TODO: Add functionaloty to publish story
     const tmpProps = this.props;
     tmpProps.publishStory();
-    this.setState({statusText: 'Story published successfully'});
+    setStatus('Story published successfully');
   }
 
   handleDeleteStory() {
@@ -110,7 +116,11 @@ class Menu extends React.Component {
   }
 
   setStatus(str) {
-    this.setState({statusText: str});
+    if(str.indexOf('rror') > -1) {
+      this.setState({statusText: '', errorText: str});
+    } else {
+      this.setState({statusText: str, errorText: ''});
+    }
   }
 
   render() {
@@ -131,6 +141,7 @@ class Menu extends React.Component {
                   handleAddPath={tmpProps.handleAddPath}
                   choosingBoxForPath={tmpProps.choosingBoxForPath}
                   handleMakeStartingBox={tmpProps.handleMakeStartingBox}
+                  setStatus={this.setStatus.bind(this)}
                 />;
     }
     else if (tmpProps.showPathInfo){
@@ -161,6 +172,7 @@ class Menu extends React.Component {
         <button type="button" style={buttonStyle} onClick={this.handleDeleteStory}><img draggable="false" style={imgStyle} src={Bin}/> Delete Story</button>
         <button type="button" style={buttonAddBoxStyle} onClick={this.handleAddBox}><img draggable="false" style={imgAddStyle} src={Plus}/>Add New Box</button>
         <label style={statusStyle}> {this.state.statusText}</label>
+        <label style={errorStyle}>{this.state.errorText}</label>
         {infoBox}
       </div>
     );
