@@ -299,7 +299,7 @@ export default class Game extends React.Component {
             return;
           }
           console.log("start speaking...");
-          speechString = await this.recordAndTranscribe(2000);
+          speechString = await this.recordAndTranscribe(6000);
           if (!this.state.playing){
             return; // game has been ended during recording phase.
           }
