@@ -42,8 +42,9 @@ class Box extends React.Component {
     const boxTitle = tmpProps.title;
     const boxText = tmpProps.text;
     const boxUrl = tmpProps.url;
+    const boxCommand = tmpProps.boxCommand;
     const node = this.boxRef.current;
-    tmpProps.onClickInnerBox(boxId, boxTitle, boxText, boxUrl, node);
+    tmpProps.onClickInnerBox(boxId, boxTitle, boxText, boxUrl, node, boxCommand);
   }
 
   //<polygon points="0,0 20,0 10,20"/>
@@ -80,6 +81,7 @@ Box.propTypes = {
   url: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   boxId: PropTypes.string.isRequired,
+  boxCommand: PropTypes.string.isRequired,
   getBoxRef: PropTypes.func.isRequired,
   isStartingBox: PropTypes.bool.isRequired,
 };
