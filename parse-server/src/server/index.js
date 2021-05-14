@@ -68,7 +68,7 @@ app.get('*', (req, res) => {
       <!DOCTYPE html>
       <html style="margin:0; height:100%; width:100%;">
         <head>
-          <title>DreamScape</title>
+          <title>AugmentedAudio</title>
           <script src="/bundle.js" defer></script>
           <link rel="stylesheet" type="text/css" href="../shared/style.css" />
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" />

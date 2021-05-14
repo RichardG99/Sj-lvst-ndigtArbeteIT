@@ -16,12 +16,14 @@ const menuStyle = {
   padding: '10px',
   left: '0px',
   width: '300px',
+  maxHeight: '95vh',
   backgroundColor: 'hsla(33, 40%, 95%, 1)', // '#fafafa',
   zIndex: '10000',
   border: '2px solid hsla(33, 40%, 90%, 1)',
   boxShadow: '5px 5px 14px rgba(0,0,0, 0.2)',
   borderTopRightRadius: '6px',
   borderBottomRightRadius: '6px',
+  overflow: 'auto'
 };
 
 const buttonStyle = {
@@ -123,6 +125,7 @@ class Menu extends React.Component {
                   currentPathFrom={tmpProps.currentPathFrom}
                   currentPathTo={tmpProps.currentPathTo}
                   currentPathKeyword={tmpProps.currentPathKeyword}
+                  currentPathCondition={tmpProps.currentPathCondition}
                   onPathInfoChange={tmpProps.onPathInfoChange}
                   savePath={tmpProps.savePath}
                   deletePath={tmpProps.deletePath}
@@ -174,6 +177,7 @@ Menu.propTypes = {
   currentPathId: PropTypes.string.isRequired,
   currentPathFrom: PropTypes.string.isRequired,
   currentPathTo: PropTypes.string.isRequired,
+  currentPathKeyword: PropTypes.string.isRequired,
   currentPathCondition: PropTypes.string.isRequired,
   onPathInfoChange: PropTypes.func.isRequired,
   savePath: PropTypes.func.isRequired,

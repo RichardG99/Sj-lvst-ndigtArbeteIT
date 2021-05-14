@@ -65,6 +65,7 @@ class EditingPage extends React.Component {
               url={box.url}
               x={box.x}
               y={box.y}
+              boxCommand={box.command}
               onClickBox={tmpProps.onClickBox}
               getBoxRef={tmpProps.getBoxRef}
               isStartingBox={(box.boxId === currentStartingBoxId)}
@@ -83,6 +84,7 @@ class EditingPage extends React.Component {
               pathFrom={path.pathFrom}
               pathTo={path.pathTo}
               keyword={path.keyword}
+              condition={path.condition}
               onClickPath={tmpProps.onClickPath}
               editPageRef={this.editPageRef}
               color={((path.pathId === currentPathId) && tmpProps.showPathInfo)
