@@ -30,7 +30,7 @@ Parse.Cloud.define('speechToTextCall', async (req, res) => {
     keywordsThreshold: 0.5,
   };
   
-//return speechToText.recognize(params)
+speechToText.recognize(params)
   .then(speechRecognitionResults => {
     //return "halloj";
     res.send(JSON.stringify(speechRecognitionResults, null, 2));
