@@ -45,12 +45,14 @@ class PathInfo extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    //this.setStatus = props.setStatus.bind(this);
   }
 
   handleSubmit(e) {
     const tmpProps = this.props;
     e.preventDefault();
     tmpProps.savePath();
+    tmpProps.setStatus('Path saved successfully');
   }
 
   handleChange(event) {
@@ -108,7 +110,7 @@ PathInfo.propTypes = {
   deletePath: PropTypes.func.isRequired,
   currentPathKeyword: PropTypes.string.isRequired,
   currentPathCondition: PropTypes.string.isRequired,
-
+  setStatus: PropTypes.func.isRequired,
 };
 
 export default PathInfo;

@@ -13,6 +13,11 @@ const inputDivStyle = {
   margin: '1em 0',
 };
 
+const statusStyle = {
+  margin: '1em 0',
+  color: 'red'
+};
+
 class EditPasswordForm extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +26,7 @@ class EditPasswordForm extends React.Component {
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
+      statusText: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,9 +44,11 @@ class EditPasswordForm extends React.Component {
     event.preventDefault(); // Prevent opening a new page when clicked
 
     if (tmpState.newPassword == '') {
-      alert("Your password cannot consist of 0 characters!");
-    } if (tmpState.newPassword !== tmpState.confirmPassword) {
-      alert("Confirmation password must match new password");
+      this.setState({statusText: "Your password cannot consist of 0 characters!"});
+      //alert("Your password cannot consist of 0 characters!");
+    } else if (tmpState.newPassword !== tmpState.confirmPassword) {
+      this.setState({statusText: "Confirmation password must match new password"});
+      //alert("Confirmation password must match new password");
     } else {
       //Gets our user
       const user = Parse.User.current();
@@ -54,12 +62,14 @@ class EditPasswordForm extends React.Component {
           window.location.reload();
         }).catch((error) => {
           // Alert the user in case something went wrong with data saving
-          alert("Something went wrong when changing your password! Try again later (your password has not been changed)"); 
+          this.setState({statusText: `Error ${error.code}: ${error.message}`});
+          //alert("Something went wrong when changing your password! Try again later (your password has not been changed)"); 
           console.log(`Error ${error.code} ${error.message}`);
         });
       }, (error) => {
         //Incorrect old user password, or some other error. Log it, and inform the user that most likely they've not written the correct password
-        alert("Could not verify user to server; either your old password is incorrect, or a server-side issue has occurred."); 
+        this.setState({statusText: `Error ${error.code}: ${error.message}`});
+        //alert("Could not verify user to server; either your old password is incorrect, or a server-side issue has occurred."); 
         console.log(`Error ${error.code} ${error.message}`);
       })
     }
@@ -109,6 +119,11 @@ class EditPasswordForm extends React.Component {
                 required
               />
             </label>
+          </div>
+          <div style={inputDivStyle}>
+          <label style={statusStyle} htmlFor="statusText">
+            {this.state.statusText}
+          </label>
           </div>
           <button type="submit" style={styles.buttonStyle} onClick={this.handleSubmit}>Save</button>
           <button type="button" style={styles.buttonStyle} onClick={tmpProps.handleCancel}>Cancel</button>
