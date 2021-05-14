@@ -7,7 +7,7 @@ const RECORDING_OPTIONS_PRESET_IBM_WATSON = {
     extension: '.webm',
     outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_WEBM, // Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4
     audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_OPUS, // Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC
-    sampleRate: 48000// 44100
+    sampleRate: 48000, // 44100
     numberOfChannels: 1, // 2
     bitRate: 128000,
   },
