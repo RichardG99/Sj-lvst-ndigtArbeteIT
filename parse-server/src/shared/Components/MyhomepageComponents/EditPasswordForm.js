@@ -47,7 +47,7 @@ class EditPasswordForm extends React.Component {
 
       //Tries to verify the user's password, and changes it if succesful
       Parse.User.verifyPassword(user.getUsername(), tmpState.oldPassword).then(()=> {
-        user.set('password', tmpState.password);
+        user.setPassword(tmpState.newPassword);
         user.save().then(() => {
           // Refresh our page to ensure fresh data, and give a feed-forward feeling for the user
           console.log(`Successfully changed user password`);
