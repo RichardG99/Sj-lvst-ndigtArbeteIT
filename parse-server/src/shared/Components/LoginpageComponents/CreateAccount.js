@@ -13,7 +13,7 @@ const linkStyle = {
 const CreateAccount = () => (
   <div>
     <NavLink style={linkStyle} to="/createuser" className="link">
-      <p style={pStyle}>New to DreamScape? Create an account!</p>
+      <p style={pStyle}>New to Augmented Audio? Create an account!</p>
     </NavLink>
   </div>
 );
