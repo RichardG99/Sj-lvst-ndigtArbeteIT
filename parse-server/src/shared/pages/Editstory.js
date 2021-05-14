@@ -86,39 +86,37 @@ function parseDeleteStory(storyId) {
         const path = pathConst[i];
         path.destroy({});
       }
-    }, (error) => {
-      reject(error);
-    });
 
-    //Destroy boxes related to the story
-    const BoxObj = Parse.Object.extend('Box');
-    var boxQuery = new Parse.Query(BoxObj);
-    boxQuery.equalTo('storyId', storyId);
-    boxQuery.find().then((boxes) => {
-      const boxConst = boxes;
-      for (let i = 0; i < boxConst.length; i++) {
-        const box = boxConst[i];
-        box.destroy({});
-      }
-    }, (error) => {
-      reject(error);
-    });
+      //Destroy boxes related to the story
+      const BoxObj = Parse.Object.extend('Box');
+      var boxQuery = new Parse.Query(BoxObj);
+      boxQuery.equalTo('storyId', storyId);
+      boxQuery.find().then((boxes) => {
+        const boxConst = boxes;
+        for (let i = 0; i < boxConst.length; i++) {
+          const box = boxConst[i];
+          box.destroy({});
+        }
 
-    //Finally, destroy the story object itself
-    const StoryObj = Parse.Object.extend('Story');
-    var storyQuery = new Parse.Query(StoryObj);
-    storyQuery.get(storyId).then((story) => {
-        // The story was retrieved, and should thus be destroyed
-        story.destroy({}).then(()=>{
-          resolve();
-        }, (error)=>{
+        //Finally, destroy the story object itself
+        const StoryObj = Parse.Object.extend('Story');
+        var storyQuery = new Parse.Query(StoryObj);
+        storyQuery.get(storyId).then((story) => {
+          // The story was retrieved, and should thus be destroyed
+          story.destroy({}).then(()=>{
+            resolve();
+          }, (error)=>{
+            reject(error);
+          });
+        }, (error) => {
           reject(error);
         });
-      },
-      (error) => {
+      }, (error) => {
         reject(error);
-      }
-    );
+      });
+    }, (error) => {
+      reject(error);
+    });
   });
 }
 
