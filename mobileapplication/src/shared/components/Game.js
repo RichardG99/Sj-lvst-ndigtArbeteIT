@@ -68,7 +68,7 @@ export default class Game extends React.Component {
     file_to_send = await FileSystem.readAsStringAsync(recordingURI, {encoding: FileSystem.EncodingType.Base64});
     const possiblePaths = await this.getBoxPaths(this.currentBoxID);
     let keywords = [];
-    for (let i = 0; x < possiblePaths.length; x++){
+    for (let i = 0; i < possiblePaths.length; i++){
       keywords = [...keywords, possiblePaths[i].get("keyword")];
     }
     //const params = {audio_base64: file_to_send, OS: Platform.OS}; // Send audio + platform info
