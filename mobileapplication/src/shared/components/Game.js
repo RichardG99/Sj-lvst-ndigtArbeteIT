@@ -66,10 +66,15 @@ export default class Game extends React.Component {
   speechToTextAPI = async (audio) => {
     const recordingURI = audio.getURI();
     file_to_send = await FileSystem.readAsStringAsync(recordingURI, {encoding: FileSystem.EncodingType.Base64});
+    const possiblePaths = await this.getBoxPaths(this.currentBoxID);
+    let keywords = [];
+    for (let i = 0; x < possiblePaths.length; x++){
+      keywords = [...keywords, possiblePaths[i].get("keyword")];
+    }
     //const params = {audio_base64: file_to_send, OS: Platform.OS}; // Send audio + platform info
     const params = {
       audio: file_to_send,
-      keywords: ['colorado', 'tornado', 'tornadoes'],
+      keywords: keywords,
     };
     const converted_text = await Parse.Cloud.run("speechToTextCall", params);
     console.log(converted_text);
