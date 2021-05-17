@@ -144,7 +144,7 @@ class Infobox extends React.Component {
     //TODO: Fix image and alignment
     return (
       <div style={mainStyle}>
-        <button type="button" style={infoButtonStyle} onClick={this.toggleInfo}><img draggable="false" style={imgStyle} src={Bin}/> Info </button>
+        <button type="button" style={infoButtonStyle} onClick={this.toggleInfo}><img draggable="false" style={imgStyle} src={Bin}/> Help </button>
         {displayContent}
       </div>
     );
