@@ -49,3 +49,6 @@ package-lock.json
 
 #Mac thing
 .DS_Store
+
+#Voice recordings
+voice/*
