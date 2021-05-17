@@ -15,13 +15,15 @@ const menuStyle = {
   fontSize: '11px',
   padding: '10px',
   left: '0px',
-  width: '300px',
+  width: '320px',
+  maxHeight: '95vh',
   backgroundColor: 'hsla(33, 40%, 95%, 1)', // '#fafafa',
   zIndex: '10000',
   border: '2px solid hsla(33, 40%, 90%, 1)',
   boxShadow: '5px 5px 14px rgba(0,0,0, 0.2)',
   borderTopRightRadius: '6px',
   borderBottomRightRadius: '6px',
+  overflow: 'auto'
 };
 
 const buttonStyle = {
@@ -50,6 +52,16 @@ const buttonAddBoxStyle = {
   cursor: 'pointer',
 };
 
+const statusStyle = {
+  margin: '1em 0',
+  color: 'green',
+}
+
+const errorStyle = {
+  margin: '1em 0',
+  color: 'red',
+}
+
 const imgAddStyle = {
   width: '14px',
   position: 'relative',
@@ -72,6 +84,10 @@ class Menu extends React.Component {
     this.handlePublishStory = this.handlePublishStory.bind(this);
     this.handleDeleteStory = this.handleDeleteStory.bind(this);
     this.handleAddBox = this.handleAddBox.bind(this);
+    this.state = {
+      statusText: '',
+      errorText: '',
+    };
   }
 
   handleAddBox() {
@@ -82,6 +98,7 @@ class Menu extends React.Component {
   handleSaveStory() {
     const tmpProps = this.props;
     tmpProps.saveStoryInfo();
+    setStatus('Story saved successfully');
     // TODO: Add any other saving functionality?
   }
 
@@ -89,12 +106,21 @@ class Menu extends React.Component {
     // TODO: Add functionaloty to publish story
     const tmpProps = this.props;
     tmpProps.publishStory();
+    setStatus('Story published successfully');
   }
 
   handleDeleteStory() {
     // TODO: Add functionality to delete story
     const tmpProps = this.props;
     tmpProps.deleteStory();
+  }
+
+  setStatus(str) {
+    if(str.indexOf('rror') > -1) {
+      this.setState({statusText: '', errorText: str});
+    } else {
+      this.setState({statusText: str, errorText: ''});
+    }
   }
 
   render() {
@@ -115,6 +141,7 @@ class Menu extends React.Component {
                   handleAddPath={tmpProps.handleAddPath}
                   choosingBoxForPath={tmpProps.choosingBoxForPath}
                   handleMakeStartingBox={tmpProps.handleMakeStartingBox}
+                  setStatus={this.setStatus.bind(this)}
                 />;
     }
     else if (tmpProps.showPathInfo){
@@ -123,9 +150,11 @@ class Menu extends React.Component {
                   currentPathFrom={tmpProps.currentPathFrom}
                   currentPathTo={tmpProps.currentPathTo}
                   currentPathKeyword={tmpProps.currentPathKeyword}
+                  currentPathCondition={tmpProps.currentPathCondition}
                   onPathInfoChange={tmpProps.onPathInfoChange}
                   savePath={tmpProps.savePath}
                   deletePath={tmpProps.deletePath}
+                  setStatus={this.setStatus.bind(this)}
                 />
     }
 
@@ -142,6 +171,8 @@ class Menu extends React.Component {
         <button type="button" style={buttonStyle} onClick={this.handlePublishStory}><img draggable="false" style={imgStyle} src={Paperplane}/>Publish Story</button>
         <button type="button" style={buttonStyle} onClick={this.handleDeleteStory}><img draggable="false" style={imgStyle} src={Bin}/> Delete Story</button>
         <button type="button" style={buttonAddBoxStyle} onClick={this.handleAddBox}><img draggable="false" style={imgAddStyle} src={Plus}/>Add New Box</button>
+        <label style={statusStyle}> {this.state.statusText}</label>
+        <label style={errorStyle}>{this.state.errorText}</label>
         {infoBox}
       </div>
     );
@@ -174,6 +205,7 @@ Menu.propTypes = {
   currentPathId: PropTypes.string.isRequired,
   currentPathFrom: PropTypes.string.isRequired,
   currentPathTo: PropTypes.string.isRequired,
+  currentPathKeyword: PropTypes.string.isRequired,
   currentPathCondition: PropTypes.string.isRequired,
   onPathInfoChange: PropTypes.func.isRequired,
   savePath: PropTypes.func.isRequired,

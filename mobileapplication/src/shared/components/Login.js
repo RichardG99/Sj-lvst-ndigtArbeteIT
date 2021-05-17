@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TextInput } from 'react-native';
-import {Button} from 'react-native-elements'
+import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TextInput, RecyclerViewBackedScrollViewBase } from 'react-native';
+import { Button, Input } from 'react-native-elements'
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native'
 import Game from "./Game.js";
@@ -15,25 +15,24 @@ export default class Home extends React.Component {
       activeStory: null,// ID of current story that you're listening to.
       activeStoryBoxID: "tmp",
       loggedIn: true,
-      username: "",
+      username: null,
+      password: null
     }
-    this.logout=this.logout.bind();
   }
   componentDidMount(){
-    this.authenticate();
   } 
+  login()  {
+    //console.log(this.state.username, this.state.password);
+    //console.log("Connecting to", Parse.CoreManager.get('SERVER_URL'));
+    Parse.User.logIn(this.state.username, this.state.password).then( 
+        () => { console.log(`Logged in as ${this.state.username}!`);
+                    this.props.navigation.navigate('Home')},
+        (error) => { console.log("Login failed: ", error)}
+    );
+  }
+  
   logout = async () => {
     Parse.User.logOut();
-    this.props.navigation.navigate('Login');
-  }
-  authenticate = async () => {
-    Parse.User.currentAsync().then((user) => {
-      if (!user) {
-        this.props.navigation.navigate('Login')
-      } else {
-        this.setState( {username: user.get('username')});
-      }
-    });
   }
   // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
   LogItAll = async () => {
@@ -43,33 +42,28 @@ export default class Home extends React.Component {
   render() {
     return (
     <View style={styles.container}>
-      <Text h3
-        title={"Hello ", this.state.username}
+      <Input placeholder="Username"
+        onChangeText={(value) => this.setState({username: value})}
+      />
+      <Input placeholder="Password" secureTextEntry={true}
+        onChangeText={(value) => this.setState({password: value})}
+        />
+      <Button
+        style={styles.button}
+        title="Login"
+        type="clear"
+        onPress={() => { this.login() } }
       />
       <Button
         style={styles.button}
-        title="Find new stories"
+        title="Create Account"
         type="clear"
-        icon={{name: 'cloud'}}
-        onPress={() => this.props.navigation.navigate('Stories')}
-      />
-      <Button
-        style={styles.button} 
-        icon={{name: 'folder'}}
-        type="clear"
-        title="Go to My Library"
-        onPress={() => this.props.navigation.navigate('My Library')}
-      />
-      <Button
-        style={styles.button} 
-        type="clear"
-        title="Logout"
-        onPress={() => this.logout() }
+        onPress={() => this.props.navigation.navigate('AddUser')}
       />
       {
         this.debugging ?
         <Button 
-          title='Log from Home.js'
+          title='Log from Login.js'
           onPress={this.LogItAll}
         />
         : 

@@ -21,7 +21,7 @@ class Createuser extends React.Component {
     const tmpState = this.state;
     const tmpProps = this.props;
     if (tmpState.redirect || tmpProps.loggedIn) {
-      return <Redirect to="/loginpage" />;
+      return <Redirect to="/myhomepage" />;
     }
 
     return (

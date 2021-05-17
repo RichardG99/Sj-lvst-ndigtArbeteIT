@@ -3,7 +3,7 @@
 ### HOW TO:
 1. npm install expo-cli --global
 2. npm install
-3. create file src/shared/serverIP.js with the current code snippet in it, Where "yourIP" should be replace with the IP address of the server running the Dreamscape parse server:
+3. create file src/shared/serverIP.js with the current code snippet in it, Where "yourIP" should be replace with the IP address of the server running the AugmentedAudio parse server:
 ```Javascript
 const serverIP = "yourIP"
 export default serverIP;

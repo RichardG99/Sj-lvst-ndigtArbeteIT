@@ -6,6 +6,11 @@ const labelStyle = {
   margin: '1em 0',
 };
 
+const statusStyle = {
+  margin: '1em 0',
+  color: 'red'
+};
+
 const inputStyle = {
   width: '100%',
   marginBottom: '1em',
@@ -33,6 +38,7 @@ class LoginForm extends React.Component {
     this.state = {
       username: '',
       password: '',
+      statusText: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,6 +62,7 @@ class LoginForm extends React.Component {
       this.authenticate();
     }).catch((error) => {
       console.log(`Error ${error.code} ${error.message}`);
+      this.setState( {statusText: `Error ${error.code}: ${error.message}`});
       this.authenticate();
     });
   }
@@ -89,6 +96,9 @@ class LoginForm extends React.Component {
                 name="password"
                 required
               />
+            </label>
+            <label style={statusStyle} htmlFor="statusText">
+              {this.state.statusText}
             </label>
           </div>
           <button style={signInButtonStyle} type="submit">Sign In</button>
