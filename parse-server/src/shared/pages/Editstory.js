@@ -727,6 +727,7 @@ class Editstory extends React.Component {
     else if(tmpState.showPathInfo && (tmpState.currentPathId != '')) {
       parseSavePath(tmpState.currentPathId, tmpState.currentPathKeyword, tmpState.currentPathCondition);
     }
+    this.saveStoryInfo();
   }
 
   onBoxInfoChange(target, value) {
