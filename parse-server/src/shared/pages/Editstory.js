@@ -701,6 +701,7 @@ class Editstory extends React.Component {
     this.setState({
       showBoxInfo: false,
       showPathInfo: false,
+      choosingBoxForPath: false, // reset box choosing if they dont click on a box
       currentBoxId: '',
       currentBoxTitle: '',
       currentBoxText: '',
