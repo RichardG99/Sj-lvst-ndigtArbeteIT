@@ -76,6 +76,8 @@ class AudioUpload extends React.Component {
 
   render() {
     const tmpProps = this.props;
+    const fileName = tmpProps.currentBoxAudio === "" ? "" : 
+      tmpProps.currentBoxAudio.substring(tmpProps.currentBoxAudio.indexOf('_'));
     return (
       <div style={audioBoxStyle}>
         <label style={styleAlignCenter} htmlFor="currentBoxAudio">
@@ -89,6 +91,7 @@ class AudioUpload extends React.Component {
           />
         </label>
         <button style={buttonStyle} type="button" onClick={this.handleSubmit}>Save Audio File</button>
+        {fileName}
         <audio style={audioStyle} controls ref={this.audioPlayer}>
           <source
             src={tmpProps.currentBoxAudio}
