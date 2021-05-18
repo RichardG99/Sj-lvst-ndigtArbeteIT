@@ -780,7 +780,7 @@ class Editstory extends React.Component {
     if (!storyId) {
       storyId = 'GAXuyImQMC'; //TODO: this should throw an error, not default to an arbitrary story ID
     }
-    console.log(`current storyId: ${storyId}`);
+    //console.log(`current storyId: ${storyId}`);
 
     parseGetStoryStartingBox(storyId).then((startingBoxId) => {
       if (startingBoxId === 'noStartingBoxYet') {
@@ -788,12 +788,12 @@ class Editstory extends React.Component {
           this.setState({ currentStartingBoxId: boxId });
           const startingBoxIdToSet = boxId;
           parseSetStoryStartingBoxId(storyId, startingBoxIdToSet).then((startingBoxIdToPrint) => {
-            console.log(`StartingBoxId: ${startingBoxIdToPrint}`);
+            //console.log(`StartingBoxId: ${startingBoxIdToPrint}`);
           });
         });
       } else {
         this.setState({ currentStartingBoxId: startingBoxId });
-        console.log(`StartingBoxId: ${startingBoxId}`);
+        //console.log(`StartingBoxId: ${startingBoxId}`);
       }
     });
 
@@ -805,7 +805,7 @@ class Editstory extends React.Component {
     });
 
 
-    console.log(`current storyId: ${storyId}`);
+    //console.log(`current storyId: ${storyId}`);
 
     parseGetStoryBoxes(storyId).then((boxes) => {
       this.setState({ boxes });
@@ -834,7 +834,7 @@ class Editstory extends React.Component {
 
     parseSetStoryStartingBoxId(storyId, currentBoxId).then((startingBoxId) => {
       this.setState({ currentStartingBoxId: currentBoxId });
-      console.log(`New startingBoxId: ${startingBoxId}`);
+      //console.log(`New startingBoxId: ${startingBoxId}`);
     });
   }
 
@@ -1091,7 +1091,7 @@ class Editstory extends React.Component {
         parseUnsetStoryStartingBoxId(storyId);
         // TODO: put this in parseDeleteBox to not make several post reqs to database
         this.setState({ currentStartingBoxId: 'noStartingBoxYet' });
-        console.log('starting box unset');
+        //console.log('starting box unset');
       }
       parseDeleteBox(boxId).then(() => {
         const { boxes } = tmpState;
@@ -1117,7 +1117,7 @@ class Editstory extends React.Component {
         console.log(`error deletebox: ${error}`);
       });
     } else {
-      console.log('The box was not deleted.');
+      //console.log('The box was not deleted.');
     }
   }
 
@@ -1150,7 +1150,7 @@ class Editstory extends React.Component {
     if (confirm('Are you sure you want to delete this path?')) {
       this.deletePathWithPathId(pathId);
     } else {
-      console.log('The path was not deleted.');
+      //console.log('The path was not deleted.');
     }
   }
 
