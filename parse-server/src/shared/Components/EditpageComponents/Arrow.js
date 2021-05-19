@@ -36,7 +36,7 @@ function Arrow(props) {
   const xDiff = boxAMid.x - boxBMid.x;
   const yDiff = boxAMid.y - boxBMid.y;
 
-  console.log("xdiff: " + xDiff + " ydiff: " + yDiff);
+  //console.log("xdiff: " + xDiff + " ydiff: " + yDiff);
 
   let fromEdge = boxAMid, toEdge = boxBMid, ori = -1;
   if(fromBox == toBox) { // this path is a loop
@@ -93,9 +93,9 @@ function Arrow(props) {
     }
   }
 
-  console.log("from (" + fromEdge.x + "," + fromEdge.y + ") to (" + toEdge.x + "," + toEdge.y + ")");
-  console.log("Angle: " + (Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x)
-        * 180 / Math.PI + 180));
+  //console.log("from (" + fromEdge.x + "," + fromEdge.y + ") to (" + toEdge.x + "," + toEdge.y + ")");
+  //console.log("Angle: " + (Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x)
+  //      * 180 / Math.PI + 180));
   if(ori < 0) {
     ori = Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x);
     if(ori < 0)
