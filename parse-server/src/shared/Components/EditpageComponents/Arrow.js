@@ -15,7 +15,7 @@ function Arrow(props) {
   const tmpProps = props;
   const boxWidth = 200; // TODO: get this from props?
   const boxHeight = 80;
-  const menuWidth = 320;
+  const menuWidth = 340;
   const arrowCompensation = 10;
 
   const fromBox = tmpProps.fromBoxNode;
