@@ -15,7 +15,7 @@ function Myhomepage(props) {
   }
   const user = Parse.User.current();
   const firstName = user.get('firstName');
-  console.log("firstName: ", firstName);
+  //console.log("firstName: ", firstName);
   return (
     <div style={styles.wrapper}>
       <h2 style={styles.h3}>Welcome {firstName}!</h2>
