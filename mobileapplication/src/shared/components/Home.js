@@ -67,6 +67,12 @@ export default class Home extends React.Component {
         onPress={() => this.props.navigation.navigate('Edit Profile')}
       />
       <Button
+        style={styles.button}
+        type="clear"
+        title="Edit password"
+        onPress={() => this.props.navigation.navigate('Edit Password')}
+      />
+      <Button
         style={styles.button} 
         type="clear"
         title="Logout"
