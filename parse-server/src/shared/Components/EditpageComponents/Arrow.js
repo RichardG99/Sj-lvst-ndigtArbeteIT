@@ -13,9 +13,9 @@ const arrowStyle = {
 
 function Arrow(props) {
   const tmpProps = props;
-  const boxWidth = 200; // TODO: get this from props?
-  const boxHeight = 80;
-  const menuWidth = 340;
+  const boxWidth = tmpProps.boxWidth;
+  const boxHeight = tmpProps.boxHeight;
+  const menuWidth = tmpProps.leftMargin;
   const arrowCompensation = 10;
 
   const fromBox = tmpProps.fromBoxNode;
@@ -107,8 +107,9 @@ function Arrow(props) {
 
     if(ori < 0)
       ori = Math.abs(ori);
-    else
+    } else {
       ori = 2*Math.PI-ori;
+    }
     ori = ori * 180 / Math.PI;
   }
 
