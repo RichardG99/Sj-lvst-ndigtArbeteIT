@@ -8,6 +8,7 @@ import Plus from '../../images/plus.png';
 import Bin from '../../images/bin.png';
 import Save from '../../images/save.png';
 import Paperplane from '../../images/paperplane_114200.png';
+import PlayInfo from './PlayInfo';
 
 const menuStyle = {
   position: 'fixed',
@@ -144,6 +145,18 @@ class Menu extends React.Component {
                   setStatus={this.setStatus.bind(this)}
                 />;
     }
+    else if (tmpProps.showPlayInfo) {
+      infoBox = <PlayInfo
+                  playingBoxId={tmpProps.playingBoxId}
+                  playingBoxTitle={tmpProps.playingBoxTitle}
+                  playingBoxText={tmpProps.playingBoxText}
+                  playingBoxAudio={tmpProps.playingBoxAudio}
+                  playingBoxCommand={tmpProps.playingBoxCommand}
+                  setStatus={this.setStatus.bind(this)}
+                  onBoxInfoChange={tmpProps.onBoxInfoChange}
+                  onPlayPathPicked={tmpProps.onPlayPathPicked}
+                />;
+    }
     else if (tmpProps.showPathInfo){
       infoBox = <PathInfo
                   currentPathId={tmpProps.currentPathId}
@@ -172,6 +185,7 @@ class Menu extends React.Component {
         <button type="button" style={buttonStyle} onClick={this.handlePublishStory}><img draggable="false" style={imgStyle} src={Paperplane}/>Publish Story</button>
         <button type="button" style={buttonStyle} onClick={this.handleDeleteStory}><img draggable="false" style={imgStyle} src={Bin}/> Delete Story</button>
         <button type="button" style={buttonAddBoxStyle} onClick={this.handleAddBox}><img draggable="false" style={imgAddStyle} src={Plus}/>Add New Box</button>
+        <button type="button" style={buttonAddBoxStyle} onClick={tmpProps.togglePlaying}><img draggable="false" style={imgAddStyle} src={Plus}/>Playtest Story</button>
         <label style={statusStyle}> {this.state.statusText}</label>
         <label style={errorStyle}>{this.state.errorText}</label>
         {infoBox}
