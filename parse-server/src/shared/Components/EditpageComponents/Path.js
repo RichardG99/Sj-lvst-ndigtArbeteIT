@@ -29,6 +29,9 @@ class Path extends React.Component {
         onClickMe={this.onClickMe}
         color={tmpProps.color}
         pathId={tmpProps.pathId}
+        boxWidth = {tmpProps.boxWidth}
+        boxHeight = {tmpProps.boxHeight}
+        leftMargin = {tmpProps.leftMargin}
       />
     );
   }
@@ -42,6 +45,9 @@ Path.propTypes = {
   // fromBoxNode: PropTypes.objectOf(PropTypes.object()).isRequired, // FIXME define this Object
   // toBoxNode: PropTypes.objectOf(PropTypes.object()).isRequired, // FIXME define this Object
   color: PropTypes.string.isRequired,
+  boxWidth: PropTypes.number.isRequired,
+  boxHeight: PropTypes.number.isRequired,
+  leftMargin: PropTypes.number.isRequired,
 };
 
 export default Path;
