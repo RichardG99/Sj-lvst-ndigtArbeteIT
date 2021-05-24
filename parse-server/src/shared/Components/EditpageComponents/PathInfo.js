@@ -45,7 +45,12 @@ class PathInfo extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.state = {
+      currentPathIsCurved: props.currentPathIsCurved,
+    }
     //this.setStatus = props.setStatus.bind(this);
+    //console.log(props.currentPathIsCurved);
   }
 
   handleSubmit(e) {
@@ -59,11 +64,20 @@ class PathInfo extends React.Component {
     const tmpProps = this.props;
     const { name } = event.target;
     const { value } = event.target;
+    //console.log("[",name,"] => ",value);
     tmpProps.onPathInfoChange(name, value);
+  }
+
+  toggleCheckbox(event) {
+    const tmpProps = this.props;
+    const { name } = event.target;
+    tmpProps.onPathInfoChange(name, (this.state.currentPathIsCurved? false : true));
+    this.setState( { [name]: (this.state.currentPathIsCurved? false : true) }, tmpProps.savePath);
   }
 
   render() {
     const tmpProps = this.props;
+    const isChecked = this.state.currentPathIsCurved ? 'checked' : '';
     return (
       <div style={pathInfoStyle}>
         <h4 style={{ textAlign: 'center' }}>Edit Path</h4>
@@ -97,6 +111,10 @@ class PathInfo extends React.Component {
 
             <InfoBox text="The conditions listed here must be fulfilled for the user to go down this path. See the HELP menu for details on how to use Conditions." />
           </div>
+          <input type="checkbox" checked={isChecked} name="currentPathIsCurved" onChange={this.toggleCheckbox}  />
+            <label htmlFor="currentPathIsCurved">
+              Curve path
+            </label>
           <button type="submit" style={buttonStyle}><img draggable="false" style={imgStyle} src={Save}/>Save Path</button>
           <button type="button" style={buttonStyle} onClick={tmpProps.deletePath}><img draggable="false" style={imgStyle} src={Bin}/> Delete Path</button>
         </form>
@@ -110,6 +128,7 @@ PathInfo.propTypes = {
   deletePath: PropTypes.func.isRequired,
   currentPathKeyword: PropTypes.string.isRequired,
   currentPathCondition: PropTypes.string.isRequired,
+  currentPathIsCurved: PropTypes.bool.isRequired,
   setStatus: PropTypes.func.isRequired,
 };
 
