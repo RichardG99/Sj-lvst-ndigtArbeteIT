@@ -105,7 +105,7 @@ function Arrow(props) {
     else
       ori = Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x);
 
-    if(ori < 0)
+    if(ori < 0) {
       ori = Math.abs(ori);
     } else {
       ori = 2*Math.PI-ori;
