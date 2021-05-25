@@ -85,32 +85,37 @@ const svgStyle = {
 class PlayInfo extends React.Component {
   constructor(props) {
     super(props);
-    const tmpProps = this.props;
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleMakeStartingBox = this.handleMakeStartingBox.bind(this);
+
+    this.state = {
+      isAudioDone: false,
+      currentBoxId: props.playingBoxId,
+    }
+    this.audioPlayer = React.createRef();
+    this.onAudioDone = this.onAudioDone.bind(this);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  componentDidUpdate() {
+    const tmpState = this.state;
     const tmpProps = this.props;
-    tmpProps.setStatus('Box saved successfully!');
+    if(tmpState.currentBoxId != tmpProps.playingBoxId) {
+      //console.log(tmpState.currentBoxId, tmpProps.playingBoxId);
+      this.setState({ currentBoxId: tmpProps.playingBoxId });
+      if(tmpProps.playingBoxAudio != "") {
+        this.setState({ isAudioDone: false, });
+      }
+      this.audioPlayer.current.load();
+    }
   }
 
-  handleChange(event) {
-    const { name } = event.target;
-    const { value } = event.target;
-    const tmpProps = this.props;
-  }
-
-  handleMakeStartingBox(event) {
-    const tmpProps = this.props;
-    tmpProps.setStatus('This box is now starting box');
+  onAudioDone(e) {
+    e.stopPropagation();
+    this.setState({isAudioDone: true,});
   }
 
   render() {
     let popup = '';
     const tmpProps = this.props;
+    const tmpState = this.state;
     const arrowIcon = ( <svg style={svgStyle}>
                           <defs>
                             <marker
@@ -145,14 +150,13 @@ class PlayInfo extends React.Component {
               </label>
 
             </div>
-            <AudioUpload
-              currentBoxAudio={tmpProps.playingBoxAudio}
-              onBoxInfoChange={tmpProps.onBoxInfoChange}
-              setStatus={tmpProps.setStatus}
-            />
+            <audio controls onEnded={this.onAudioDone} ref={this.audioPlayer}>
+              <source src={tmpProps.playingBoxAudio} />
+            </audio>
             <PlayPathPicker
               playingBoxId={tmpProps.playingBoxId}
               onPlayPathPicked={tmpProps.onPlayPathPicked}
+              isAudioDone={tmpState.isAudioDone}
             />
             <br />
           </div>

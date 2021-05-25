@@ -646,7 +646,7 @@ class Editstory extends React.Component {
    * Called from PlayPathPicker.js when a path is selected
    */
   onPlayPathPicked(boxId) {
-    //console.log("Box id", boxId, "picked");
+    console.log("Box id", boxId, "picked");
     const tmpState = this.state;
     const Box = Parse.Object.extend('Box');
     const query = new Parse.Query(Box);
