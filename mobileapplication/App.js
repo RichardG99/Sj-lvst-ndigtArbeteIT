@@ -14,6 +14,8 @@ import Game from "./src/shared/components/Game.js";
 import Home from "./src/shared/components/Home.js";
 import Stories from "./src/shared/components/Stories.js";
 import MyLibrary from "./src/shared/components/MyLibrary.js";
+import EditProfile from "./src/shared/components/EditProfile.js";
+import EditPassword from "./src/shared/components/EditPassword.js";
 
 
 
@@ -123,6 +125,8 @@ export default class App extends React.Component {
             <Stack.Screen name="Stories" component={Stories} />
             <Stack.Screen name="Game" component={Game} />
             <Stack.Screen name="My Library" component={MyLibrary} />
+            <Stack.Screen name="Edit Profile" component={EditProfile} />
+            <Stack.Screen name="Edit Password" component={EditPassword} />
           </Stack.Navigator>
         </NavigationContainer>
     )

@@ -1,7 +1,7 @@
 import * as Permissions from 'expo-permissions';
 import "../local_modules/AugmentedAudio.js";
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
 import {Button} from 'react-native-elements'
 import Parse, { User } from 'parse/react-native';
 import ParseReact from 'parse-react/react-native'
@@ -398,6 +398,29 @@ export default class Game extends React.Component {
     console.log(await this.recordAndTranscribe(3000));
     console.log("STT ended");
   }
+
+  backAction = () => {
+    if (this.state.playing) {
+      this.pauseDreamScape()
+      console.log("was playing now pausing")
+    } else {
+        this.props.navigation.goBack(null);
+      }
+    console.log("back");
+    return true;
+  }
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   render() {
     return (
     <View style={styles.container}>

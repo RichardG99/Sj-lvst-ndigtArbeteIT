@@ -16,12 +16,14 @@ class Path extends React.Component {
     const { pathTo } = tmpProps;
     const { keyword } = tmpProps;
     const { condition } = tmpProps;
-    tmpProps.onClickPath(pathId, pathFrom, pathTo, keyword, condition);
+    const { isCircular } = tmpProps;
+    tmpProps.onClickPath(pathId, pathFrom, pathTo, keyword, condition, isCircular);
   }
 
   // TODO: change to showing box nr instead of box id
   render() {
     const tmpProps = this.props;
+    //console.log("Path.render(): isCircular=", tmpProps.isCircular);
     return (
       <Arrow
         fromBoxNode={tmpProps.fromBoxNode}
@@ -29,6 +31,10 @@ class Path extends React.Component {
         onClickMe={this.onClickMe}
         color={tmpProps.color}
         pathId={tmpProps.pathId}
+        isCircular={tmpProps.isCircular}
+        boxWidth = {tmpProps.boxWidth}
+        boxHeight = {tmpProps.boxHeight}
+        leftMargin = {tmpProps.leftMargin}
       />
     );
   }
@@ -39,9 +45,13 @@ Path.propTypes = {
   pathTo: PropTypes.string.isRequired,
   condition: PropTypes.string.isRequired,
   onClickPath: PropTypes.func.isRequired,
+  isCircular: PropTypes.bool.isRequired,
   // fromBoxNode: PropTypes.objectOf(PropTypes.object()).isRequired, // FIXME define this Object
   // toBoxNode: PropTypes.objectOf(PropTypes.object()).isRequired, // FIXME define this Object
   color: PropTypes.string.isRequired,
+  boxWidth: PropTypes.number.isRequired,
+  boxHeight: PropTypes.number.isRequired,
+  leftMargin: PropTypes.number.isRequired,
 };
 
 export default Path;

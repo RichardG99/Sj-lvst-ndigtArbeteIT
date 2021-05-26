@@ -84,7 +84,7 @@ class Infobox extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div className="container"> {/* TODO: Make this scroll to properly allow all content to be displayed on all screen sizes */}
             <div>
-              Welcome to AugmentedAudio's web editor! The basic idea of the editor is based around Boxes and Paths; a Box can be thought of as a chapter in normal books, while a Path links
+              Welcome to Augmented Audio's web editor! The basic idea of the editor is based around Boxes and Paths; a Box can be thought of as a chapter in normal books, while a Path links
               several Boxes together allowing the user to progress between chapters. To create a new Box, simply press the "Add New Box" button up in the left corner. To create a Path, 
               first click on a Box, then press the "Add Path from Box" button that appears and click on a second Box. A Path (which looks sorta like an arrow) should now point from the 
               first Box to the second one.
@@ -98,10 +98,10 @@ class Infobox extends React.Component {
               <h3>Editing Paths</h3>
               Similarly to editing boxes, you can click on any Path you have created to bring up an editing field for it. Here, you can only edit two things: the Keyword the path listens for
               (this can be left empty if you only want the player to progress along it with non-verbal means), and the Condition for the path to be chosen (which is covered in detail under 
-              "Actions and Conditions").
+              "Actions and Conditions"). There is also an option to curve the path instead or drawing it as a straight line. This is useful if you have paths in both directions between two boxes.
 
               <h3>Actions and Conditions</h3>
-              Two central concepts in AugmentedAudio are Actions and Conditions (for those who know programming, this corresponds to Set and If respectively). An Action is something that occurs
+              Two central concepts in Augmented Audio are Actions and Conditions (for those who know programming, this corresponds to Set and If respectively). An Action is something that occurs
               as soon as a user reaches a box and the sound file for that box starts happening. This is usually setting the value of something (such as "set 'userHasUmbrella' to 1"). The
               syntax for this is simple:<br />
                 userHasUmbrella := 1<br />
@@ -144,7 +144,7 @@ class Infobox extends React.Component {
     //TODO: Fix image and alignment
     return (
       <div style={mainStyle}>
-        <button type="button" style={infoButtonStyle} onClick={this.toggleInfo}><img draggable="false" style={imgStyle} src={Bin}/> Info </button>
+        <button type="button" style={infoButtonStyle} onClick={this.toggleInfo}><img draggable="false" style={imgStyle} src={Bin}/> Help </button>
         {displayContent}
       </div>
     );

@@ -98,7 +98,7 @@ class Menu extends React.Component {
   handleSaveStory() {
     const tmpProps = this.props;
     tmpProps.saveStoryInfo();
-    setStatus('Story saved successfully');
+    this.setStatus('Story saved successfully');
     // TODO: Add any other saving functionality?
   }
 
@@ -106,7 +106,7 @@ class Menu extends React.Component {
     // TODO: Add functionaloty to publish story
     const tmpProps = this.props;
     tmpProps.publishStory();
-    setStatus('Story published successfully');
+    this.setStatus('Story published successfully');
   }
 
   handleDeleteStory() {
@@ -151,6 +151,7 @@ class Menu extends React.Component {
                   currentPathTo={tmpProps.currentPathTo}
                   currentPathKeyword={tmpProps.currentPathKeyword}
                   currentPathCondition={tmpProps.currentPathCondition}
+                  currentPathIsCurved={tmpProps.currentPathIsCurved}
                   onPathInfoChange={tmpProps.onPathInfoChange}
                   savePath={tmpProps.savePath}
                   deletePath={tmpProps.deletePath}
@@ -207,6 +208,7 @@ Menu.propTypes = {
   currentPathTo: PropTypes.string.isRequired,
   currentPathKeyword: PropTypes.string.isRequired,
   currentPathCondition: PropTypes.string.isRequired,
+  currentPathIsCurved: PropTypes.bool.isRequired,
   onPathInfoChange: PropTypes.func.isRequired,
   savePath: PropTypes.func.isRequired,
   deletePath: PropTypes.func.isRequired,
