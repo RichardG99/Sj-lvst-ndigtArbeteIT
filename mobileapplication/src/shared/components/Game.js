@@ -44,7 +44,10 @@ export default class Game extends React.Component {
   componentDidMount(){
     this.getPermissions();
     this.getChapterInfo();
-    
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
   }
   getChapterInfo = (BoxID) => {
     const Box = Parse.Object.extend("Box");
@@ -54,14 +57,17 @@ export default class Game extends React.Component {
     });
   }
   getPermissions = async () => {
+    console.log("getting perms");
     const respAudio = await Permissions.askAsync(Permissions.AUDIO_RECORDING); // Get recording permission
     this.setState({
       recordingPermissions: respAudio.status === 'granted'  // Evaluates true given that permissions are granted.
-    })
+    });
+    console.log(respAudio.status);
     const respBrightness = await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS);
     this.setState({
       brightnessPermission: respBrightness.status === 'granted'
-    })
+    });
+    console.log(respBrightness.status);
   }
   speechToTextAPI = async (audio) => {
     const recordingURI = audio.getURI();
@@ -401,20 +407,13 @@ export default class Game extends React.Component {
 
   backAction = () => {
     if (this.state.playing) {
-      this.pauseDreamScape()
+      this.pauseAugmentedAudio()
       console.log("was playing now pausing")
     } else {
         this.props.navigation.goBack(null);
       }
     console.log("back");
     return true;
-  }
-
-  componentDidMount() {
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.backAction
-    );
   }
 
   componentWillUnmount() {
