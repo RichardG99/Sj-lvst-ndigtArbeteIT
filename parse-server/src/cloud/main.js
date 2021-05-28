@@ -4,9 +4,9 @@ const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
 
 const speechToText = new SpeechToTextV1({
   authenticator: new IamAuthenticator({
-    apikey: 'X8ZVJHf4nhZ-bSNy72vsbXSvruT1dbYqRhYhPy1qh1nV',
+    apikey: 'X8ZVJHf4nhZ-bSNy72vsbXSvruT1dbYqRhYhPy1qh1nV', // Put your IBM Watson speech-to-text API-key here. See 'before you begin' here: https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-gettingStarted
   }),
-  serviceUrl: 'https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/b21c4259-c531-453f-aed5-044be6ef3995',
+  serviceUrl: 'https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/b21c4259-c531-453f-aed5-044be6ef3995', // Put your IBM service-URL here. 
 });
 
 function randName(low, high) {
