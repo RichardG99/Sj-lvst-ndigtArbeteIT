@@ -1,5 +1,6 @@
 
 import StepCounter from '../sensors/StepCounter';
+import SecureStore from "expo-secure-store";
 
 /**
  * A note on variable naming.
@@ -13,10 +14,42 @@ import StepCounter from '../sensors/StepCounter';
  * at that point in time.
  */
 class VarState {
+    //A constant ID that is added onto local storage elements. Not unique, only used to differentiate VarState's storage from any potential other storage
+    static STORAGE_ID = "VarStateStorage"
 
     constructor() {
         this.cVars = {};
         this.steps = new StepCounter();
+    }
+    
+    /**
+     * Stores data to local storage. The storage can be accessed by passing in the same user+story key pair to loadData()
+     * @param userID ID of the user attempting to save data
+     * @param storyID ID of the story whose data is to be saved
+     */
+    saveData(userID, storyID) {
+        SecureStore.setItemAsync(userID+storyID+STORAGE_ID, ).then((value)=>{
+            //Do nothing: the attempt was succesful
+        }, (err)=>{ 
+            console.error("Something went wrong when saving local data: "+err);
+        });
+    }
+    
+    /**
+     * Loads data from the local storage, depending on which story+user ID we insert
+     * @param userID ID of the user attempting to load data
+     * @param storyID ID of the story whose data is to be read
+     */
+    loadData(userID, storyID) {
+        SecureStore.getItemAsync(userID+storyID+STORAGE_ID).then((value)=>{
+            if (value === null) {
+                console.log("Attempted to access VarState data for a user+story combination without any data")
+            } else {
+                this.cVars = value;
+            }
+        }, (err)=>{ 
+            console.error("Something went wrong when loading local data: "+err);
+        });
     }
 
     /**
