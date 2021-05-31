@@ -1,13 +1,14 @@
 import { AsyncStorage } from 'react-native';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
-import serverIP from './serverIP';
+import settings from './settings';
 
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('myAppId', 'AugmentedAudio');
-Parse.CoreManager.set('SERVER_URL', `http://${serverIP}:1337/parse`);
-/*
-// add file containing this @ ./serverIP
-const serverIP = "192.168.1.40"
-export default serverIP;
-*/
+
+//Ensure that we're using the server URL and port from our settings file, and that we are using SSL if enabled. Note that SSL does not utilize port numbers
+let serverURL = `http://${settings.serverURL}:${settings.serverPort}/parse`;
+if (settings.serverSSL) {
+  serverURL = `https://${settings.serverURL}/parse`;
+}
+Parse.CoreManager.set('SERVER_URL', serverURL);
