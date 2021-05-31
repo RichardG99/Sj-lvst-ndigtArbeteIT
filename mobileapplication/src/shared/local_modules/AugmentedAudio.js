@@ -40,7 +40,7 @@ setAudioModeRecording = async () => {
     playsInSilentModeIOS: true,
     shouldDuckAndroid: true,
     interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-    playThroughEarpieceAndroid: false,
+    playThroughEarpieceAndroid: true,
     staysActiveInBackground: false,
   });
 };
@@ -52,7 +52,7 @@ setAudioModePlayback = async () => {
     // playsInSilentLockedModeIOS: true, // Doesn't seem to exist anymore within IOS?
     shouldDuckAndroid: true, // allows other apps (phone calls etc) to mute your application given that their audio is playing.
     interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX, // To not mix audio with other applications. Important
-    playThroughEarpieceAndroid: false, // Routes audio to earpiece given that it exists, should perhaps be true?
+    playThroughEarpieceAndroid: true, // Routes audio to earpiece given that it exists, should perhaps be true?
     staysActiveInBackground: false, // playback in background, false means we cant play audio whilst application is in background
   });
 };

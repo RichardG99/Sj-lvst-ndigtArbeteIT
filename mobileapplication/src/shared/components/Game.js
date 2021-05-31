@@ -475,6 +475,11 @@ export default class Game extends React.Component {
             onPress={this.resetStory}
             
           />
+          <Button
+            style={styles.button}
+            title='Stop audio'
+            onPress={stopAudio}
+          />
         </View>
       }
     </View> 
