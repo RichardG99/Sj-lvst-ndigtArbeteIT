@@ -7,6 +7,6 @@ Parse.initialize(settings.appID, 'AugmentedAudio');
 
 // Sets which destination address our Parse server is expected to be located at
 //    Note that this is an absolute address, and not relative to the server's URL!
-Parse.CoreManager.set('SERVER_URL', settings.serverURL+':'+settings.serverPort+'/parse'); 
+Parse.CoreManager.set('SERVER_URL', settings.serverURL+'/parse'); 
 
 export default Parse;

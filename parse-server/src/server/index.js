@@ -27,6 +27,7 @@ if (process.env.SERVER_URL) {
   console.log('SERVER_URL overridden via environment variable for this server session');
 }
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const api = new ParseServer({
   logLevel: 'warn',
