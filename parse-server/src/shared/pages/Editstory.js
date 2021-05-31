@@ -513,6 +513,13 @@ class Editstory extends React.Component {
       y: 0,
       currentBoxCommand: '',
 
+      // Information for playtesting
+      playingBoxId: '',
+      playingBoxTitle: '',
+      playingBoxText: '',
+      playingBoxAudio: '',
+      playingBoxCommand: '',
+
       //Used when creating a new path between two boxes
       choosingBoxForPath: false,
       nextBoxId: null,
@@ -534,6 +541,7 @@ class Editstory extends React.Component {
       waitingForBoxNode: false,
       showBoxInfo: false,
       showPathInfo: false,
+      showPlayInfo: false,
       isPublished: false,
     };
     this.onClickBox = this.onClickBox.bind(this);
@@ -557,6 +565,8 @@ class Editstory extends React.Component {
     this.deletePathsConnectedToTheBox = this.deletePathsConnectedToBox.bind(this);
     this.deletePathWithPathId = this.deletePathWithPathId.bind(this);
     this.handleMakeStartingBox = this.handleMakeStartingBox.bind(this);
+    this.handleTogglePlayMode = this.handleTogglePlayMode.bind(this);
+    this.onPlayPathPicked = this.onPlayPathPicked.bind(this);
   }
 
   componentDidMount() {
@@ -592,6 +602,74 @@ class Editstory extends React.Component {
     }
   }
 
+  /**
+   * Called from Menu.js when the button to start/stop playtest is clicked
+   */
+  handleTogglePlayMode() {
+    //console.log("Toggle play mode");
+    const tmpState = this.state;
+    if(tmpState.showPlayInfo) {
+      this.setState({
+        showPlayInfo: false,
+        playingBoxId: '',
+        playingBoxTitle: '',
+        playingBoxText: '',
+        playingBoxAudio: '',
+        playingBoxCommand: '',
+      });
+    } else {
+      const Box = Parse.Object.extend('Box');
+      const query = new Parse.Query(Box);
+      const boxId = this.state.currentStartingBoxId;
+
+      query.get(boxId).then((box) => {
+        if(tmpState.showBoxInfo) {
+          this.saveBox();
+        } else if(tmpState.showPathInfo) {
+          this.savePath();
+        }
+        this.setState({
+          showBoxInfo: false,
+          showPathInfo: false,
+          showPlayInfo: true,
+          playingBoxId: boxId,
+          playingBoxTitle: box.get('title'),
+          playingBoxText: box.get('text'),
+          playingBoxAudio: box.get('audio_url'),
+          playingBoxCommand: box.get('command'),
+        });
+      });
+    }
+  }
+
+  /**
+   * Called from PlayPathPicker.js when a path is selected
+   */
+  onPlayPathPicked(boxId) {
+    console.log("Box id", boxId, "picked");
+    const tmpState = this.state;
+    const Box = Parse.Object.extend('Box');
+    const query = new Parse.Query(Box);
+
+    query.get(boxId).then((box) => {
+      if(tmpState.showBoxInfo) {
+        this.saveBox();
+      } else if(tmpState.showPathInfo) {
+        this.savePath();
+      }
+      this.setState({
+        showBoxInfo: false,
+        showPathInfo: false,
+        showPlayInfo: true,
+        playingBoxId: boxId,
+        playingBoxTitle: box.get('title'),
+        playingBoxText: box.get('text'),
+        playingBoxAudio: box.get('audio_url'),
+        playingBoxCommand: box.get('command'),
+      });
+    });
+
+  }
   /**
    * Runs whenever a box is clicked
    * @param boxId ID of the box that was just clicked
@@ -630,6 +708,8 @@ class Editstory extends React.Component {
       this.setState({
         showBoxInfo: true,
         showPathInfo: false,
+        showPlayInfo: false,
+
         currentBoxId: boxId,
         currentBoxTitle: boxTitle,
         currentBoxText: boxText,
@@ -675,7 +755,9 @@ class Editstory extends React.Component {
 
     this.setState({
       showBoxInfo: false,
-      showPathInfo: true,        
+      showPathInfo: true,
+      showPlayInfo: false,
+
       currentBoxId: '',
       currentBoxTitle: '',
       currentBoxText: '',
@@ -1210,6 +1292,7 @@ class Editstory extends React.Component {
           <Menu
             showBoxInfo={tmpState.showBoxInfo}
             showPathInfo={tmpState.showPathInfo}
+            showPlayInfo={tmpState.showPlayInfo}
 
             currentStoryTitle={tmpState.currentStoryTitle}
             currentStoryDesc={tmpState.currentStoryDesc}
@@ -1224,6 +1307,12 @@ class Editstory extends React.Component {
             currentBoxCommand={tmpState.currentBoxCommand}
             x={tmpState.x}
             y={tmpState.y}
+
+            playingBoxId={tmpState.playingBoxId}
+            playingBoxTitle={tmpState.playingBoxTitle}
+            playingBoxText={tmpState.playingBoxText}
+            playingBoxAudio={tmpState.playingBoxAudio}
+            playingBoxCommand={tmpState.playingBoxCommand}
 
             choosingBoxForPath={tmpState.choosingBoxForPath}
             handleAddPath={this.handleAddPath}
@@ -1241,6 +1330,8 @@ class Editstory extends React.Component {
             deleteBox={this.deleteBox}
             deletePath={this.deletePath}
             addNewBox={this.addNewBox}
+            togglePlaying={this.handleTogglePlayMode}
+            onPlayPathPicked={this.onPlayPathPicked}
 
             handleMakeStartingBox={this.handleMakeStartingBox}
             onClickNavLink={this.onClickNavLink}
