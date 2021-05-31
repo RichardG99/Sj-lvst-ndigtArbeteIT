@@ -228,7 +228,7 @@ function parseSetStoryStartingBoxId(storyId, startingBoxId) {
  * @param pathKeyword The keyword this path listens for
  * @param pathCondition The string for the condition the path should have
  **/
-function parseSavePath(pathId, pathKeyword, pathCondition) {
+function parseSavePath(pathId, pathKeyword, pathCondition, isCircular) {
   return new Promise((resolve, reject) => {
     const Path = Parse.Object.extend('Path');
     const query = new Parse.Query(Path);
@@ -236,7 +236,7 @@ function parseSavePath(pathId, pathKeyword, pathCondition) {
     query.get(pathId).then((path) => {
       path.set('keyword', pathKeyword);
       path.set('condition', pathCondition);
-
+      path.set('isCircular', isCircular);
       path.save().then(() => {
         resolve('success');
       }, (error) => {
@@ -441,6 +441,7 @@ function parseGetStoryPaths(storyId, boxNodes) {
           toBoxNode,
           keyword: path.get('keyword'),
           condition: path.get('condition'),
+          isCircular: path.get('isCircular'),
         };
         returnPaths.push(newPath);
       }
@@ -523,6 +524,7 @@ class Editstory extends React.Component {
       currentPathTo: '',
       currentPathKeyword: '',
       currentPathCondition: '',
+      currentPathIsCurved: false,
 
       //General state information
       paths: [],
@@ -641,6 +643,7 @@ class Editstory extends React.Component {
         currentPathTo: '',
         currentPathKeyword: '',
         currentPathCondition: '',
+        currentPathIsCurved: false,
       }, () => {
         updateCoordinates(boxId, x, y);
       });
@@ -655,7 +658,7 @@ class Editstory extends React.Component {
    * @param keyword The keyword this path listens for
    * @param condition The condition string of this path
    */
-  onClickPath(pathId, pathFrom, pathTo, keyword, condition) {
+  onClickPath(pathId, pathFrom, pathTo, keyword, condition, isCircular) {
     const tmpState = this.state;
     if(tmpState.showBoxInfo) {
       this.saveBox(tmpState);
@@ -686,6 +689,7 @@ class Editstory extends React.Component {
       currentPathTo: pathTo,
       currentPathKeyword: keyword,
       currentPathCondition: condition,
+      currentPathIsCurved: isCircular,
     });
   }
 
@@ -715,6 +719,7 @@ class Editstory extends React.Component {
       currentPathTo: '',
       currentPathKeyword: '',
       currentPathCondition: '',
+      currentPathIsCurved: false,
     })
   }
 
@@ -741,6 +746,7 @@ class Editstory extends React.Component {
   }
 
   onPathInfoChange(target, value) {
+    //console.log("[",target,"] => ",value);
     this.setState({
       [target]: value,
     });
@@ -907,6 +913,7 @@ class Editstory extends React.Component {
           toBoxNode: tmpState.nextBoxNode,
           keyword: '',
           condition: '',
+          isCircular: false,
         };
 
         const newPaths = tmpState.paths.slice();
@@ -918,6 +925,7 @@ class Editstory extends React.Component {
           currentPathTo: pathTo,
           currentPathKeyword: '',
           currentPathCondition: '',
+          currentPathIsCurved: false,
         });
       });
     });
@@ -1039,12 +1047,13 @@ class Editstory extends React.Component {
     const pathTo = tmpState.currentPathTo;
     const pathKeyword = tmpState.currentPathKeyword;
     const pathCondition = tmpState.currentPathCondition;
+    const isCircular = ( tmpState.currentPathIsCurved ? true : false);
 
     if (pathId === '') {
       return;
     }
 
-    parseSavePath(pathId, pathKeyword, pathCondition).then(() => {
+    parseSavePath(pathId, pathKeyword, pathCondition, isCircular).then(() => {
       const newPaths = [];
       const { paths } = tmpState;
       for (let i = 0; i < paths.length; i += 1) {
@@ -1060,6 +1069,7 @@ class Editstory extends React.Component {
             toBoxNode,
             keyword: pathKeyword,
             condition: pathCondition,
+            isCircular: isCircular,
           };
           newPaths.push(newPath);
         } else {
@@ -1177,6 +1187,7 @@ class Editstory extends React.Component {
         currentPathTo: '',
         currentPathKeyword: '',
         currentPathCondition: '',
+        currentPathIsCurved: false,
       });
     }, (error) => {
       console.log(`error deletebox: ${error}`);
@@ -1224,6 +1235,7 @@ class Editstory extends React.Component {
             currentPathTo={tmpState.currentPathTo}
             currentPathKeyword={tmpState.currentPathKeyword}
             currentPathCondition={tmpState.currentPathCondition}
+            currentPathIsCurved={tmpState.currentPathIsCurved}
             saveBox={this.saveBox}
             savePath={this.savePath}
             deleteBox={this.deleteBox}
@@ -1239,6 +1251,7 @@ class Editstory extends React.Component {
             currentStartingBoxId={tmpState.currentStartingBoxId}
             currentBoxId={tmpState.currentBoxId}
             currentPathId={tmpState.currentPathId}
+            currentPathIsCurved={tmpState.currentPathIsCurved}
             paths={tmpState.paths}
             onClickBox={this.onClickBox}
             onClickPath={this.onClickPath}

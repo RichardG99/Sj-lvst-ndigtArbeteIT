@@ -85,10 +85,14 @@ class EditingPage extends React.Component {
               pathTo={path.pathTo}
               keyword={path.keyword}
               condition={path.condition}
+              isCircular={path.isCircular}
               onClickPath={tmpProps.onClickPath}
               editPageRef={this.editPageRef}
               color={((path.pathId === currentPathId) && tmpProps.showPathInfo)
                       ? currentArrowColor : arrowColor}
+              boxWidth = {parseInt(boxStyle.width)}
+              boxHeight = {parseInt(boxStyle.height)}
+              leftMargin = {parseInt(editingPageStyle.left)}
             />
           ))
         }

@@ -13,9 +13,9 @@ const arrowStyle = {
 
 function Arrow(props) {
   const tmpProps = props;
-  const boxWidth = 200; // TODO: get this from props?
-  const boxHeight = 80;
-  const menuWidth = 340;
+  const boxWidth = tmpProps.boxWidth;
+  const boxHeight = tmpProps.boxHeight;
+  const menuWidth = tmpProps.leftMargin;
   const arrowCompensation = 10;
 
   const fromBox = tmpProps.fromBoxNode;
@@ -96,12 +96,20 @@ function Arrow(props) {
   //console.log("from (" + fromEdge.x + "," + fromEdge.y + ") to (" + toEdge.x + "," + toEdge.y + ")");
   //console.log("Angle: " + (Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x)
   //      * 180 / Math.PI + 180));
+  const focusX = fromEdge.x - xDiff / 8 + yDiff / 4;
+  const focusY = fromEdge.y + xDiff / 4 - yDiff / 8;
+
   if(ori < 0) {
-    ori = Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x);
-    if(ori < 0)
-      ori = Math.abs(ori);
+    if(tmpProps.isCircular)
+      ori = Math.atan2(focusY - toEdge.y, toEdge.x - focusX);
     else
+      ori = Math.atan2(fromEdge.y - toEdge.y, toEdge.x - fromEdge.x);
+
+    if(ori < 0) {
+      ori = Math.abs(ori);
+    } else {
       ori = 2*Math.PI-ori;
+    }
     ori = ori * 180 / Math.PI;
   }
 
@@ -109,10 +117,11 @@ function Arrow(props) {
     fromEdge.x},${fromEdge.y} `
         +  ((fromBox == toBox)
         ? `A 40,40 0 0 0 ${toEdge.x},${toEdge.y}`
-        : `C ${
+        : ((tmpProps.isCircular === false) ? `C ${
           fromEdge.x},${fromEdge.y} ${
           toEdge.x},${toEdge.y} ${
-          toEdge.x},${toEdge.y}`);
+          toEdge.x},${toEdge.y}` 
+          : `Q ${focusX} ${focusY}, ${toEdge.x} ${toEdge.y}`) );
 
   const arrowColor = tmpProps.color;
   const id = `${tmpProps.pathId}arrowhead`;

@@ -98,7 +98,7 @@ class Infobox extends React.Component {
               <h3>Editing Paths</h3>
               Similarly to editing boxes, you can click on any Path you have created to bring up an editing field for it. Here, you can only edit two things: the Keyword the path listens for
               (this can be left empty if you only want the player to progress along it with non-verbal means), and the Condition for the path to be chosen (which is covered in detail under 
-              "Actions and Conditions").
+              "Actions and Conditions"). There is also an option to curve the path instead or drawing it as a straight line. This is useful if you have paths in both directions between two boxes.
 
               <h3>Actions and Conditions</h3>
               Two central concepts in Augmented Audio are Actions and Conditions (for those who know programming, this corresponds to Set and If respectively). An Action is something that occurs
