@@ -9,6 +9,7 @@ import "../common.js"
 import * as FileSystem from 'expo-file-system';
 import * as Brightness from 'expo-brightness';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
+import { Audio } from 'expo-av';
 // TODO : change this.currentBoxID -> currentBoxId
 // TODO : change activeStoryID -> activeStoryId
 // TODO : change timeStamp -> currentTime
@@ -30,6 +31,7 @@ export default class Game extends React.Component {
     this.trackEnded = false;
     this.attempts = 0;
     this.maxAttempts = 5;
+    this.savedBrightness = 1;
     this.state = {
       recordingPermissions: false,
       brightnessPermission: false,
@@ -44,7 +46,10 @@ export default class Game extends React.Component {
   componentDidMount(){
     this.getPermissions();
     this.getChapterInfo();
-    
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
   }
   getChapterInfo = (BoxID) => {
     const Box = Parse.Object.extend("Box");
@@ -54,22 +59,37 @@ export default class Game extends React.Component {
     });
   }
   getPermissions = async () => {
+    console.log("getting perms");
     const respAudio = await Permissions.askAsync(Permissions.AUDIO_RECORDING); // Get recording permission
     this.setState({
       recordingPermissions: respAudio.status === 'granted'  // Evaluates true given that permissions are granted.
-    })
+    });
+    console.log(respAudio.status);
     const respBrightness = await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS);
     this.setState({
       brightnessPermission: respBrightness.status === 'granted'
-    })
+    });
+    console.log(respBrightness.status);
   }
   speechToTextAPI = async (audio) => {
     const recordingURI = audio.getURI();
-    const file_to_send = await FileSystem.readAsStringAsync(recordingURI, {encoding: FileSystem.EncodingType.Base64});
-    const params = {audio_base64: file_to_send, OS: Platform.OS}; // Send audio + platform info
-    const converted_text = await Parse.Cloud.run("speechToText", params);
-    console.log(converted_text.finishedTranscript);
-    return converted_text.finishedTranscript;
+    file_to_send = await FileSystem.readAsStringAsync(recordingURI, {encoding: FileSystem.EncodingType.Base64});
+    const possiblePaths = await this.getBoxPaths(this.currentBoxID);
+    let keywords = [];
+    for (let i = 0; i < possiblePaths.length; i++){
+      keywords = [...keywords, possiblePaths[i].get("keyword")];
+    }
+    //const params = {audio_base64: file_to_send, OS: Platform.OS}; // Send audio + platform info
+    const params = {
+      audio: file_to_send,
+      keywords: keywords,
+    };
+    const converted_text = await Parse.Cloud.run("speechToTextCall", params);
+    // delete recording to free space. don't wait for delete to complete
+    // don't care if file is already deleted
+    FileSystem.deleteAsync(recordingURI, {idempotent: true});
+    console.log(converted_text);
+    return converted_text;
   }
   recordAndTranscribe = async (messageLength) => {
     stopAudio();
@@ -200,10 +220,19 @@ export default class Game extends React.Component {
     })
 
   }
+
+  iDidNotHearYou = async () => {
+    console.log('Loading Sound');
+    const {sound}  = await Audio.Sound.createAsync(require('../media/audio/iDidNotHearYou.mp3'));
+    console.log('Playing Sound');
+    await sound.playAsync();
+  }
+  
   // TODO fix a _onTrackEnd function.. ...
   // TODO remake this part... honestly  its bingo bango...
   playAugmentedAudio = async () => {
     await this.setState({playing: true}) // Currently playing 
+    this.savedBrightness = await Brightness.getBrightnessAsync();
     Brightness.setSystemBrightnessAsync(0); // Lower Screen Brightness 
     this.trackEnded = false;
     let newBoxReady = true;
@@ -211,13 +240,16 @@ export default class Game extends React.Component {
 
     // Temporary fix for feedback between choices
     // TODO : this file does not exist anymore, replace with another audio file to prompt the user to reiterate what they previously said.
-    const resp = await this.downloadAudio("https://dreamscape-bucket.s3.amazonaws.com/c08461d8dc52ee61a93b2d9320dadf86_I%20did%20not%20hear%20you.mp3", "iDidNotHearYou.mp3")
+    //const resp = await this.downloadAudio("https://cellis.studio/Vo3o9H6z.mp3", "iDidNotHearYou.mp3")
+    /*const resp = await Audio.Sound.createAsync(require("../media/audio/iDidNotHearYou.mp3"));
     if (resp.status === 1){
       this.iDidNotHearYouMp3 = resp.fileObjectMeta;
+      console.log("XXXX", this.iDidNotHearYouMp3);
     } else {
       console.log("Erroooorrrr could not load iDidNotHearYouMp3, turning off game..");
       return; // Exits game
-    }
+    }*/
+    
     // End of temporary fix
     console.log(this.currentBoxID, this.currentTime, this.state.currentBoxTitle);
     while(this.state.playing){
@@ -291,11 +323,11 @@ export default class Game extends React.Component {
         while (picking){
           if (this.potentialPaths.length === 0){
             console.log("story over, no more paths to take...")
-            Brightness.setSystemBrightnessAsync(1);
+            Brightness.setSystemBrightnessAsync(this.savedBrightness);
             return;
           }
           console.log("start speaking...");
-          speechString = await this.recordAndTranscribe(2000);
+          speechString = await this.recordAndTranscribe(6000);
           if (!this.state.playing){
             return; // game has been ended during recording phase.
           }
@@ -316,21 +348,7 @@ export default class Game extends React.Component {
               newBoxReady = false; // force player to restart
               this.setState({playing: false})
             } else {
-              await setAudioWithUri(this.iDidNotHearYouMp3);
-              setAudioPlaybackStatusFunction((PlaybackStatus) => { 
-                try {
-                  if (PlaybackStatus.didJustFinish === true){
-                    iDidNotHearYouMp3Finished = true;
-                  }
-                } catch (e) {
-                  console.log("Error in status function (didn't hear you...)...")
-                }
-              })
-              playAudio(); // iDidNotHearYouMp3 plays here
-              while (!iDidNotHearYouMp3Finished){
-                await this.sleep(100);
-              }
-              iDidNotHearYouMp3Finished = false;
+              await this.iDidNotHearYou();
               this.attempts++;
             }
           }
@@ -362,7 +380,7 @@ export default class Game extends React.Component {
   pauseAugmentedAudio = async () => {
     this.setState({playing: false}) // No Longer Playing
     await forcePauseAudio();
-    Brightness.setSystemBrightnessAsync(1); // Raise Screen Brightness
+    Brightness.setSystemBrightnessAsync(this.savedBrightness); // Raise Screen Brightness
     if (!this.trackEnded){
       let newTime = await getAudioTime();
       if (newTime !== -1){
@@ -392,7 +410,7 @@ export default class Game extends React.Component {
 
   backAction = () => {
     if (this.state.playing) {
-      this.pauseDreamScape()
+      this.pauseAugmentedAudio()
       console.log("was playing now pausing")
     } else {
         this.props.navigation.goBack(null);
@@ -401,15 +419,14 @@ export default class Game extends React.Component {
     return true;
   }
 
-  componentDidMount() {
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.backAction
-    );
-  }
-
   componentWillUnmount() {
     this.backHandler.remove();
+  }
+
+  enterMainLoop = async () => {
+    await this.playAugmentedAudio();
+    Brightness.setSystemBrightnessAsync(this.savedBrightness);
+    this.props.navigation.navigate('My Library');
   }
 
   render() {
@@ -457,7 +474,8 @@ export default class Game extends React.Component {
             style={styles.button}
             icon={{name: 'play-circle', type: 'font-awesome'}}
             title='Play Story'
-            onPress={this.playAugmentedAudio}
+            onPress={this.enterMainLoop}
+            //onPress={this.playAugmentedAudio}
           />
           <Button 
             
@@ -466,6 +484,11 @@ export default class Game extends React.Component {
             title='Reset Story'
             onPress={this.resetStory}
             
+          />
+          <Button
+            style={styles.button}
+            title='Stop audio'
+            onPress={stopAudio}
           />
         </View>
       }
