@@ -85,7 +85,8 @@ export default class Game extends React.Component {
     };
     const converted_text = await Parse.Cloud.run("speechToTextCall", params);
     // delete recording to free space. don't wait for delete to complete
-    FileSystem.deleteAsync(recordingURI);
+    // don't care if file is already deleted
+    FileSystem.deleteAsync(recordingURI, {idempotent: true});
     console.log(converted_text);
     return converted_text;
   }
