@@ -9,6 +9,7 @@ import "../common.js"
 import * as FileSystem from 'expo-file-system';
 import * as Brightness from 'expo-brightness';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
+import { Audio } from 'expo-av';
 // TODO : change this.currentBoxID -> currentBoxId
 // TODO : change activeStoryID -> activeStoryId
 // TODO : change timeStamp -> currentTime
@@ -215,6 +216,14 @@ export default class Game extends React.Component {
     })
 
   }
+
+  iDidNotHearYou = async () => {
+    console.log('Loading Sound');
+    const {sound}  = await Audio.Sound.createAsync(require('../media/audio/iDidNotHearYou.mp3'));
+    console.log('Playing Sound');
+    await sound.playAsync();
+  }
+  
   // TODO fix a _onTrackEnd function.. ...
   // TODO remake this part... honestly  its bingo bango...
   playAugmentedAudio = async () => {
@@ -226,13 +235,16 @@ export default class Game extends React.Component {
 
     // Temporary fix for feedback between choices
     // TODO : this file does not exist anymore, replace with another audio file to prompt the user to reiterate what they previously said.
-    const resp = await this.downloadAudio("https://dreamscape-bucket.s3.amazonaws.com/c08461d8dc52ee61a93b2d9320dadf86_I%20did%20not%20hear%20you.mp3", "iDidNotHearYou.mp3")
+    //const resp = await this.downloadAudio("https://cellis.studio/Vo3o9H6z.mp3", "iDidNotHearYou.mp3")
+    /*const resp = await Audio.Sound.createAsync(require("../media/audio/iDidNotHearYou.mp3"));
     if (resp.status === 1){
       this.iDidNotHearYouMp3 = resp.fileObjectMeta;
+      console.log("XXXX", this.iDidNotHearYouMp3);
     } else {
       console.log("Erroooorrrr could not load iDidNotHearYouMp3, turning off game..");
       return; // Exits game
-    }
+    }*/
+    
     // End of temporary fix
     console.log(this.currentBoxID, this.currentTime, this.state.currentBoxTitle);
     while(this.state.playing){
@@ -331,21 +343,7 @@ export default class Game extends React.Component {
               newBoxReady = false; // force player to restart
               this.setState({playing: false})
             } else {
-              await setAudioWithUri(this.iDidNotHearYouMp3);
-              setAudioPlaybackStatusFunction((PlaybackStatus) => { 
-                try {
-                  if (PlaybackStatus.didJustFinish === true){
-                    iDidNotHearYouMp3Finished = true;
-                  }
-                } catch (e) {
-                  console.log("Error in status function (didn't hear you...)...")
-                }
-              })
-              playAudio(); // iDidNotHearYouMp3 plays here
-              while (!iDidNotHearYouMp3Finished){
-                await this.sleep(100);
-              }
-              iDidNotHearYouMp3Finished = false;
+              await this.iDidNotHearYou();
               this.attempts++;
             }
           }
