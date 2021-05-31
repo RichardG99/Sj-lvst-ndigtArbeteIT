@@ -30,6 +30,7 @@ export default class Game extends React.Component {
     this.trackEnded = false;
     this.attempts = 0;
     this.maxAttempts = 5;
+    this.savedBrightness = 1;
     this.state = {
       recordingPermissions: false,
       brightnessPermission: false,
@@ -83,6 +84,8 @@ export default class Game extends React.Component {
       keywords: keywords,
     };
     const converted_text = await Parse.Cloud.run("speechToTextCall", params);
+    // delete recording to free space. don't wait for delete to complete
+    FileSystem.deleteAsync(recordingURI);
     console.log(converted_text);
     return converted_text;
   }
@@ -219,6 +222,7 @@ export default class Game extends React.Component {
   // TODO remake this part... honestly  its bingo bango...
   playAugmentedAudio = async () => {
     await this.setState({playing: true}) // Currently playing 
+    this.savedBrightness = await Brightness.getBrightnessAsync();
     Brightness.setSystemBrightnessAsync(0); // Lower Screen Brightness 
     this.trackEnded = false;
     let newBoxReady = true;
@@ -306,7 +310,7 @@ export default class Game extends React.Component {
         while (picking){
           if (this.potentialPaths.length === 0){
             console.log("story over, no more paths to take...")
-            Brightness.setSystemBrightnessAsync(1);
+            Brightness.setSystemBrightnessAsync(this.savedBrightness);
             return;
           }
           console.log("start speaking...");
@@ -377,7 +381,7 @@ export default class Game extends React.Component {
   pauseAugmentedAudio = async () => {
     this.setState({playing: false}) // No Longer Playing
     await forcePauseAudio();
-    Brightness.setSystemBrightnessAsync(1); // Raise Screen Brightness
+    Brightness.setSystemBrightnessAsync(this.savedBrightness); // Raise Screen Brightness
     if (!this.trackEnded){
       let newTime = await getAudioTime();
       if (newTime !== -1){
@@ -418,6 +422,12 @@ export default class Game extends React.Component {
 
   componentWillUnmount() {
     this.backHandler.remove();
+  }
+
+  enterMainLoop = async () => {
+    await this.playAugmentedAudio();
+    Brightness.setSystemBrightnessAsync(this.savedBrightness);
+    this.props.navigation.navigate('My Library');
   }
 
   render() {
@@ -465,7 +475,8 @@ export default class Game extends React.Component {
             style={styles.button}
             icon={{name: 'play-circle', type: 'font-awesome'}}
             title='Play Story'
-            onPress={this.playAugmentedAudio}
+            onPress={this.enterMainLoop}
+            //onPress={this.playAugmentedAudio}
           />
           <Button 
             
