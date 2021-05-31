@@ -47,5 +47,8 @@ node_modules
 #Package-lock
 package-lock.json
 
+#yarn-lock
+yarn.lock
+
 #Mac thing
 .DS_Store
