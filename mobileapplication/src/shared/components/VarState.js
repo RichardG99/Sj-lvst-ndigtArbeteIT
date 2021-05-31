@@ -14,7 +14,7 @@ import SecureStore from "expo-secure-store";
  * at that point in time.
  */
 class VarState {
-    //A constant ID that is added onto local storage elements. Not unique, only used to differentiate VarState's storage from any potential other storage
+    //A constant ID that is added onto local stmorage elements. Not unique, only used to differentiate VarState's storage from any potential other storage
     static STORAGE_ID = "VarStateStorage"
 
     constructor() {
@@ -28,9 +28,9 @@ class VarState {
      * @param storyID ID of the story whose data is to be saved
      */
     saveData(userID, storyID) {
-        SecureStore.setItemAsync(userID+storyID+STORAGE_ID, ).then((value)=>{
+        SecureStore.setItemAsync(userID+storyID+STORAGE_ID, ).then((value) => {
             //Do nothing: the attempt was succesful
-        }, (err)=>{ 
+        }, (err) => { 
             console.error("Something went wrong when saving local data: "+err);
         });
     }

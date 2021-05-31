@@ -9,6 +9,7 @@ import "../common.js"
 import * as FileSystem from 'expo-file-system';
 import * as Brightness from 'expo-brightness';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
+import VarState from './VarState.js';
 // TODO : change this.currentBoxID -> currentBoxId
 // TODO : change activeStoryID -> activeStoryId
 // TODO : change timeStamp -> currentTime
@@ -40,11 +41,15 @@ export default class Game extends React.Component {
       storyTitle: this.props.route.params.storyTitle,
     }
     this.debugging = false;
+    this.variableState = new VarState();
   }
   componentDidMount(){
     this.getPermissions();
-    this.getChapterInfo();
-    
+    this.getChapterInfo().then(() => {
+      Parse.User.currentAsync().then((user) => {
+        this.variableState.loadData(user.getUsername(), this.activeStoryID);
+      });
+    });
   }
   getChapterInfo = (BoxID) => {
     const Box = Parse.Object.extend("Box");
@@ -136,8 +141,22 @@ export default class Game extends React.Component {
     for (var x = 0; x < stringList.length; x++){
       for (var y = 0; y < paths.length; y++){
         if (stringList[x] === paths[y].get("keyword")){
-          this.pickedPathIndex = y; // 2020 HERE
-          return {chosenPath: paths[y], status: 1}
+          //Verify that this path is pickable: if not, we don't pick the path
+          let evalResult = 1;
+          try {
+            const condition = paths[y].get("condition");
+            if (condition !== null && condition !== "" && condition !== undefined) {
+              evalResult = this.variableState.eval(condition);
+            }
+          } catch {
+            console.log("Error when evaluating path with data: ");
+            console.log(paths[y]);
+            evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
+          }
+          if (evalResult === 1) {
+            this.pickedPathIndex = y; // 2020 HERE
+            return {chosenPath: paths[y], status: 1}
+          }
         }
       }
     }
@@ -177,6 +196,7 @@ export default class Game extends React.Component {
           myLibrary[i].currentBoxId = this.currentBoxID;
           myLibrary[i].timeStamp = this.currentTime;
           user.set("myLibrary", myLibrary);
+          this.variableState.saveData(user.getUsername(), storyID);
         }
       }
 
@@ -186,9 +206,11 @@ export default class Game extends React.Component {
   resetStory = () => {
     Parse.User.currentAsync().then((user) => {
       let myLibrary = user.get("myLibrary");
-      for (var i = 0; i < myLibrary.length; i++){  
+      for (var i = 0; i < myLibrary.length; i++){
         let storyID = myLibrary[i].story.id 
-        if (this.activeStoryID === storyID){
+        if (this.activeStoryID === storyID) {
+          this.variableState = new VarState();
+          this.variableState.saveData(user.getUsername(), storyID);
           myLibrary[i].currentBoxId = myLibrary[i].story.get("startingBoxId");
           myLibrary[i].timeStamp = 0;
           this.currentTime = 0;
@@ -288,7 +310,7 @@ export default class Game extends React.Component {
         let failedToPick = false;
         this.attempts = 0;
         let iDidNotHearYouMp3Finished = false;
-        while (picking){
+        while (picking) {
           if (this.potentialPaths.length === 0){
             console.log("story over, no more paths to take...")
             Brightness.setSystemBrightnessAsync(1);
