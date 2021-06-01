@@ -177,7 +177,7 @@ export default class Game extends React.Component {
       this.stringToStringList(string);
       console.log("Keywords: ",stringList);
     }
-    while (string === null) {
+    do {
       for (var x = 0; x < stringList.length; x++){
         for (var y = 0; y < paths.length; y++){
           if (string === null 
@@ -209,7 +209,7 @@ export default class Game extends React.Component {
       if (string === null) {
         this.sleep(1000);
       }
-    }
+    } while (string === null);
     return {chosenPath: null, status: -1};
   }
   
