@@ -101,7 +101,7 @@ export default class Game extends React.Component {
     // delete recording to free space. don't wait for delete to complete
     // don't care if file is already deleted
     FileSystem.deleteAsync(recordingURI, {idempotent: true});
-    //console.log(converted_text);
+    console.log(converted_text);
     return converted_text;
   }
   recordAndTranscribe = async (messageLength) => {
@@ -249,7 +249,7 @@ export default class Game extends React.Component {
     Parse.User.currentAsync().then((user) => {
       let myLibrary = user.get("myLibrary");
       for (var i = 0; i < myLibrary.length; i++){  
-        let storyID = myLibrary[i].story.id 
+        let storyID = myLibrary[i].story.id; 
         if (this.activeStoryID === storyID){
           myLibrary[i].currentBoxId = this.currentBoxID;
           myLibrary[i].timeStamp = this.currentTime;
@@ -372,13 +372,13 @@ export default class Game extends React.Component {
       if (this.trackEnded){
         console.log("track ended");
         // Update box set time to maxTime in case something breaks along the way of making the choice
-        /*let newTime = await getAudioTime();
+        let newTime = await getAudioTime();
         if (newTime !== -1){
           this.currentTime = newTime; // TODO : newTime - 5? (make sure not (newTime - 5) > 0) 
         } else {
           this.currentTime = this.currentTime; // TODO : currentTime - 5?
         }      
-        console.log("audio time returns");*/
+        console.log("audio time returns");
         this.updateMyStory();
         let speechString = "asd";
         let path = null;

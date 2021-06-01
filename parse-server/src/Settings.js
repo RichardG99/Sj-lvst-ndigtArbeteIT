@@ -11,7 +11,7 @@ var liveAppID = "augmented_audio";
 var liveDatabaseURI = ""; //TODO: add a live database URI
 
 //The server URL, port, appID and database URI that our development server is deployed on
-var devServerURL = "http://dev.cellis.studio";
+var devServerURL = "http://192.168.1.195";
 var devServerPort = 1337;
 var devAppID = "myAppId";
 var devDatabaseURI = "mongodb://localhost";

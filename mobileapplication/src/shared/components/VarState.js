@@ -129,7 +129,7 @@ class VarState {
 
             else if(line.indexOf('>') > -1) {
                 const ops = this.splitFirst(line,'>');
-                //console.log("compare " + ops[0] + ">" + ops[1]);
+                console.log("compare " + ops[0] + ">" + ops[1]);
                 retVal = parseInt(this.eval(ops[0])) > parseInt(this.eval(ops[1]));
             }
 
@@ -140,8 +140,8 @@ class VarState {
             }
 
             else if(line.startsWith('@')) {
-                //console.log("getSysVal " + line.substring(1));
                 retVal = this.getSysVar(line.substring(1));
+                console.log("getSysVar " + line.substring(1) + ":" + retVal);
             }
 
             else {
@@ -172,7 +172,7 @@ class VarState {
             return now.getHours() * 60 + now.getMinutes();
         }
         else if(str === "step") {
-            return this.steps.get();
+            this.steps.get().then((res) => { return res});
         }
     }
 

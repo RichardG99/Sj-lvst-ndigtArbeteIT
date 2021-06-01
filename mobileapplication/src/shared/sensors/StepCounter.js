@@ -17,6 +17,7 @@ export default class StepCounter {
         Pedometer.requestPermissionsAsync().then((result) => {
             if(result.granted) {
                 this.state.isPedometerAvailable = 'yes';
+                this.state.lastCheck = new Date();
                 //this.state.
                 //this.setState( { isPedometerAvailable: 'yes',
                                     //lastCheck: new Date() });
@@ -47,11 +48,12 @@ export default class StepCounter {
     get() {
         if(this.state.isPedometerAvailable === 'yes') {
             const end = new Date();
-            Pedometer.getStepCountAsync(this.state.lastCheck, end).then(
-                result => {
+            await Pedometer.getStepCountAsync(this.state.lastCheck, end).then(
+                (result) => {
+                    this.state.lastCheck = end;
                     return result.steps;
                 },
-                error => {
+                (error) => {
                     return this.getSysDefault();
                 });
         } else {
