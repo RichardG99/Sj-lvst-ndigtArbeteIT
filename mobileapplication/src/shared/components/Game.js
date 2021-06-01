@@ -393,7 +393,7 @@ export default class Game extends React.Component {
             return;
           }
           //If we have paths with keywords, we wait for a keyword
-          if (this.pathsHasKewords(this.potentialPaths)) {
+          if (this.pathsHasKeywords(this.potentialPaths)) {
             console.log("start speaking...");
             speechString = await this.recordAndTranscribe(6000);
             if (!this.state.playing){
@@ -471,7 +471,7 @@ export default class Game extends React.Component {
    * Checks if any of the inputted paths has a keyword attached to it
    * @returns true if one or more of the paths has a keword, false otherwise
    */
-  pathsHasKewords = (paths) => {
+  pathsHasKeywords = (paths) => {
     for (let i = 0; i < paths.length; i++) {
       const path = paths[i];
       if (path.get("keyword") !== null && 
