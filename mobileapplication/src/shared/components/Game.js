@@ -154,14 +154,26 @@ export default class Game extends React.Component {
       })
     }
     console.log("all audio downloaded...")
-
   }
+
+  /**
+   * Picks a path to progress down in the story depending on our current state and our recieved keyword
+   * @param string If non-null, the string that was transcribed using speech-to-text. 
+   *               If null, tells the path picker to ignore keywords entirely and continually wait until one of the paths become valid
+   * @param paths All potential paths to pick from
+   * @returns the object {chosenPath: [the path chosen], status: [1 if succesful, -1 if not]}
+   */
   pathPicking = async (string, paths) => {
-    var stringList = this.stringToStringList(string.toLowerCase());
-    this.stringToStringList(string);
+    let stringList = null;
+    if (string !== null) {
+      stringList = this.stringToStringList(string.toLowerCase());
+      this.stringToStringList(string);
+    }
+    --insert async delay here--
     for (var x = 0; x < stringList.length; x++){
       for (var y = 0; y < paths.length; y++){
-        if (stringList[x] === paths[y].get("keyword")){
+        if (string === null 
+            || stringList[x] === paths[y].get("keyword")){
           //Verify that this path is pickable: if not, we don't pick the path
           let evalResult = 1;
           try {
@@ -349,12 +361,17 @@ export default class Game extends React.Component {
             Brightness.setSystemBrightnessAsync(this.savedBrightness);
             return;
           }
-          console.log("start speaking...");
-          speechString = await this.recordAndTranscribe(6000);
-          if (!this.state.playing){
-            return; // game has been ended during recording phase.
+          //If we have paths with keywords, we wait for a keyword
+          if (--hasKeywordsInPotPath--) {
+            console.log("start speaking...");
+            speechString = await this.recordAndTranscribe(6000);
+            if (!this.state.playing){
+              return; // game has been ended during recording phase.
+            }
+            path = await this.pathPicking(speechString, this.potentialPaths);
+          } else {
+
           }
-          path = await this.pathPicking(speechString, this.potentialPaths);
           if (path.status === 1){
             let newBoxID = await path.chosenPath.get("toId");
             this.currentBoxID = newBoxID; 
