@@ -19,7 +19,7 @@ var devServerSSL = false; // Determines whether the development server should be
 //"Cheating" macros to only expose our currently valid settings: these should NOT be changed manually
 settings.serverURL = settings.devmode ? devServerURL : liveServerURL;
 settings.serverPort = settings.devmode ? devServerPort : liveServerPort;
-settings.appId = setings.devmode ? devAppID : liveAppID;
+settings.appId = settings.devmode ? devAppID : liveAppID;
 settings.serverSSL = settings.devmode ? devServerSSL : liveServerSSL;
 
 module.exports = settings;
