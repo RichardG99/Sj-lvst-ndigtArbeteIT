@@ -8,6 +8,7 @@ import { Pedometer } from 'expo-sensors';
 export default class StepCounter {
     constructor() {
         this.state = {
+            steps: 0,
             isPedometerAvailable: 'checking',
             sysDefaultValue: null,
             lastCheck: null,
@@ -17,13 +18,15 @@ export default class StepCounter {
         Pedometer.requestPermissionsAsync().then((result) => {
             if(result.granted) {
                 this.state.isPedometerAvailable = 'yes';
-                //this.state.
-                //this.setState( { isPedometerAvailable: 'yes',
-                                    //lastCheck: new Date() });
+                Pedometer.watchStepCount(this.updateSteps);             
             } else {
                 this.state.isPedometerAvailable = 'no';
             }
         });
+    }
+
+    updateSteps(result) {
+        this.state.steps += result.steps;
     }
 
     setSysDefault(val) {
@@ -46,14 +49,7 @@ export default class StepCounter {
 
     get() {
         if(this.state.isPedometerAvailable === 'yes') {
-            const end = new Date();
-            Pedometer.getStepCountAsync(this.state.lastCheck, end).then(
-                result => {
-                    return result.steps;
-                },
-                error => {
-                    return this.getSysDefault();
-                });
+            return this.state.steps;
         } else {
             return this.getSysDefault();
         }
