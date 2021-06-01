@@ -188,9 +188,11 @@ export default class Game extends React.Component {
             evalResult = this.variableState.eval(condition);
             console.log(condition, ":", evalResult);
           }
-        } catch {
+        } catch (err) {
           console.log("Error when evaluating path with data: ");
           console.log(paths[y]);
+          console.warn("The error was: ");
+          console.warn(err);
           evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
         }
         if (evalResult === 1) {
