@@ -44,6 +44,7 @@ export default class Game extends React.Component {
     }
     this.debugging = false;
     this.variableState = new VarState();
+    this.backHandler = null;
   }
   componentDidMount(){
     this.getPermissions();
@@ -57,7 +58,13 @@ export default class Game extends React.Component {
       this.backAction
     );
   }
-  getChapterInfo = (BoxID) => {
+
+  componentWillUnmount() {
+    if(this.backHandler != null)
+      this.backHandler.remove();
+  }
+
+  getChapterInfo = async (BoxID) => {
     const Box = Parse.Object.extend("Box");
     const query = new Parse.Query(Box);
     query.get(this.props.route.params.currentBoxId).then((box) => {
@@ -158,16 +165,19 @@ export default class Game extends React.Component {
   }
   pathPicking = async (string, paths) => {
     var stringList = this.stringToStringList(string.toLowerCase());
-    this.stringToStringList(string);
+    console.log("Keywords: ",stringList);
     for (var x = 0; x < stringList.length; x++){
       for (var y = 0; y < paths.length; y++){
-        if (stringList[x] === paths[y].get("keyword")){
+        if ((stringList[x] === paths[y].get("keyword")) ||
+          // allow paths without a keyword tp be taken
+          (paths[y].get("keyword") == "")) {
           //Verify that this path is pickable: if not, we don't pick the path
           let evalResult = 1;
           try {
             const condition = paths[y].get("condition");
             if (condition !== null && condition !== "" && condition !== undefined) {
               evalResult = this.variableState.eval(condition);
+              console.log(condition, ":", evalResult);
             }
           } catch {
             console.log("Error when evaluating path with data: ");
@@ -440,10 +450,6 @@ export default class Game extends React.Component {
       }
     console.log("back");
     return true;
-  }
-
-  componentWillUnmount() {
-    this.backHandler.remove();
   }
 
   enterMainLoop = async () => {

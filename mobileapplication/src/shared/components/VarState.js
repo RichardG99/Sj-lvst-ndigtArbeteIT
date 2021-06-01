@@ -1,6 +1,6 @@
 
 import StepCounter from '../sensors/StepCounter';
-import SecureStore from "expo-secure-store";
+import * as SecureStore from "expo-secure-store";
 
 /**
  * A note on variable naming.
@@ -18,8 +18,11 @@ class VarState {
     static STORAGE_ID = "VarStateStorage"
 
     constructor() {
-        this.cVars = {};
+        this.cVars = { __dummy: '' };
         this.steps = new StepCounter();
+        SecureStore.isAvailableAsync().then((yesno) => {
+            console.log("Secure store: ", yesno);
+        })
     }
     
     /**
@@ -28,7 +31,9 @@ class VarState {
      * @param storyID ID of the story whose data is to be saved
      */
     saveData(userID, storyID) {
-        SecureStore.setItemAsync(userID+storyID+STORAGE_ID, ).then((value) => {
+        //console.log(userID+storyID+VarState.STORAGE_ID);
+        //console.log(JSON.stringify(this.cVars));
+        SecureStore.setItemAsync(userID+storyID+VarState.STORAGE_ID, JSON.stringify(this.cVars)).then((value) => {
             //Do nothing: the attempt was succesful
         }, (err) => { 
             console.error("Something went wrong when saving local data: "+err);
@@ -41,7 +46,7 @@ class VarState {
      * @param storyID ID of the story whose data is to be read
      */
     loadData(userID, storyID) {
-        SecureStore.getItemAsync(userID+storyID+STORAGE_ID).then((value)=>{
+        SecureStore.getItemAsync(userID+storyID+VarState.STORAGE_ID).then((value)=>{
             if (value === null) {
                 console.log("Attempted to access VarState data for a user+story combination without any data")
             } else {
@@ -55,6 +60,13 @@ class VarState {
     /**
      * Splits a string into two substrings at the first instance of a token
      * EXAMPLE: If str="he+ho+ha", and tok="+", the result would be "he", "ho+ha"
+     * 
+     * The reason we wrote this is that the limit parameter of the builtin split()
+     * does not work as it does in Java. In Java, the last element contains all of
+     * the string that did not fit the limit (which is what we do here, except that
+     * limit is hardcoded to 2); in JavaScript, only the first n elements are
+     * returned - the rest are discarded.
+     * 
      * @param str Input string
      * @param tok Token to split the string with
      * @returns The resultant substrings stored in a list
