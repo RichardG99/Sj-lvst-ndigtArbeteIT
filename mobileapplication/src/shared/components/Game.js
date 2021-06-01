@@ -101,7 +101,7 @@ export default class Game extends React.Component {
     // delete recording to free space. don't wait for delete to complete
     // don't care if file is already deleted
     FileSystem.deleteAsync(recordingURI, {idempotent: true});
-    console.log(converted_text);
+    //console.log(converted_text);
     return converted_text;
   }
   recordAndTranscribe = async (messageLength) => {
@@ -175,41 +175,45 @@ export default class Game extends React.Component {
     if (string !== null) {
       stringList = this.stringToStringList(string.toLowerCase());
       this.stringToStringList(string);
-      console.log("Keywords: ",stringList);
+      //console.log("Keywords: ",stringList);
     }
-    while (string === null) {
-      for (var x = 0; x < stringList.length; x++){
-        for (var y = 0; y < paths.length; y++){
-          if (string === null 
-              || stringList[x] === paths[y].get("keyword") ||
-              // allow paths without a keyword to be taken
-              (paths[y].get("keyword") == "")){
-            //Verify that this path is pickable: if not, we don't pick the path
-            let evalResult = 1;
-            try {
-              const condition = paths[y].get("condition");
-              if (condition !== null && condition !== "" && condition !== undefined) {
-                evalResult = this.variableState.eval(condition);
-                console.log(condition, ":", evalResult);
-              }
-            } catch {
-              console.log("Error when evaluating path with data: ");
-              console.log(paths[y]);
-              evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
-            }
-            if (evalResult === 1) {
+    do  {
+      console.log("pathPick loop");
+      for (var y = 0; y < paths.length; y++){
+        //Verify that this path is pickable: if not, we don't pick the path
+        let evalResult = 1;
+        try {
+          const condition = paths[y].get("condition");
+          if (condition !== null && condition !== "" && condition !== undefined) {
+            evalResult = this.variableState.eval(condition);
+            console.log(condition, ":", evalResult);
+          }
+        } catch {
+          console.log("Error when evaluating path with data: ");
+          console.log(paths[y]);
+          evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
+        }
+        if (evalResult === 1) {
+          if(paths[y].get("keyword") === "") {
+            this.pickedPathIndex = y; // 2020 HERE
+            return {chosenPath: paths[y], status: 1}
+          }
+
+          for (var x = 0; x < stringList.length; x++){
+            if (stringList[x] === paths[y].get("keyword") ){
               this.pickedPathIndex = y; // 2020 HERE
               return {chosenPath: paths[y], status: 1}
             }
           }
         }
-      }
+      } 
 
       //When not working with keywords, we continually check every second
       if (string === null) {
+        console.log("Waiting for sensor ...");
         this.sleep(1000);
       }
-    }
+    } while (string === null);
     return {chosenPath: null, status: -1};
   }
   
@@ -366,13 +370,15 @@ export default class Game extends React.Component {
         console.log("playing audio (outerloop)...")
       }
       if (this.trackEnded){
+        console.log("track ended");
         // Update box set time to maxTime in case something breaks along the way of making the choice
-        let newTime = await getAudioTime();
+        /*let newTime = await getAudioTime();
         if (newTime !== -1){
           this.currentTime = newTime; // TODO : newTime - 5? (make sure not (newTime - 5) > 0) 
         } else {
           this.currentTime = this.currentTime; // TODO : currentTime - 5?
         }      
+        console.log("audio time returns");*/
         this.updateMyStory();
         let speechString = "asd";
         let path = null;
@@ -395,8 +401,10 @@ export default class Game extends React.Component {
             }
             path = await this.pathPicking(speechString, this.potentialPaths);
           } else {
+            console.log("no recording will be done");
             path = await this.pathPicking(null, this.potentialPaths);
           }
+
           if (path.status === 1){
             let newBoxID = await path.chosenPath.get("toId");
             this.currentBoxID = newBoxID; 
