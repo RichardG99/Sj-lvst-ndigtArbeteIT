@@ -17,11 +17,11 @@ export default class StepCounter {
         Pedometer.requestPermissionsAsync().then((result) => {
             if(result.granted) {
                 this.state.isPedometerAvailable = 'yes';
-                this.state.
-                this.setState( { isPedometerAvailable: 'yes',
-                                    lastCheck: new Date() });
+                //this.state.
+                //this.setState( { isPedometerAvailable: 'yes',
+                                    //lastCheck: new Date() });
             } else {
-                this.state.isPedometerAvailable = 'no';( { isPedometerAvailable: 'no' } );
+                this.state.isPedometerAvailable = 'no';
             }
         });
     }

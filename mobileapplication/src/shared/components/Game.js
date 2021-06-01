@@ -44,6 +44,7 @@ export default class Game extends React.Component {
     }
     this.debugging = false;
     this.variableState = new VarState();
+    this.backHandler = null;
   }
   componentDidMount(){
     this.getPermissions();
@@ -57,7 +58,13 @@ export default class Game extends React.Component {
       this.backAction
     );
   }
-  getChapterInfo = (BoxID) => {
+
+  componentWillUnmount() {
+    if(this.backHandler != null)
+      this.backHandler.remove();
+  }
+
+  getChapterInfo = async (BoxID) => {
     const Box = Parse.Object.extend("Box");
     const query = new Parse.Query(Box);
     query.get(this.props.route.params.currentBoxId).then((box) => {
@@ -168,29 +175,39 @@ export default class Game extends React.Component {
     if (string !== null) {
       stringList = this.stringToStringList(string.toLowerCase());
       this.stringToStringList(string);
+      console.log("Keywords: ",stringList);
     }
-    --insert async delay here--
-    for (var x = 0; x < stringList.length; x++){
-      for (var y = 0; y < paths.length; y++){
-        if (string === null 
-            || stringList[x] === paths[y].get("keyword")){
-          //Verify that this path is pickable: if not, we don't pick the path
-          let evalResult = 1;
-          try {
-            const condition = paths[y].get("condition");
-            if (condition !== null && condition !== "" && condition !== undefined) {
-              evalResult = this.variableState.eval(condition);
+    while (string === null) {
+      for (var x = 0; x < stringList.length; x++){
+        for (var y = 0; y < paths.length; y++){
+          if (string === null 
+              || stringList[x] === paths[y].get("keyword") ||
+              // allow paths without a keyword to be taken
+              (paths[y].get("keyword") == "")){
+            //Verify that this path is pickable: if not, we don't pick the path
+            let evalResult = 1;
+            try {
+              const condition = paths[y].get("condition");
+              if (condition !== null && condition !== "" && condition !== undefined) {
+                evalResult = this.variableState.eval(condition);
+                console.log(condition, ":", evalResult);
+              }
+            } catch {
+              console.log("Error when evaluating path with data: ");
+              console.log(paths[y]);
+              evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
             }
-          } catch {
-            console.log("Error when evaluating path with data: ");
-            console.log(paths[y]);
-            evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
-          }
-          if (evalResult === 1) {
-            this.pickedPathIndex = y; // 2020 HERE
-            return {chosenPath: paths[y], status: 1}
+            if (evalResult === 1) {
+              this.pickedPathIndex = y; // 2020 HERE
+              return {chosenPath: paths[y], status: 1}
+            }
           }
         }
+      }
+
+      //When not working with keywords, we continually check every second
+      if (string === null) {
+        this.sleep(1000);
       }
     }
     return {chosenPath: null, status: -1};
@@ -220,6 +237,10 @@ export default class Game extends React.Component {
     }
     return stringList;
   }
+
+  /**
+   * Updates the user's current progress in a story, and stores the custom variable state linked to it
+   */
   updateMyStory = () => {
     Parse.User.currentAsync().then((user) => {
       let myLibrary = user.get("myLibrary");
@@ -236,6 +257,10 @@ export default class Game extends React.Component {
       user.save();      
     })
   }
+
+  /**
+   * Resets a story's prograess and custom variables back to their starting state
+   */
   resetStory = () => {
     Parse.User.currentAsync().then((user) => {
       let myLibrary = user.get("myLibrary");
@@ -362,7 +387,7 @@ export default class Game extends React.Component {
             return;
           }
           //If we have paths with keywords, we wait for a keyword
-          if (--hasKeywordsInPotPath--) {
+          if (this.pathsHasKewords(this.potentialPaths)) {
             console.log("start speaking...");
             speechString = await this.recordAndTranscribe(6000);
             if (!this.state.playing){
@@ -370,7 +395,7 @@ export default class Game extends React.Component {
             }
             path = await this.pathPicking(speechString, this.potentialPaths);
           } else {
-
+            path = await this.pathPicking(null, this.potentialPaths);
           }
           if (path.status === 1){
             let newBoxID = await path.chosenPath.get("toId");
@@ -434,12 +459,33 @@ export default class Game extends React.Component {
     console.log("pausing at time : " +this.currentTime);
   }
 
+  /**
+   * Checks if any of the inputted paths has a keyword attached to it
+   * @returns true if one or more of the paths has a keword, false otherwise
+   */
+  pathsHasKewords = (paths) => {
+    for (let i = 0; i < paths.length; i++) {
+      const path = paths[i];
+      if (path.get("keyword") !== null && 
+          path.get("keyword") !== undefined && 
+          path.get("keyword") !== "") {
+        return true;
+      }
+    }
+
+    return false;    
+  }
+
   stopAugmentedAudio = async () => {
 
   }
+
+  /**
+   * Utility function for delaying program execution by a certain number of milliseconds. Delays only the current thread
+   * @param ms Sleep time, in milliseconds
+   */
   sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
-    
   }
   // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
   logIt = async () => {
@@ -457,10 +503,6 @@ export default class Game extends React.Component {
       }
     console.log("back");
     return true;
-  }
-
-  componentWillUnmount() {
-    this.backHandler.remove();
   }
 
   enterMainLoop = async () => {
