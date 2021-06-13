@@ -9,6 +9,7 @@ import "../common.js"
 import * as FileSystem from 'expo-file-system';
 import * as Brightness from 'expo-brightness';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
+import VarState from './VarState.js';
 import { Audio } from 'expo-av';
 // TODO : change this.currentBoxID -> currentBoxId
 // TODO : change activeStoryID -> activeStoryId
@@ -42,16 +43,28 @@ export default class Game extends React.Component {
       storyTitle: this.props.route.params.storyTitle,
     }
     this.debugging = false;
+    this.variableState = new VarState();
+    this.backHandler = null;
   }
   componentDidMount(){
     this.getPermissions();
-    this.getChapterInfo();
+    this.getChapterInfo().then(() => {
+      Parse.User.currentAsync().then((user) => {
+        this.variableState.loadData(user.getUsername(), this.activeStoryID);
+      });
+    });
     this.backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       this.backAction
     );
   }
-  getChapterInfo = (BoxID) => {
+
+  componentWillUnmount() {
+    if(this.backHandler != null)
+      this.backHandler.remove();
+  }
+
+  getChapterInfo = async (BoxID) => {
     const Box = Parse.Object.extend("Box");
     const query = new Parse.Query(Box);
     query.get(this.props.route.params.currentBoxId).then((box) => {
@@ -148,19 +161,61 @@ export default class Game extends React.Component {
       })
     }
     console.log("all audio downloaded...")
-
   }
+
+  /**
+   * Picks a path to progress down in the story depending on our current state and our recieved keyword
+   * @param string If non-null, the string that was transcribed using speech-to-text. 
+   *               If null, tells the path picker to ignore keywords entirely and continually wait until one of the paths become valid
+   * @param paths All potential paths to pick from
+   * @returns the object {chosenPath: [the path chosen], status: [1 if succesful, -1 if not]}
+   */
   pathPicking = async (string, paths) => {
-    var stringList = this.stringToStringList(string.toLowerCase());
-    this.stringToStringList(string);
-    for (var x = 0; x < stringList.length; x++){
-      for (var y = 0; y < paths.length; y++){
-        if (stringList[x] === paths[y].get("keyword")){
-          this.pickedPathIndex = y; // 2020 HERE
-          return {chosenPath: paths[y], status: 1}
-        }
-      }
+    let stringList = null;
+    if (string !== null) {
+      stringList = this.stringToStringList(string.toLowerCase());
+      this.stringToStringList(string);
+      //console.log("Keywords: ",stringList);
     }
+    do  {
+      console.log("pathPick loop");
+      for (var y = 0; y < paths.length; y++){
+        //Verify that this path is pickable: if not, we don't pick the path
+        let evalResult = 1;
+        try {
+          const condition = paths[y].get("condition");
+          if (condition !== null && condition !== "" && condition !== undefined) {
+            evalResult = this.variableState.eval(condition);
+            console.log(condition, ":", evalResult);
+          }
+        } catch (err) {
+          console.log("Error when evaluating path with data: ");
+          console.log(paths[y]);
+          console.warn("The error was: ");
+          console.warn(err);
+          evalResult = 1; // Error when evaluating or getting condition We allow the path in this case, but log the event
+        }
+        if (evalResult === 1) {
+          if(paths[y].get("keyword") === "") {
+            this.pickedPathIndex = y; // 2020 HERE
+            return {chosenPath: paths[y], status: 1}
+          }
+
+          for (var x = 0; x < stringList.length; x++){
+            if (stringList[x] === paths[y].get("keyword") ){
+              this.pickedPathIndex = y; // 2020 HERE
+              return {chosenPath: paths[y], status: 1}
+            }
+          }
+        }
+      } 
+
+      //When not working with keywords, we continually check every second
+      if (string === null) {
+        console.log("Waiting for sensor ...");
+        this.sleep(1000);
+      }
+    } while (string === null);
     return {chosenPath: null, status: -1};
   }
   
@@ -188,27 +243,38 @@ export default class Game extends React.Component {
     }
     return stringList;
   }
+
+  /**
+   * Updates the user's current progress in a story, and stores the custom variable state linked to it
+   */
   updateMyStory = () => {
     Parse.User.currentAsync().then((user) => {
       let myLibrary = user.get("myLibrary");
       for (var i = 0; i < myLibrary.length; i++){  
-        let storyID = myLibrary[i].story.id 
+        let storyID = myLibrary[i].story.id; 
         if (this.activeStoryID === storyID){
           myLibrary[i].currentBoxId = this.currentBoxID;
           myLibrary[i].timeStamp = this.currentTime;
           user.set("myLibrary", myLibrary);
+          this.variableState.saveData(user.getUsername(), storyID);
         }
       }
 
       user.save();      
     })
   }
+
+  /**
+   * Resets a story's prograess and custom variables back to their starting state
+   */
   resetStory = () => {
     Parse.User.currentAsync().then((user) => {
       let myLibrary = user.get("myLibrary");
-      for (var i = 0; i < myLibrary.length; i++){  
+      for (var i = 0; i < myLibrary.length; i++){
         let storyID = myLibrary[i].story.id 
-        if (this.activeStoryID === storyID){
+        if (this.activeStoryID === storyID) {
+          this.variableState = new VarState();
+          this.variableState.saveData(user.getUsername(), storyID);
           myLibrary[i].currentBoxId = myLibrary[i].story.get("startingBoxId");
           myLibrary[i].timeStamp = 0;
           this.currentTime = 0;
@@ -306,6 +372,7 @@ export default class Game extends React.Component {
         console.log("playing audio (outerloop)...")
       }
       if (this.trackEnded){
+        console.log("track ended");
         // Update box set time to maxTime in case something breaks along the way of making the choice
         let newTime = await getAudioTime();
         if (newTime !== -1){
@@ -313,6 +380,7 @@ export default class Game extends React.Component {
         } else {
           this.currentTime = this.currentTime; // TODO : currentTime - 5?
         }      
+        console.log("audio time returns");
         this.updateMyStory();
         let speechString = "asd";
         let path = null;
@@ -320,18 +388,25 @@ export default class Game extends React.Component {
         let failedToPick = false;
         this.attempts = 0;
         let iDidNotHearYouMp3Finished = false;
-        while (picking){
+        while (picking) {
           if (this.potentialPaths.length === 0){
             console.log("story over, no more paths to take...")
             Brightness.setSystemBrightnessAsync(this.savedBrightness);
             return;
           }
-          console.log("start speaking...");
-          speechString = await this.recordAndTranscribe(6000);
-          if (!this.state.playing){
-            return; // game has been ended during recording phase.
+          //If we have paths with keywords, we wait for a keyword
+          if (this.pathsHasKeywords(this.potentialPaths)) {
+            console.log("start speaking...");
+            speechString = await this.recordAndTranscribe(6000);
+            if (!this.state.playing){
+              return; // game has been ended during recording phase.
+            }
+            path = await this.pathPicking(speechString, this.potentialPaths);
+          } else {
+            console.log("no recording will be done");
+            path = await this.pathPicking(null, this.potentialPaths);
           }
-          path = await this.pathPicking(speechString, this.potentialPaths);
+
           if (path.status === 1){
             let newBoxID = await path.chosenPath.get("toId");
             this.currentBoxID = newBoxID; 
@@ -394,12 +469,33 @@ export default class Game extends React.Component {
     console.log("pausing at time : " +this.currentTime);
   }
 
+  /**
+   * Checks if any of the inputted paths has a keyword attached to it
+   * @returns true if one or more of the paths has a keword, false otherwise
+   */
+  pathsHasKeywords = (paths) => {
+    for (let i = 0; i < paths.length; i++) {
+      const path = paths[i];
+      if (path.get("keyword") !== null && 
+          path.get("keyword") !== undefined && 
+          path.get("keyword") !== "") {
+        return true;
+      }
+    }
+
+    return false;    
+  }
+
   stopAugmentedAudio = async () => {
 
   }
+
+  /**
+   * Utility function for delaying program execution by a certain number of milliseconds. Delays only the current thread
+   * @param ms Sleep time, in milliseconds
+   */
   sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
-    
   }
   // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
   logIt = async () => {
@@ -417,10 +513,6 @@ export default class Game extends React.Component {
       }
     console.log("back");
     return true;
-  }
-
-  componentWillUnmount() {
-    this.backHandler.remove();
   }
 
   enterMainLoop = async () => {

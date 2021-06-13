@@ -4,7 +4,7 @@ import ParseReact from 'parse-react/react-native';
 import settings from './settings';
 
 Parse.setAsyncStorage(AsyncStorage);
-Parse.initialize('myAppId', 'AugmentedAudio');
+Parse.initialize(settings.appId, 'AugmentedAudio');
 
 //Ensure that we're using the server URL and port from our settings file, and that we are using SSL if enabled. Note that SSL does not utilize port numbers
 let serverURL = `http://${settings.serverURL}:${settings.serverPort}/parse`;

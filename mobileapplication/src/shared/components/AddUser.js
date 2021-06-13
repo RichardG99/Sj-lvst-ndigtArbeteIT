@@ -20,7 +20,6 @@ export default class Home extends React.Component {
       lastName: "",
       errorMsg: ""
     };
-    this.handleChange= this.handleChange.bind(this);
   }
   componentDidMount(){
   } 
