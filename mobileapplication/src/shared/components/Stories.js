@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage, Platform, ScrollView, FlatList, Item, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button, Platform, ScrollView, FlatList, Item, TouchableOpacity} from 'react-native';
+import {AsyncStorage} from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';

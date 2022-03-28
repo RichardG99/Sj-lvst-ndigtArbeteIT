@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Platform, ScrollView, TextInput } from 'react-native';
+import {asyncStorage} from '@react-native-async-storage/async-storage'
 import {Button} from 'react-native-elements'
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native'

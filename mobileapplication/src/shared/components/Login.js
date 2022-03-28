@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, Platform, ScrollView, TextInput, RecyclerViewBackedScrollViewBase } from 'react-native';
-import { Button, Input } from 'react-native-elements'
+import { StyleSheet, Text, View, Platform, ScrollView, TextInput, RecyclerViewBackedScrollViewBase } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native'
 import Game from "./Game.js";

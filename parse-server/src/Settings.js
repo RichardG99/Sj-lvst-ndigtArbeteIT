@@ -2,7 +2,7 @@
 var settings = {};
 
 //Whether our server is currently designated as a developer build: this should only be "false" on a live server
-settings.devmode = false;
+settings.devmode = true;
 
 //The server URL, port, appID and database URI that our live server is deployed on
 var liveServerURL = "https://augmentedaud.io";
