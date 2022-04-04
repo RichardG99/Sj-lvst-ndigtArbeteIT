@@ -11,7 +11,7 @@ var liveAppID = "AugAud";
 var liveServerSSL = true; // Determines whether the live server should be accessed via SSL. Only enable if you know the live server has a correctly configured SSL
 
 //The server URL and port that our development server is deployed on.
-var devServerURL = "51.13.79.85"; // Note that this should not contain the HTTP field or closing "/"
+var devServerURL = "localhost"; // Note that this should not contain the HTTP field or closing "/"
 var devServerPort = 1337;
 var devAppID = "myAppId";
 var devServerSSL = false; // Determines whether the development server should be accessed via SSL. Only enable if you know the development server has a correctly configured SSL

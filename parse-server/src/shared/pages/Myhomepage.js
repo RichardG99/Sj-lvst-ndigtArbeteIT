@@ -18,13 +18,13 @@ function Myhomepage(props) {
   //console.log("firstName: ", firstName);
   return (
     <div style={styles.wrapper}>
-      <h2 style={styles.h3}>Welcome {firstName}!</h2>
+      <h2 style={styles.h3}>hej {firstName}!</h2>
       <MyStories setCurrentStory={setCurrentStory} />
       <HomeBox
         setCurrentStory={setCurrentStory}
         authenticate={authenticate}
         loggedIn={loggedIn}
-      />
+      />  
     </div>
   );
 }
