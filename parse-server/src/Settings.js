@@ -2,7 +2,7 @@
 var settings = {};
 
 //Whether our server is currently designated as a developer build: this should only be "false" on a live server
-settings.devmode = false;
+settings.devmode = true;
 
 //The server URL, port, appID and database URI that our live server is deployed on
 var liveServerURL = "https://augmentedaud.io";
@@ -11,7 +11,7 @@ var liveAppID = "AugAud";
 var liveDatabaseURI = "mongodb://localhost"; //TODO: add a live database URI
 
 //The server URL, port, appID and database URI that our development server is deployed on
-var devServerURL = "http://51.13.79.85";
+var devServerURL = "http://localhost:1337";
 var devServerPort = 1337;
 var devAppID = "myAppId";
 var devDatabaseURI = "mongodb://localhost";

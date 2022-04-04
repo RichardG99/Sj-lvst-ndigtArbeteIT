@@ -594,7 +594,7 @@ class Editstory extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     const tmpState = this.state;
     const tmpProps = this.props;
     if (tmpState.isMounted) {
