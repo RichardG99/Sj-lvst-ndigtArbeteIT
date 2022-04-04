@@ -1,12 +1,7 @@
 import React from 'react';
-<<<<<<< HEAD
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, Platform, ScrollView, TextInput, RecyclerViewBackedScrollViewBase } from 'react-native';
 import { Button, Input } from 'react-native-elements'
-=======
-import { StyleSheet, Text, View, Platform, ScrollView, TextInput, RecyclerViewBackedScrollViewBase } from 'react-native';
-import { Button, Input } from 'react-native-elements';
->>>>>>> ec68d88e3cca96ae6b3bc633213680511972d982
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native'
 import Game from "./Game.js";
