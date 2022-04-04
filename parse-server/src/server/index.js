@@ -60,7 +60,7 @@ app.get('/test', (req, res) => {
 });
 app.get('*', (req, res) => {
   const jsx = renderToString(
-    <StaticRouter location={req.url}>
+    <StaticRouter location={req.url} >
       <App />
     </StaticRouter>,
   );
@@ -85,5 +85,6 @@ const httpServer = require('http').createServer(app);
 
 httpServer.listen(PORT, () => {
   console.log(`Server is listning on port:${PORT}`);
+  console.log(`Server is :${httpServer}`);
 });
 ParseServer.createLiveQueryServer(httpServer);
