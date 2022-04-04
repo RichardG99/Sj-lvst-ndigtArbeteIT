@@ -11,7 +11,7 @@ class Createuser extends React.Component {
       redirect: false,
     };
     this.redirectPage = this.redirectPage.bind(this);
-  }
+  };
 
   redirectPage() {
     this.setState({ redirect: true });

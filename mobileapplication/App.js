@@ -85,6 +85,7 @@ const ANDROID = Platform.OS === 'android' ? true : false;
     console.log(ratings); 
   }
 */
+
 export default class App extends React.Component {
   constructor(props){
     super(props)
@@ -117,18 +118,18 @@ export default class App extends React.Component {
 
   render() {
     return (
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="AddUser" component={AddUser} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Stories" component={Stories} />
-            <Stack.Screen name="Game" component={Game} />
-            <Stack.Screen name="My Library" component={MyLibrary} />
-            <Stack.Screen name="Edit Profile" component={EditProfile} />
-            <Stack.Screen name="Edit Password" component={EditPassword} />
-          </Stack.Navigator>
-        </NavigationContainer>
+      <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="AddUser" component={AddUser} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Stories" component={Stories} />
+        <Stack.Screen name="Game" component={Game} />
+        <Stack.Screen name="My Library" component={MyLibrary} />
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
+        <Stack.Screen name="Edit Password" component={EditPassword} />
+      </Stack.Navigator>
+    </NavigationContainer>
     )
   }
 }

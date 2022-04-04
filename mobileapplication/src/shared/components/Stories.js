@@ -1,6 +1,11 @@
 import React from 'react';
+<<<<<<< HEAD
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, Button, Platform, ScrollView, FlatList, Item, TouchableOpacity} from 'react-native';
+=======
+import { StyleSheet, Text, View, Button, Platform, ScrollView, FlatList, Item, TouchableOpacity} from 'react-native';
+import {AsyncStorage} from '@react-native-async-storage/async-storage'
+>>>>>>> ec68d88e3cca96ae6b3bc633213680511972d982
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';

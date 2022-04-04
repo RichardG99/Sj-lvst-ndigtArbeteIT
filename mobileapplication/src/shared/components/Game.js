@@ -1,17 +1,23 @@
 import * as Permissions from 'expo-permissions';
 import "../local_modules/AugmentedAudio.js";
 import React, { useEffect } from 'react';
+<<<<<<< HEAD
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, Platform, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
+=======
+import { StyleSheet, Text, View, Platform, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
+import {AsyncStorage} from '@react-native-async-storage/async-storage'
+>>>>>>> ec68d88e3cca96ae6b3bc633213680511972d982
 import {Button} from 'react-native-elements'
-import Parse, { User } from 'parse/react-native';
-import ParseReact from 'parse-react/react-native'
 import "../common.js"
 import * as FileSystem from 'expo-file-system';
 import * as Brightness from 'expo-brightness';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import VarState from './VarState.js';
 import { Audio } from 'expo-av';
+import Parse, { User } from 'parse/react-native';
+import ParseReact from 'parse-react/react-native'
+
 // TODO : change this.currentBoxID -> currentBoxId
 // TODO : change activeStoryID -> activeStoryId
 // TODO : change timeStamp -> currentTime
@@ -54,7 +60,7 @@ export default class Game extends React.Component {
         this.variableState.loadData(user.getUsername(), this.activeStoryID);
       });
     });
-    this.backHandler = BackHandler.addEventListener(
+    this.backHandler = BackHandler.addEventListener( 
       "hardwareBackPress",
       this.backAction
     );
