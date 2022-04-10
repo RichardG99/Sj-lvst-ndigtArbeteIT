@@ -1,23 +1,30 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import { StyleSheet, Text, View, Button, Platform, ScrollView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Button,
+    Platform,
+    ScrollView,
+} from 'react-native';
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 import { Audio } from 'expo-av';
 import { render } from 'react-dom';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
-import Login from "./src/shared/components/Login.js";
-import AddUser from "./src/shared/components/AddUser.js";
-import Game from "./src/shared/components/Game.js";
-import Home from "./src/shared/components/Home.js";
-import Stories from "./src/shared/components/Stories.js";
-import MyLibrary from "./src/shared/components/MyLibrary.js";
-import EditProfile from "./src/shared/components/EditProfile.js";
-import EditPassword from "./src/shared/components/EditPassword.js";
-
-
+import { styles } from './src/shared/stylesheets/StyleSheet';
+import Login from './src/shared/components/Login.js';
+import AddUser from './src/shared/components/AddUser.js';
+import Game from './src/shared/components/Game.js';
+import Home from './src/shared/components/Home.js';
+import Stories from './src/shared/components/Stories.js';
+import MyLibrary from './src/shared/components/MyLibrary.js';
+import EditProfile from './src/shared/components/EditProfile.js';
+import EditPassword from './src/shared/components/EditPassword.js';
+import Marketplace from './src/shared/components/Marketplace.js';
 
 // TODO :
 /*
@@ -87,14 +94,14 @@ const ANDROID = Platform.OS === 'android' ? true : false;
 */
 
 export default class App extends React.Component {
-  constructor(props){
-    super(props)
-    this.debugging = false;
-  }
-  
-  // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
-  LogItAll = async () => {
-    /*console.log("error under here lol")
+    constructor(props) {
+        super(props);
+        this.debugging = false;
+    }
+
+    // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
+    LogItAll = async () => {
+        /*console.log("error under here lol")
     record();
     setTimeout(async () => {
       await stopRecording();
@@ -103,35 +110,39 @@ export default class App extends React.Component {
       //return await this.speechToTextAPI(audio);
     }, 3000);
     */
-    //console.log("Hello");
-    //console.log(this.allStories);
-    //this.getAndLoadBoxAudioFile("ynxWrkNZuG")
-    //console.log(await this.pathPicking(null, "ynxWrkNZuG"));
-    /*
+        //console.log("Hello");
+        //console.log(this.allStories);
+        //this.getAndLoadBoxAudioFile("ynxWrkNZuG")
+        //console.log(await this.pathPicking(null, "ynxWrkNZuG"));
+        /*
     console.log("doc")
     console.log(FileSystem.getContentUriAsync(FileSystem.documentDirectory));
     console.log("cache");
     console.log(FileSystem.getContentUriAsync(FileSystem.cacheDirectory));
     */
-  }
-/* --------------------------------------Audio / voice functionality------------------------------ */
+    };
+    /* --------------------------------------Audio / voice functionality------------------------------ */
 
-  render() {
-    return (
-      <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="AddUser" component={AddUser} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Stories" component={Stories} />
-        <Stack.Screen name="Game" component={Game} />
-        <Stack.Screen name="My Library" component={MyLibrary} />
-        <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name="Edit Password" component={EditPassword} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    )
-  }
+    render() {
+        return (
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Login">
+                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="AddUser" component={AddUser} />
+                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen name="Stories" component={Stories} />
+                    <Stack.Screen name="Game" component={Game} />
+                    <Stack.Screen name="My Library" component={MyLibrary} />
+                    <Stack.Screen name="Edit Profile" component={EditProfile} />
+                    <Stack.Screen
+                        name="Edit Password"
+                        component={EditPassword}
+                    />
+                    <Stack.Screen name="Marketplace" component={Marketplace} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        );
+    }
 }
 
 /* OLD CODE FOR TOGGLE BETWEEN DEBUGGING OR HOME PAGE
@@ -150,16 +161,6 @@ export default class App extends React.Component {
 */
 
 const Stack = createStackNavigator();
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 
 /*
 
