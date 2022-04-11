@@ -16,6 +16,7 @@ import Stories from "./src/shared/components/Stories.js";
 import MyLibrary from "./src/shared/components/MyLibrary.js";
 import EditProfile from "./src/shared/components/EditProfile.js";
 import EditPassword from "./src/shared/components/EditPassword.js";
+import Splash from "./src/shared/components/Splash.js";
 
 
 
@@ -119,7 +120,7 @@ export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="AddUser" component={AddUser} />
         <Stack.Screen name="Home" component={Home} />
@@ -128,6 +129,7 @@ export default class App extends React.Component {
         <Stack.Screen name="My Library" component={MyLibrary} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Edit Password" component={EditPassword} />
+        <Stack.Screen name="Splash" component={Splash} />
       </Stack.Navigator>
     </NavigationContainer>
     )
