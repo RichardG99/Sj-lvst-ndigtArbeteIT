@@ -144,7 +144,6 @@ export default class App extends React.Component {
         );
     }
 }
-
 /* OLD CODE FOR TOGGLE BETWEEN DEBUGGING OR HOME PAGE
           <View style={styles.container}>
             {

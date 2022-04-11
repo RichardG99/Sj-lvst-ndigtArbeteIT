@@ -160,20 +160,66 @@ export const styles = StyleSheet.create({
     },
 
     // Marketplace
-    category: {
-        position: 'absolute',
-        width: 150,
-        height: 105,
-        left: 37,
-        top: 220,
-        backgroundColor: '#000',
-        //filter: drop-shadow(0 4 4 rgba(0, 0, 0, 0.25)),
-        borderRadius: 5,
+    buttons: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 150,
     },
-    box: {
-        width: 150,
-        height: 105,
-        borderColor: 'red',
-        borderWidth: 2,
+    scrollView: {
+        backgroundColor: 'pink',
+        //marginHorizontal: '50%',
+        height: 10,
+    },
+
+    categoryButton: {
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+        backgroundColor: 'blue',
+        borderRadius: 10,
+        alignSelf: 'flex-start',
+        marginHorizontal: '2%',
+        marginBottom: '4%',
+        minWidth: '46%',
+        //Dropshadow
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
+    },
+    categoryText: {
+        position: 'relative',
+        marginTop: 80,
+        marginLeft: 10,
+        //fontFamily: 'Inter',
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: 16,
+        lineHeight: 19,
+        color: '#fff',
+    },
+    categoryTitle: {
+        position: 'absolute',
+        width: 299,
+        height: 150,
+        left: 45,
+        top: 45,
+
+        //fontFamily: 'Noto Sans Kannada UI',
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: 32,
+        lineHeight: 150,
+        /* or 48px */
+        flex: 1,
+        alignItems: 'center',
+        textAlign: 'center',
+        letterSpacing: -0.41,
+    },
+    searchBarInput: {
+        backgroundColor: '#C4C4C4',
+    },
+    searchBarCont: {
+        backgroundColor: '#AAAAAA',
+        borderColor: '#AAAAAA',
     },
 });
