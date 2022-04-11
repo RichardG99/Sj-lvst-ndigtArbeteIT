@@ -163,13 +163,10 @@ export const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginTop: 150,
+        marginTop: 15,
+        maxHeight: '100%',
     },
-    scrollView: {
-        backgroundColor: 'pink',
-        //marginHorizontal: '50%',
-        height: 10,
-    },
+    flatlist: { flexGrow: 1 },
 
     categoryButton: {
         paddingHorizontal: 5,
@@ -221,5 +218,20 @@ export const styles = StyleSheet.create({
     searchBarCont: {
         backgroundColor: '#AAAAAA',
         borderColor: '#AAAAAA',
+    },
+    allCategories: {
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+        backgroundColor: 'blue',
+        borderRadius: 10,
+        alignSelf: 'flex-start',
+        marginHorizontal: '2%',
+        marginTop: 90,
+        minWidth: '95%',
+        //Dropshadow
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
     },
 });
