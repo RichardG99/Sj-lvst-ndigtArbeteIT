@@ -127,7 +127,7 @@ export default class App extends React.Component {
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Marketplace">
+                <Stack.Navigator initialRouteName="Login">
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="AddUser" component={AddUser} />
                     <Stack.Screen name="Home" component={Home} />
@@ -140,7 +140,6 @@ export default class App extends React.Component {
                         component={EditPassword}
                     />
                     <Stack.Screen name="Marketplace" component={Marketplace} />
-                    <Stack.Screen name="Horror" component={Horror} />
                 </Stack.Navigator>
             </NavigationContainer>
         );
