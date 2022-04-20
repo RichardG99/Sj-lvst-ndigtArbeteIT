@@ -6,6 +6,15 @@ import Constants from 'expo-constants';
 //const secondaryTextColor = 'black';
 
 export const styles = StyleSheet.create({
+    // Bottom Bar
+    tabBar: {
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
+        alignItems: 'center',
+    },
+
     // App
     containerDefault: {
         flex: 1,
@@ -163,20 +172,21 @@ export const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginTop: 15,
         maxHeight: '100%',
     },
-    flatlist: { flexGrow: 1 },
-
+    flatlist: {
+        marginBottom: 200,
+        paddingBottom: 100,
+    },
     categoryButton: {
-        paddingHorizontal: 5,
+        paddingHorizontal: 50,
         paddingVertical: 10,
-        backgroundColor: 'blue',
         borderRadius: 10,
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         marginHorizontal: '2%',
         marginBottom: '4%',
         minWidth: '46%',
+
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
@@ -184,54 +194,66 @@ export const styles = StyleSheet.create({
         shadowColor: '#000',
     },
     categoryText: {
+        paddingHorizontal: 5,
+        paddingVertical: 1,
         position: 'relative',
         marginTop: 80,
-        marginLeft: 10,
         //fontFamily: 'Inter',
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
-        lineHeight: 19,
+        lineHeight: 20,
         color: '#fff',
+        textAlign: 'left',
     },
     categoryTitle: {
         position: 'absolute',
         width: 299,
         height: 150,
-        left: 45,
-        top: 45,
-
+        left: 10,
         //fontFamily: 'Noto Sans Kannada UI',
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 32,
-        lineHeight: 150,
+        lineHeight: 80,
         /* or 48px */
         flex: 1,
         alignItems: 'center',
-        textAlign: 'center',
+        textAlign: 'left',
         letterSpacing: -0.41,
     },
+    categoryTitle1: {
+        marginTop: 160,
+    },
+    categoryTitle2: {
+        marginTop: 330,
+    },
+
     searchBarInput: {
         backgroundColor: '#C4C4C4',
     },
     searchBarCont: {
         backgroundColor: '#AAAAAA',
-        borderColor: '#AAAAAA',
+        borderColor: '#000',
     },
     allCategories: {
         paddingHorizontal: 5,
-        paddingVertical: 10,
+        paddingVertical: 55,
+
         backgroundColor: 'blue',
         borderRadius: 10,
-        alignSelf: 'flex-start',
-        marginHorizontal: '2%',
-        marginTop: 90,
-        minWidth: '95%',
+        alignSelf: 'center',
+        marginTop: 60,
+        marginBottom: 10,
+        minWidth: '96%',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
         shadowOpacity: 0.2,
         shadowColor: '#000',
+    },
+    allCategories1: {
+        marginTop: 50,
+        marginBottom: 60,
     },
 });
