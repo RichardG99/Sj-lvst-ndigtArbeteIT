@@ -47,7 +47,7 @@ export default class App extends React.Component {
     return (
 
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator initialRouteName="AddUser">
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="AddUser" component={AddUser} />
         <Stack.Screen name="Home" component={Home} />
