@@ -11,7 +11,6 @@ import {
 import { Button } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
-import Game from './Game.js';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 
@@ -50,10 +49,12 @@ export default class Home extends React.Component {
         console.log(Parse.User.currentAsync());
         console.log('Hello world Home.js');
     };
+
     render() {
         return (
             <View style={styles.containerDefault}>
                 <Text h3 title={('Hello ', this.state.username)} />
+
                 <Button
                     style={styles.button}
                     title="Find new stories"
