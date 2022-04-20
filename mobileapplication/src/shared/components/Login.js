@@ -7,14 +7,19 @@ import {
     Platform,
     ScrollView,
     TextInput,
-    RecyclerViewBackedScrollViewBase,
+    RecyclerViewBackedScrollViewBase, TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button, Input } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import Game from './Game.js';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
+import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
+import { Capriola_400Regular } from '@expo-google-fonts/capriola';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -55,35 +60,70 @@ export default class Home extends React.Component {
     };
     render() {
         return (
-            <View style={styles.containerDefault}>
+            <View style={styles.splashBackground}>
+                    <View style={[styles.ellips1, styles.ellips3]}>               
+                    </View>
+                    <View style={[styles.ellips2, styles.ellips4]}>               
+                    </View>                  
+                    <Text style={[styles.splashTitle, styles.loginTitle]}>
+                        Augmented Audio
+                        </Text>
+                <View >
+                <View style={{padding: (0, 20, 0, 20)}}>
+
                 <Input
-                    placeholder="Username"
+                    inputStyle={{marginLeft: 15}}
+                    containerStyle={{marginTop: 270, padding: 5}}
+                    placeholder='Username'
+                    leftIcon={
+                      <Icon
+                      containerStyle={{marginBottom: 1}}
+                        name='user'
+                        size={24}
+                        color='white'
+                      />
+                    }
                     onChangeText={(value) => this.setState({ username: value })}
                 />
                 <Input
-                    placeholder="Password"
+                    inputStyle={{marginLeft: 15}}
+                    containerStyle={{marginBottom: 200, padding: 1}}
+                    placeholder='Password'
+                    leftIcon={
+                        <Icon
+                        name='lock'
+                        size={24}
+                        color='white'
+                        />
+                    }
                     secureTextEntry={true}
                     onChangeText={(value) => this.setState({ password: value })}
                 />
-                <Button
-                    style={styles.button}
-                    title="Login"
-                    type="clear"
+                </View>
+                <TouchableOpacity
+                    style={styles.buttonLogin}
                     onPress={() => {
                         this.login();
-                    }}
-                />
-                <Button
-                    style={styles.button}
-                    title="Create Account"
-                    type="clear"
-                    onPress={() => this.props.navigation.navigate('AddUser')}
-                />
+                    }}>
+                    <Text style={styles.loginText}> Login </Text>
+                    </TouchableOpacity>
+
+                <TouchableOpacity 
+                    style={[styles.buttonLogin, styles.buttonAccount]}
+                    onPress={() => 
+                    this.props.navigation.navigate('AddUser')}>
+                    <Text style={styles.loginText}>Create Account</Text>
+                    
+                    </TouchableOpacity>
+                    
+                </View>
+                
                 {this.debugging ? (
                     <Button title="Log from Login.js" onPress={this.LogItAll} />
                 ) : (
                     <View />
                 )}
+            
             </View>
         );
     }

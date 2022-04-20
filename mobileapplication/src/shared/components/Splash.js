@@ -1,15 +1,54 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StyleSheet, Text, View, Platform, ScrollView, TextInput, RecyclerViewBackedScrollViewBase } from 'react-native';
-import { Button, Input } from 'react-native-elements'
-import Parse from 'parse/react-native';
-import ParseReact from 'parse-react/react-native'
-import Game from "./Game.js";
-import '../common.js'
+import {
+    StyleSheet,
+    Text,
+    View,
+    ImageBackground,
+    TouchableOpacity,
 
-export default class Splash extends React.Component {
-    render() {
-        return null;
+} from 'react-native';
+import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
+import { Capriola_400Regular } from '@expo-google-fonts/capriola';
+import { AguafinaScript_400Regular } from '@expo-google-fonts/aguafina-script'
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
+import Constants from 'expo-constants';
+import Parse from 'parse/react-native';
+import ParseReact from 'parse-react/react-native';
+import '../common.js';
+import { styles } from '../stylesheets/StyleSheet';
+
+const getFonts = () =>
+Font.loadAsync({
+    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
+    'CapriolaRegular': require('../assets/fonts/Capriola-Regular.ttf'),
+});
+
+export default function Splash() {
+    const [fontsLoaded, setFontsLoaded] = useState(false);
+
+     if (!fontsLoaded) {
+        return (
+            <AppLoading
+                startAsync={getFonts}
+                onFinish={() => setFontsLoaded(true)}
+                onError={console.warn}
+            />
+        );
     }
+    return( 
+
+        <View style={styles.splashBackground}> 
+        <Text style={styles.splashTitle}>
+                    Augmented Audio
+                </Text>
+            <View style={styles.ellips1}>               
+            </View>
+            <View style={styles.ellips2}>               
+            </View>
+        </View>
+       
+        );
 }
+
