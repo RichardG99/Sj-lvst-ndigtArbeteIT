@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import { styles } from '../stylesheets/StyleSheet';
@@ -67,9 +67,18 @@ export default class EditProfile extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.splashBackground}>
+                    <View style={[styles.ellips1, styles.ellips3]}>               
+                    </View>
+                    <View style={[styles.ellips2, styles.ellips4]}>               
+                    </View>
+                <Text style={styles.profileTitle}>
+                    Edit Password
+                </Text>
+
+                <View style={{marginTop: 200}}>
                 <Input
-                    placeholder="Enter current password"
+                    placeholder="Enter Current Password"
                     secureTextEntry={true}
                     name="oldPassword"
                     onChangeText={(value) =>
@@ -85,25 +94,31 @@ export default class EditProfile extends React.Component {
                     }
                 />
                 <Input
-                    placeholder="Repeat password"
+                    placeholder="Repeat Password"
                     secureTextEntry={true}
                     name="repeatPassword"
                     onChangeText={(value) =>
                         this.setState({ repeatPassword: value })
                     }
                 />
-                <Button
-                    style={styles.button}
-                    title="Change password"
+                </View>
+                <TouchableOpacity
+                    style={[styles.buttonLogin, styles.editpButton, styles.changeButton]}
                     type="clear"
-                    onPress={() => this.saveData()}
-                />
-                <Button
-                    style={styles.button}
+                    onPress={() => this.saveData()}>
+                    <Text style={styles.loginText}> 
+                        Change Password 
+                    </Text>
+                    </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.buttonLogin, styles.editpButton, styles.resetButton]}
                     type="clear"
-                    title="Reset changes"
-                    onPress={() => this.resetForm()}
-                />
+                    onPress={() => this.resetForm()}>
+                    <Text style={styles.loginText}> 
+                        Reset Changes 
+                    </Text>
+
+                    </TouchableOpacity>
             </View>
         );
     }

@@ -9,6 +9,8 @@ import Stories from '../components/Stories.js';
 import EditPassword from '../components/EditPassword.js';
 import Marketplace from '../components/Marketplace.js';
 import Game from '../components/Game.js';
+import Splash from '../components/Splash.js';
+
 
 const Stack = createStackNavigator();
 
@@ -22,6 +24,8 @@ function HomeStack() {
             <Stack.Screen name="Game" component={Game} />
             <Stack.Screen name="Edit Password" component={EditPassword} />
             <Stack.Screen name="Edit Profile" component={EditProfile} />
+            <Stack.Screen name="Splash" component={Splash} />
+
         </Stack.Navigator>
     );
 }

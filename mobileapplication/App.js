@@ -93,6 +93,7 @@ export default class App extends React.Component {
                                 ),
                             }}
                         />
+                    
                     </Tab.Navigator>
                 </NavigationContainer>
             </>

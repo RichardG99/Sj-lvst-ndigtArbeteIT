@@ -165,7 +165,7 @@ export const styles = StyleSheet.create({
         left: 36,
         top: 341,
 
-        fontFamily: 'Pacifico-Regular',
+        fontFamily: 'PacificoRegular',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 30,
@@ -345,4 +345,71 @@ export const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 60,
     },
+
+    //Profile
+
+    profileTitle:{
+        position: 'absolute',
+        width: 201,
+        height: 60,
+        left: 94,
+        top: 60,
+
+        fontFamily: 'Pacifico-Regular',
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: 30,
+        lineHeight: 50,
+        /* or 57px */
+        //flex: 1,
+        alignItems: 'center',
+        textAlign: 'center',
+        letterSpacing: -0.41,
+        color: '#FF9900',
+        shadowOpacity: 0.5,
+        shadowColor: 'white',
+        //backgroundColor: 'red',
+    },
+
+    editpButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 80,
+    },
+
+    editeButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 130,
+    },
+
+    logoutButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 180,
+    },
+
+//AddUser
+
+    createAccountButton: {
+        top: 550,
+    },
+
+    resetFormButton: {
+        top: 600,
+    },
+
+// Edit Password
+
+    changeButton: {
+        top: 450,
+    },
+
+    resetButton: {
+        top: 500,
+    },
+
 });

@@ -95,7 +95,7 @@ export default class Marketplace extends React.Component {
                 <Text style={styles.categoryTitle}> New </Text>
                 <TouchableOpacity
                     onPress={() => {
-                        alert('Pressed New');
+                        console.log('Hejsan Ebba!');
                     }}
                 >
                     <ImageBackground
