@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../styles';
 import MyInfo from './MyInfo';
+import SubScriptBox from './subScriptBox'
 
 const homeBoxStyle = {
   width: '50%',
@@ -17,6 +18,7 @@ function HomeBox(props) {
   return (
     <div style={homeBoxStyle}>
       <h4 style={styles.h4}>My Profile</h4>
+      <SubScriptBox />
       <MyInfo
         authenticate={authenticate}
         loggedIn={loggedIn}

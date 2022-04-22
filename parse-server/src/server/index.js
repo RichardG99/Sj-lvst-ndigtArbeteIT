@@ -33,7 +33,7 @@ const api = new ParseServer({
   logLevel: 'warn',
   databaseURI: databaseUri || settings.databaseURI, // We can override our database URI by setting an environment variable
   appId: process.env.APP_ID || settings.appID, //Same with our app ID...
-  masterKey: process.env.MASTER_KEY || '', 
+  masterKey: process.env.MASTER_KEY || 'hej', 
   serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse', //...and server URL
   javascriptKey: 'AugmentedAudio',
   // -- As we do not use an S3 file bucket, these lines are commented out
@@ -51,13 +51,36 @@ require('../cloud/main.js');
 
 /* ----------------PARSE CODE END ------------------------- */
 
+//STRIPE IMPLEMENTATION START
+
+if (
+  !process.env.STRIPE_SECRET_KEY ||
+  !process.env.STRIPE_PUBLISHABLE_KEY ||
+  !process.env.STATIC_DIR // TODO: VAD INNEBÄR STATIC DIR?
+) {console.log("Stripe keys not setup correctly, one or more variable/s is missing")}
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
+app.post('/create-customer', async (req, res) => {
+  // Create a new customer object
+  const customer = await stripe.customers.create({
+    email: req.body.email,
+  });
+
+  // Save the customer.id in your database alongside your user.
+  // We're simulating authentication with a cookie.
+  res.cookie('customer', customer.id, { maxAge: 900000, httpOnly: true });
+
+  res.send({ customer: customer });
+});
+
 app.use(cors());
 
 app.use(express.static('public'));
 
 app.get('/test', (req, res) => {
   res.status(200).send(testHTMLRAW());
-});
+ });
 app.get('*', (req, res) => {
   const jsx = renderToString(
     <StaticRouter location={req.url} >

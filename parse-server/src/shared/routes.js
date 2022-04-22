@@ -1,6 +1,7 @@
 import Createuser from './pages/Createuser';
 import Loginpage from './pages/Loginpage';
 import Myhomepage from './pages/Myhomepage';
+import Subscription from './pages/Subscription';
 
 export default [
   {
@@ -14,6 +15,11 @@ export default [
     exact: true,
   },
   {
+    path:'/subscription',
+    component: Subscription,
+    exact: true,
+  },
+  {
     path: '/createuser',
     component: Createuser,
     exact: true,
@@ -23,4 +29,5 @@ export default [
     component: Loginpage,
     exact: true,
   },
+  
 ];
