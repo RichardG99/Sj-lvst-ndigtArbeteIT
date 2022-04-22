@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 
 //const tabSheetColor = 'rgba(255, 255, 255, 0.6)';
 //const mainTextColor = '#FFDB21';
 //const secondaryTextColor = 'black';
+const screenWidth = Dimensions.get('window').width;
+const buttonWidth = screenWidth / 2 - 30;
 
 export const styles = StyleSheet.create({
     // Bottom Bar
@@ -173,20 +175,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         maxHeight: '100%',
+        alignItems: 'center',
     },
     flatlist: {
-        marginBottom: 200,
+        marginBottom: 150,
         paddingBottom: 100,
     },
     categoryButton: {
-        paddingHorizontal: 50,
-        paddingVertical: 10,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginHorizontal: '2%',
-        marginBottom: '4%',
-        minWidth: '46%',
-
+        width: 150,
+        height: 100,
+        marginHorizontal: 7,
+        marginBottom: '6%',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
@@ -194,10 +193,9 @@ export const styles = StyleSheet.create({
         shadowColor: '#000',
     },
     categoryText: {
-        paddingHorizontal: 5,
-        paddingVertical: 1,
+        paddingHorizontal: 15,
         position: 'relative',
-        marginTop: 80,
+        marginTop: 75,
         //fontFamily: 'Inter',
         fontStyle: 'normal',
         fontWeight: '700',
@@ -239,8 +237,9 @@ export const styles = StyleSheet.create({
     allCategories: {
         paddingHorizontal: 5,
         paddingVertical: 55,
-
-        backgroundColor: 'blue',
+        width: screenWidth * 0.8,
+        height: 100,
+        //backgroundColor: 'blue',
         borderRadius: 10,
         alignSelf: 'center',
         marginTop: 60,
@@ -255,5 +254,34 @@ export const styles = StyleSheet.create({
     allCategories1: {
         marginTop: 50,
         marginBottom: 60,
+    },
+
+    container: {
+        flex: 1,
+        backgroundColor: 'blue',
+    },
+    sectionHeader: {
+        position: 'absolute',
+        width: 234,
+        height: 38,
+        left: 39,
+        top: 177,
+        backgroundColor: 'red',
+        //fontFamily: 'Inter',
+        fontStyle: 'normal',
+        fontWeight: '600',
+        fontSize: 24,
+        lineHeight: 29,
+    },
+    item: {
+        margin: 10,
+    },
+    itemPhoto: {
+        width: 200,
+        height: 200,
+    },
+    itemText: {
+        color: 'rgba(255, 255, 255, 0.5)',
+        marginTop: 5,
     },
 });
