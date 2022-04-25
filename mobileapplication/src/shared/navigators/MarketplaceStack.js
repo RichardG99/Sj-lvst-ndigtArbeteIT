@@ -14,8 +14,8 @@ const Stack = createStackNavigator();
 function MarketplaceStack() {
     return (
         <Stack.Navigator screenOptions={{ header: () => null }}>
-            <Stack.Screen name="AddUser" component={AddUser} />
             <Stack.Screen name="Marketplace" component={Marketplace} />
+            <Stack.Screen name="AddUser" component={AddUser} />
             <Stack.Screen name="Stories" component={Stories} />
             <Stack.Screen name="Game" component={Game} />
             <Stack.Screen name="Horror" component={Horror} />

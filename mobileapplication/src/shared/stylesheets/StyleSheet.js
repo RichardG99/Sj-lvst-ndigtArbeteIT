@@ -165,7 +165,7 @@ export const styles = StyleSheet.create({
         left: 36,
         top: 341,
 
-        fontFamily: 'PacificoRegular',
+        fontFamily: 'Pacifico-Regular',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 30,
@@ -237,7 +237,7 @@ export const styles = StyleSheet.create({
         height: 40,
         left: 44,
         top: 6,
-        //fontFamily: 'Pacifico-Regular',
+        fontFamily: 'Pacifico-Regular',
         fontStyle: 'italic',
         fontSize: 17,
         /* or 30px */

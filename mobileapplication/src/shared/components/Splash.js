@@ -19,22 +19,22 @@ import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 
-/*const getFonts = () =>
-Font.loadAsync({
-    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
-});*/
+const getFonts = async () =>
+    await Font.loadAsync({
+        'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
+    });
 
 export default function Splash() {
-    let [fontsLoaded] = useFonts({
-        'PacificoRegular': require('../assets/fonts/Pacifico-Regular.ttf'),
-    });
+//     let [fontsLoaded] = useFonts({
+//         'PacificoRegular': require('../assets/fonts/Pacifico-Regular.ttf'),
+//     });
 
      if (!fontsLoaded) {
         return (
             <AppLoading
-                //startAsync={getFonts}
-                //onFinish={() => setFontsLoaded(true)}
-                //onError={console.warn}
+                startAsync={getFonts}
+                onFinish={() => setFontsLoaded(true)}
+                onError={console.warn}
             />
         );
     }

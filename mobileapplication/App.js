@@ -31,7 +31,7 @@ export default class App extends React.Component {
             <>
                 <NavigationContainer>
                     <Tab.Navigator
-                        initialRouteName="Login"
+                        initialRouteName="Marketplace"
                         style={styles.tabBar}
                         screenOptions={{
                             tabBarActiveTintColor: '#FF9900',
