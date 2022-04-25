@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { Dimensions } from 'react-native';
+import { Dimensions, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Stories from '../components/Stories.js';
@@ -57,6 +57,7 @@ function ProfileStack() {
 export default function Navigation(props) {
     return (
         <NavigationContainer>
+            <StatusBar barStyle="light-content" />
             <Tab.Navigator
                 //initialRouteName="Marketplace"
                 screenOptions={({ route }) => ({
@@ -97,9 +98,9 @@ export default function Navigation(props) {
                     style: { width: screenWidth, backgroundColor: 'red' },
                 }}
             >
-                <Tab.Screen name="Marketplace" component={MarketplaceStack} />
-                <Tab.Screen name="My Library" component={MyLibraryStack} />
                 <Tab.Screen name="Profile" component={ProfileStack} />
+                <Tab.Screen name="My Library" component={MyLibraryStack} />
+                <Tab.Screen name="Marketplace" component={MarketplaceStack} />
             </Tab.Navigator>
         </NavigationContainer>
     );

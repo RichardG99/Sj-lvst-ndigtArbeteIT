@@ -6,11 +6,10 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
-
 } from 'react-native';
 import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
 import { Capriola_400Regular } from '@expo-google-fonts/capriola';
-import { AguafinaScript_400Regular } from '@expo-google-fonts/aguafina-script'
+import { AguafinaScript_400Regular } from '@expo-google-fonts/aguafina-script';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
@@ -20,15 +19,15 @@ import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 
 const getFonts = () =>
-Font.loadAsync({
-    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
-    'CapriolaRegular': require('../assets/fonts/Capriola-Regular.ttf'),
-});
+    Font.loadAsync({
+        'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
+        CapriolaRegular: require('../assets/fonts/Capriola-Regular.ttf'),
+    });
 
 export default function Splash() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
-     if (!fontsLoaded) {
+    if (!fontsLoaded) {
         return (
             <AppLoading
                 startAsync={getFonts}
@@ -37,18 +36,11 @@ export default function Splash() {
             />
         );
     }
-    return( 
-
-        <View style={styles.splashBackground}> 
-        <Text style={styles.splashTitle}>
-                    Augmented Audio
-                </Text>
-            <View style={styles.ellips1}>               
-            </View>
-            <View style={styles.ellips2}>               
-            </View>
+    return (
+        <View style={styles.splashBackground}>
+            <Text style={styles.splashTitle}>Augmented Audio</Text>
+            <View style={styles.ellips1}></View>
+            <View style={styles.ellips2}></View>
         </View>
-       
-        );
+    );
 }
-

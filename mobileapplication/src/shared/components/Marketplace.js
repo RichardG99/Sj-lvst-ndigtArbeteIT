@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     FlatList,
     Dimensions,
+    StatusBar,
 } from 'react-native';
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
@@ -96,44 +97,51 @@ export default class Marketplace extends React.Component {
         );
         const headerComponent = () => (
             <View style={{ alignItems: 'center' }}>
-                <Text style={styles.categoryTitle}> New </Text>
-                <TouchableOpacity
-                    onPress={() => {
-                        console.log('hej');
+                <View style={{ backgroundColor: 'transparent', height: 150 }}>
+                    <Text style={styles.categoryTitle}> New </Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            console.log('hej');
+                        }}
+                        style={{ alignSelf: 'center' }}
+                    >
+                        <ImageBackground
+                            style={styles.allCategories}
+                            source={require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg')}
+                            imageStyle={{ borderRadius: 10 }}
+                        ></ImageBackground>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={{
+                        backgroundColor: 'transparent',
+                        height: 150,
+                        marginBottom: 70,
                     }}
-                    style={{ alignSelf: 'center' }}
                 >
-                    <ImageBackground
-                        style={styles.allCategories}
-                        source={require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg')}
-                        imageStyle={{ borderRadius: 10 }}
-                    ></ImageBackground>
-                </TouchableOpacity>
-
-                <Text style={[styles.categoryTitle, styles.categoryTitle1]}>
-                    {' '}
-                    Popular{' '}
-                </Text>
-                <TouchableOpacity
-                    onPress={() => navigate('Category')}
-                    style={{ alignSelf: 'center' }}
-                >
-                    <ImageBackground
-                        style={styles.allCategories}
-                        source={require('../assets/alistair-macrobert-b6NIuzqaD0s-unsplash.jpg')}
-                        imageStyle={{ borderRadius: 10 }}
-                    ></ImageBackground>
-                </TouchableOpacity>
-                <Text style={[styles.categoryTitle, styles.categoryTitle2]}>
-                    {' '}
-                    Categories{' '}
-                </Text>
+                    <Text style={[styles.categoryTitle]}> Popular </Text>
+                    <TouchableOpacity
+                        onPress={() => navigate('Category')}
+                        style={{ alignSelf: 'center' }}
+                    >
+                        <ImageBackground
+                            style={styles.allCategories}
+                            source={require('../assets/alistair-macrobert-b6NIuzqaD0s-unsplash.jpg')}
+                            imageStyle={{ borderRadius: 10 }}
+                        ></ImageBackground>
+                    </TouchableOpacity>
+                    <Text style={[styles.categoryTitle, styles.categoryTitle2]}>
+                        {' '}
+                        Categories{' '}
+                    </Text>
+                </View>
             </View>
         );
 
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: '#00082F' }}>
+                    <StatusBar style="light" />
                     <SearchBar
                         inputStyle={{ fontSize: 16 }}
                         containerStyle={{
@@ -143,7 +151,7 @@ export default class Marketplace extends React.Component {
                         }}
                         inputContainerStyle={{
                             borderRadius: 20,
-                            height: 20,
+                            height: 35,
                             justifyContent: 'center',
                             backgroundColor: 'white',
                         }}

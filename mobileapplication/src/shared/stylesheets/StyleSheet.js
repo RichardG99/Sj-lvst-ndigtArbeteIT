@@ -178,7 +178,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         letterSpacing: -0.41,
         color: '#FF9900',
-        shadowOpacity: .5,
+        shadowOpacity: 0.5,
         shadowColor: 'white',
     },
     splashBackground: {
@@ -186,7 +186,8 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    ellips1: { //top left corner
+    ellips1: {
+        //top left corner
         position: 'absolute',
         width: 318,
         height: 297,
@@ -195,7 +196,8 @@ export const styles = StyleSheet.create({
         borderRadius: 10000,
         backgroundColor: '#001458',
     },
-    ellips2:{ //bottom right corner
+    ellips2: {
+        //bottom right corner
         position: 'absolute',
         width: 360,
         height: 323,
@@ -250,15 +252,16 @@ export const styles = StyleSheet.create({
         color: '#FF9900',
     },
 
-    ellips3: { //top left corner
+    ellips3: {
+        //top left corner
         position: 'absolute',
     },
 
-    ellips4:{ //bottom right corner
+    ellips4: {
+        //bottom right corner
         position: 'absolute',
     },
 
-    
     // Marketplace
     buttons: {
         flexDirection: 'row',
@@ -295,6 +298,7 @@ export const styles = StyleSheet.create({
     },
     categoryTitle: {
         position: 'absolute',
+        marginTop: 1,
         width: 299,
         height: 150,
         left: 10,
@@ -313,7 +317,7 @@ export const styles = StyleSheet.create({
         marginTop: 160,
     },
     categoryTitle2: {
-        marginTop: 330,
+        marginTop: 155,
     },
 
     searchBarInput: {
@@ -325,14 +329,14 @@ export const styles = StyleSheet.create({
     },
     allCategories: {
         paddingHorizontal: 5,
-        paddingVertical: 55,
-        width: screenWidth * 0.8,
+        paddingVertical: 60,
+        width: screenWidth * 0.82,
+        left: 10,
         height: 100,
         //backgroundColor: 'blue',
         borderRadius: 10,
         alignSelf: 'center',
         marginTop: 60,
-        marginBottom: 10,
         minWidth: '96%',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
