@@ -101,7 +101,7 @@ export default class Marketplace extends React.Component {
                     <Text style={styles.categoryTitle}> New </Text>
                     <TouchableOpacity
                         onPress={() => {
-                            console.log('hej');
+                            console.log('New');
                         }}
                         style={{ alignSelf: 'center' }}
                     >
@@ -121,7 +121,7 @@ export default class Marketplace extends React.Component {
                 >
                     <Text style={[styles.categoryTitle]}> Popular </Text>
                     <TouchableOpacity
-                        onPress={() => navigate('Category')}
+                        onPress={() => console.log('Popular')}
                         style={{ alignSelf: 'center' }}
                     >
                         <ImageBackground
