@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 
 //const tabSheetColor = 'rgba(255, 255, 255, 0.6)';
 //const mainTextColor = '#FFDB21';
 //const secondaryTextColor = 'black';
+const screenWidth = Dimensions.get('window').width;
+const buttonWidth = screenWidth / 2 - 30;
 
 export const styles = StyleSheet.create({
     // Bottom Bar
@@ -176,7 +178,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         letterSpacing: -0.41,
         color: '#FF9900',
-        shadowOpacity: .5,
+        shadowOpacity: 0.5,
         shadowColor: 'white',
     },
     splashBackground: {
@@ -184,7 +186,8 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    ellips1: { //top left corner
+    ellips1: {
+        //top left corner
         position: 'absolute',
         width: 318,
         height: 297,
@@ -193,7 +196,8 @@ export const styles = StyleSheet.create({
         borderRadius: 10000,
         backgroundColor: '#001458',
     },
-    ellips2:{ //bottom right corner
+    ellips2: {
+        //bottom right corner
         position: 'absolute',
         width: 360,
         height: 323,
@@ -248,34 +252,32 @@ export const styles = StyleSheet.create({
         color: '#FF9900',
     },
 
-    ellips3: { //top left corner
+    ellips3: {
+        //top left corner
         position: 'absolute',
     },
 
-    ellips4:{ //bottom right corner
+    ellips4: {
+        //bottom right corner
         position: 'absolute',
     },
 
-    
     // Marketplace
     buttons: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         maxHeight: '100%',
+        alignItems: 'center',
     },
     flatlist: {
-        marginBottom: 200,
+        marginBottom: 150,
         paddingBottom: 100,
     },
     categoryButton: {
-        paddingHorizontal: 50,
-        paddingVertical: 10,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginHorizontal: '2%',
-        marginBottom: '4%',
-        minWidth: '46%',
-
+        width: 150,
+        height: 100,
+        marginHorizontal: 7,
+        marginBottom: '6%',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
@@ -283,10 +285,9 @@ export const styles = StyleSheet.create({
         shadowColor: '#000',
     },
     categoryText: {
-        paddingHorizontal: 5,
-        paddingVertical: 1,
+        paddingHorizontal: 15,
         position: 'relative',
-        marginTop: 80,
+        marginTop: 75,
         //fontFamily: 'Inter',
         fontStyle: 'normal',
         fontWeight: '700',
@@ -297,6 +298,7 @@ export const styles = StyleSheet.create({
     },
     categoryTitle: {
         position: 'absolute',
+        marginTop: 1,
         width: 299,
         height: 150,
         left: 10,
@@ -315,7 +317,7 @@ export const styles = StyleSheet.create({
         marginTop: 160,
     },
     categoryTitle2: {
-        marginTop: 330,
+        marginTop: 155,
     },
 
     searchBarInput: {
@@ -327,13 +329,14 @@ export const styles = StyleSheet.create({
     },
     allCategories: {
         paddingHorizontal: 5,
-        paddingVertical: 55,
-
-        backgroundColor: 'blue',
+        paddingVertical: 60,
+        width: screenWidth * 0.82,
+        left: 10,
+        height: 100,
+        //backgroundColor: 'blue',
         borderRadius: 10,
         alignSelf: 'center',
         marginTop: 60,
-        marginBottom: 10,
         minWidth: '96%',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
@@ -345,7 +348,6 @@ export const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 60,
     },
-
     //Profile
 
     profileTitle:{
@@ -411,5 +413,4 @@ export const styles = StyleSheet.create({
     resetButton: {
         top: 500,
     },
-
 });

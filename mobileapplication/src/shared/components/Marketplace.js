@@ -7,6 +7,8 @@ import {
     ImageBackground,
     TouchableOpacity,
     FlatList,
+    Dimensions,
+    StatusBar,
 } from 'react-native';
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
@@ -17,6 +19,8 @@ import { SearchBar } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+
+const screenWidth = Dimensions.get('window').width;
 
 const DATA = [
     {
@@ -58,14 +62,14 @@ const DATA = [
     },
 ];
 
-const Item = ({ title, image }) => (
-    <TouchableOpacity>
+const Item = ({ title, image, navigation }) => (
+    <TouchableOpacity onPress={() => console.log('Button pressed')}>
         <ImageBackground
-            style={styles.categoryButton}
             imageStyle={{
                 borderRadius: 10,
             }}
             source={image}
+            style={styles.categoryButton}
         >
             <Text style={styles.categoryText}>{title}</Text>
         </ImageBackground>
@@ -87,47 +91,57 @@ export default class Marketplace extends React.Component {
 
     render() {
         const { search } = this.state;
+
         const renderItem = ({ item }) => (
             <Item title={item.title} image={item.image} />
         );
         const headerComponent = () => (
-            <>
-                <Text style={styles.categoryTitle}> New </Text>
-                <TouchableOpacity
-                    onPress={() => {
-                        console.log('Hejsan Ebba!');
+            <View style={{ alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'transparent', height: 150 }}>
+                    <Text style={styles.categoryTitle}> New </Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            console.log('New');
+                        }}
+                        style={{ alignSelf: 'center' }}
+                    >
+                        <ImageBackground
+                            style={styles.allCategories}
+                            source={require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg')}
+                            imageStyle={{ borderRadius: 10 }}
+                        ></ImageBackground>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={{
+                        backgroundColor: 'transparent',
+                        height: 150,
+                        marginBottom: 70,
                     }}
                 >
-                    <ImageBackground
-                        style={styles.allCategories}
-                        source={require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg')}
-                        imageStyle={{ borderRadius: 10 }}
-                    ></ImageBackground>
-                </TouchableOpacity>
-
-                <Text style={[styles.categoryTitle, styles.categoryTitle1]}>
-                    {' '}
-                    Popular{' '}
-                </Text>
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Horror')}
-                >
-                    <ImageBackground
-                        style={[styles.allCategories, styles.allCategories1]}
-                        source={require('../assets/alistair-macrobert-b6NIuzqaD0s-unsplash.jpg')}
-                        imageStyle={{ borderRadius: 10 }}
-                    ></ImageBackground>
-                </TouchableOpacity>
-                <Text style={[styles.categoryTitle, styles.categoryTitle2]}>
-                    {' '}
-                    Categories{' '}
-                </Text>
-            </>
+                    <Text style={[styles.categoryTitle]}> Popular </Text>
+                    <TouchableOpacity
+                        onPress={() => console.log('Popular')}
+                        style={{ alignSelf: 'center' }}
+                    >
+                        <ImageBackground
+                            style={styles.allCategories}
+                            source={require('../assets/alistair-macrobert-b6NIuzqaD0s-unsplash.jpg')}
+                            imageStyle={{ borderRadius: 10 }}
+                        ></ImageBackground>
+                    </TouchableOpacity>
+                    <Text style={[styles.categoryTitle, styles.categoryTitle2]}>
+                        {' '}
+                        Categories{' '}
+                    </Text>
+                </View>
+            </View>
         );
 
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: '#00082F' }}>
+                    <StatusBar style="light" />
                     <SearchBar
                         inputStyle={{ fontSize: 16 }}
                         containerStyle={{
@@ -137,7 +151,7 @@ export default class Marketplace extends React.Component {
                         }}
                         inputContainerStyle={{
                             borderRadius: 20,
-                            height: 20,
+                            height: 35,
                             justifyContent: 'center',
                             backgroundColor: 'white',
                         }}
@@ -151,6 +165,7 @@ export default class Marketplace extends React.Component {
                             backgroundColor: 'white',
                             borderRadius: 40,
                             marginTop: 10,
+                            alignItems: 'center',
                         }}
                     >
                         <FlatList
@@ -160,6 +175,7 @@ export default class Marketplace extends React.Component {
                             keyExtractor={(item) => item.id}
                             numColumns={2}
                             style={styles.flatlist}
+                            contentContainerStyle={{ alignItems: 'center' }}
                         ></FlatList>
                     </View>
                 </SafeAreaView>
@@ -167,3 +183,13 @@ export default class Marketplace extends React.Component {
         );
     }
 }
+
+/*<ImageBackground
+            
+            imageStyle={{
+                borderRadius: 10,
+            }}
+            source={image}
+        >
+            <Text style={styles.categoryText}>{title}</Text>
+        </ImageBackground>*/
