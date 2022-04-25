@@ -75,6 +75,7 @@ export default class Home extends React.Component {
                     inputStyle={{marginLeft: 15}}
                     containerStyle={{marginTop: 270, padding: 5}}
                     placeholder='Username'
+                    color='white'
                     leftIcon={
                       <Icon
                       containerStyle={{marginBottom: 1}}
@@ -89,6 +90,7 @@ export default class Home extends React.Component {
                     inputStyle={{marginLeft: 15}}
                     containerStyle={{marginBottom: 200, padding: 1}}
                     placeholder='Password'
+                    color='white'
                     leftIcon={
                         <Icon
                         name='lock'

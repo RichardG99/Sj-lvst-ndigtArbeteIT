@@ -10,16 +10,21 @@ import EditPassword from '../components/EditPassword.js';
 import Marketplace from '../components/Marketplace.js';
 import Game from '../components/Game.js';
 import Profile from '../components/Profile.js';
+import Splash from '../components/Splash.js';
+
+
 
 const Stack = createStackNavigator();
 
 function ProfileStack() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ header: () => null }}>
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Edit Profile" component={EditProfile} />
             <Stack.Screen name="Edit Password" component={EditPassword} />
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Splash" component={Splash} />
+            <Stack.Screen name="AddUser" component={AddUser} />
         </Stack.Navigator>
     );
 }

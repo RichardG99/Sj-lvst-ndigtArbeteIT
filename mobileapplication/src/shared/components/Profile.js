@@ -1,12 +1,13 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -46,36 +47,57 @@ export default class Profile extends React.Component {
 
     render() {
         return (
-            <View style={styles.containerDefault}>
-                <Text h3 title={('Hello ', this.state.username)} />
-                <Button
-                    style={styles.button}
+            
+            <View style={styles.splashBackground}>
+                <View styles={styles.containerProfile}> 
+                <View style={[styles.ellips1, styles.ellips3]}>               
+                    </View>
+                    <View style={[styles.ellips2, styles.ellips4]}>               
+                    </View>
+                <Text style={styles.profileTitle}>
+                
+                    Your Profile
+                   
+                </Text>
+
+                {/*<Text h3 title={('Hello ', this.state.username)} />*/}
+                <View style={{marginTop: '50%'}}>
+                <TouchableOpacity
+                    style={[styles.buttonLogin, styles.editpButton]}
                     type="clear"
-                    title="Edit profile"
                     onPress={() =>
                         this.props.navigation.navigate('Edit Profile')
                     }
-                />
-                <Button
-                    style={styles.button}
+                >
+                    <Text style={styles.loginText} >Edit Profile</Text>
+                    </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.buttonLogin, styles.editeButton]}
                     type="clear"
-                    title="Edit password"
                     onPress={() =>
                         this.props.navigation.navigate('Edit Password')
                     }
-                />
-                <Button
-                    style={styles.button}
+                   >
+                       <Text style={styles.loginText}>Edit Password</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.buttonLogin, styles.logoutButton]}
                     type="clear"
-                    title="Logout"
                     onPress={() => this.logout()}
-                />
-                {this.debugging ? (
-                    <Button title="Log from Home.js" onPress={this.LogItAll} />
-                ) : (
-                    <View />
-                )}
+                >
+                    <Text style={styles.loginText}>Logout</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                </View>    
             </View>
         );
     }
 }
+
+/*{this.debugging ? (
+                    <Button title="Log from Home.js" onPress={this.LogItAll} />
+                ) : (
+                    <View />
+
+                )}*/

@@ -241,7 +241,7 @@ export const styles = StyleSheet.create({
         height: 40,
         left: 44,
         top: 6,
-        //fontFamily: 'Pacifico-Regular',
+        fontFamily: 'Pacifico-Regular',
         fontStyle: 'italic',
         fontSize: 17,
         /* or 30px */
@@ -348,33 +348,69 @@ export const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 60,
     },
+    //Profile
 
-    container: {
-        flex: 1,
-        backgroundColor: 'blue',
-    },
-    sectionHeader: {
+    profileTitle:{
         position: 'absolute',
-        width: 234,
-        height: 38,
-        left: 39,
-        top: 177,
-        backgroundColor: 'red',
-        //fontFamily: 'Inter',
+        width: 201,
+        height: 60,
+        left: 94,
+        top: 60,
+
+        fontFamily: 'Pacifico-Regular',
         fontStyle: 'normal',
-        fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 29,
+        fontWeight: '400',
+        fontSize: 30,
+        lineHeight: 50,
+        /* or 57px */
+        //flex: 1,
+        alignItems: 'center',
+        textAlign: 'center',
+        letterSpacing: -0.41,
+        color: '#FF9900',
+        shadowOpacity: 0.5,
+        shadowColor: 'white',
+        //backgroundColor: 'red',
     },
-    item: {
-        margin: 10,
+
+    editpButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 80,
     },
-    itemPhoto: {
-        width: 200,
-        height: 200,
+
+    editeButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 130,
     },
-    itemText: {
-        color: 'rgba(255, 255, 255, 0.5)',
-        marginTop: 5,
+
+    logoutButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 180,
+    },
+
+//AddUser
+
+    createAccountButton: {
+        top: 550,
+    },
+
+    resetFormButton: {
+        top: 600,
+    },
+
+// Edit Password
+
+    changeButton: {
+        top: 450,
+    },
+
+    resetButton: {
+        top: 500,
     },
 });
