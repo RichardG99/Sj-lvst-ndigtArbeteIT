@@ -6,6 +6,15 @@ import Constants from 'expo-constants';
 //const secondaryTextColor = 'black';
 
 export const styles = StyleSheet.create({
+    // Bottom Bar
+    tabBar: {
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
+        alignItems: 'center',
+    },
+
     // App
     containerDefault: {
         flex: 1,
@@ -121,17 +130,6 @@ export const styles = StyleSheet.create({
         color: 'grey',
     },
 
-    // Login
-    containerDefault: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    button: {
-        padding: 10,
-    },
-
     //Stories
     containerConst: {
         flex: 1,
@@ -159,24 +157,125 @@ export const styles = StyleSheet.create({
         color: 'white',
     },
 
+    //Splash
+    splashTitle: {
+        position: 'absolute',
+        width: 318,
+        height: 60,
+        left: 36,
+        top: 341,
+
+        fontFamily: 'Pacifico-Regular',
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: 30,
+        lineHeight: 50,
+        /* or 57px */
+        flex: 1,
+        alignItems: 'center',
+        textAlign: 'center',
+        letterSpacing: -0.41,
+        color: '#FF9900',
+        shadowOpacity: .5,
+        shadowColor: 'white',
+    },
+    splashBackground: {
+        backgroundColor: '#00082F',
+        flex: 1,
+    },
+
+    ellips1: { //top left corner
+        position: 'absolute',
+        width: 318,
+        height: 297,
+        left: -123,
+        top: -90,
+        borderRadius: 10000,
+        backgroundColor: '#001458',
+    },
+    ellips2:{ //bottom right corner
+        position: 'absolute',
+        width: 360,
+        height: 323,
+        left: 136,
+        top: 555,
+        borderRadius: 10000,
+        backgroundColor: '#420196',
+    },
+
+    //Login
+
+    loginTitle: {
+        left: 36,
+        top: 100,
+    },
+
+    containerDefault: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonLogin: {
+        position: 'absolute',
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 471,
+        shadowColor: '#fff',
+        backgroundColor: '#506BC8',
+        borderRadius: 10,
+    },
+    buttonAccount: {
+        left: 75,
+        top: 519,
+    },
+
+    loginText: {
+        position: 'absolute',
+        width: 150,
+        height: 40,
+        left: 44,
+        top: 6,
+        fontFamily: 'Pacifico-Regular',
+        fontStyle: 'italic',
+        fontSize: 17,
+        /* or 30px */
+        flex: 1,
+        alignItems: 'center',
+        textAlign: 'center',
+        letterSpacing: -0.41,
+        color: '#FF9900',
+    },
+
+    ellips3: { //top left corner
+        position: 'absolute',
+    },
+
+    ellips4:{ //bottom right corner
+        position: 'absolute',
+    },
+
+    
     // Marketplace
     buttons: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginTop: 15,
         maxHeight: '100%',
     },
-    flatlist: { flexGrow: 1 },
-
+    flatlist: {
+        marginBottom: 200,
+        paddingBottom: 100,
+    },
     categoryButton: {
-        paddingHorizontal: 5,
+        paddingHorizontal: 50,
         paddingVertical: 10,
-        backgroundColor: 'blue',
         borderRadius: 10,
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         marginHorizontal: '2%',
         marginBottom: '4%',
         minWidth: '46%',
+
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
@@ -184,54 +283,133 @@ export const styles = StyleSheet.create({
         shadowColor: '#000',
     },
     categoryText: {
+        paddingHorizontal: 5,
+        paddingVertical: 1,
         position: 'relative',
         marginTop: 80,
-        marginLeft: 10,
         //fontFamily: 'Inter',
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
-        lineHeight: 19,
+        lineHeight: 20,
         color: '#fff',
+        textAlign: 'left',
     },
     categoryTitle: {
         position: 'absolute',
         width: 299,
         height: 150,
-        left: 45,
-        top: 45,
-
+        left: 10,
         //fontFamily: 'Noto Sans Kannada UI',
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 32,
-        lineHeight: 150,
+        lineHeight: 80,
         /* or 48px */
         flex: 1,
         alignItems: 'center',
-        textAlign: 'center',
+        textAlign: 'left',
         letterSpacing: -0.41,
     },
+    categoryTitle1: {
+        marginTop: 160,
+    },
+    categoryTitle2: {
+        marginTop: 330,
+    },
+
     searchBarInput: {
         backgroundColor: '#C4C4C4',
     },
     searchBarCont: {
         backgroundColor: '#AAAAAA',
-        borderColor: '#AAAAAA',
+        borderColor: '#000',
     },
     allCategories: {
         paddingHorizontal: 5,
-        paddingVertical: 10,
+        paddingVertical: 55,
+
         backgroundColor: 'blue',
         borderRadius: 10,
-        alignSelf: 'flex-start',
-        marginHorizontal: '2%',
-        marginTop: 90,
-        minWidth: '95%',
+        alignSelf: 'center',
+        marginTop: 60,
+        marginBottom: 10,
+        minWidth: '96%',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
         shadowOpacity: 0.2,
         shadowColor: '#000',
     },
+    allCategories1: {
+        marginTop: 50,
+        marginBottom: 60,
+    },
+
+    //Profile
+
+    profileTitle:{
+        position: 'absolute',
+        width: 201,
+        height: 60,
+        left: 94,
+        top: 60,
+
+        fontFamily: 'Pacifico-Regular',
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: 30,
+        lineHeight: 50,
+        /* or 57px */
+        //flex: 1,
+        alignItems: 'center',
+        textAlign: 'center',
+        letterSpacing: -0.41,
+        color: '#FF9900',
+        shadowOpacity: 0.5,
+        shadowColor: 'white',
+        //backgroundColor: 'red',
+    },
+
+    editpButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 80,
+    },
+
+    editeButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 130,
+    },
+
+    logoutButton: {
+        width: 244,
+        height: 33,
+        left: 73,
+        top: 180,
+    },
+
+//AddUser
+
+    createAccountButton: {
+        top: 550,
+    },
+
+    resetFormButton: {
+        top: 600,
+    },
+
+// Edit Password
+
+    changeButton: {
+        top: 450,
+    },
+
+    resetButton: {
+        top: 500,
+    },
+
 });

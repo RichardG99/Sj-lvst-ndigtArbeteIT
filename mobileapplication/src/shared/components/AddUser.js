@@ -7,6 +7,7 @@ import {
     Platform,
     ScrollView,
     TextInput,
+    TouchableOpacity,
 } from 'react-native';
 
 import { Button, Input } from 'react-native-elements';
@@ -77,10 +78,21 @@ export default class Home extends React.Component {
     }
     render() {
         return (
-            <View style={styles.containerDefault}>
+            <View style={styles.splashBackground}>
+                
+
+                <View style={[styles.ellips1, styles.ellips3]}>               
+                    </View>
+                    <View style={[styles.ellips2, styles.ellips4]}>               
+                    </View>  
+                    <Text style={[styles.splashTitle, styles.loginTitle]}>
+                        Create Account
+                    </Text>
+                <View style={{marginTop: 150}}>   
                 <Input
                     placeholder="First name"
                     name="firstName"
+                    color='white'
                     onChangeText={(value) =>
                         this.setState({ firstName: value })
                     }
@@ -88,36 +100,40 @@ export default class Home extends React.Component {
                 <Input
                     placeholder="Last name"
                     name="lastName"
+                    color='white'
                     onChangeText={(value) => this.setState({ lastName: value })}
                 />
                 <Input
                     placeholder="Email"
                     name="email"
+                    color='white'
                     onChangeText={(value) => this.setState({ email: value })}
                 />
                 <Input
                     placeholder="Username"
                     name="username"
+                    color='white'
                     onChangeText={(value) => this.setState({ username: value })}
                 />
                 <Input
                     placeholder="Password"
                     secureTextEntry={true}
                     name="password"
+                    color='white'
                     onChangeText={(value) => this.setState({ password: value })}
                 />
                 <Input
-                    placeholder="Repeat password"
+                    placeholder="Repeat Password"
                     secureTextEntry={true}
                     name="passAgain"
+                    color='white'
                     onChangeText={(value) =>
                         this.setState({ passAgain: value })
                     }
                 />
+                </View> 
                 <Text name="errorMsg" value={this.errorMsg} color="red" />
-                <Button
-                    style={styles.button}
-                    title="Create account"
+                <TouchableOpacity style={[styles.buttonLogin, styles.editpButton, styles.createAccountButton]}
                     type="clear"
                     onPress={() =>
                         this.validateAndLogin().then(
@@ -127,14 +143,20 @@ export default class Home extends React.Component {
                                 this.errorMsg = error;
                             }
                         )
-                    }
-                />
-                <Button
-                    style={styles.button}
-                    type="clear"
-                    title="Reset form"
-                    onPress={() => this.resetForm()}
-                />
+                    }>
+                <Text style={styles.loginText}> 
+                    Create Account
+                </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.buttonLogin, styles.editpButton, styles.resetFormButton]}
+                type="clear"
+                onPress={() => this.resetForm()}
+                >
+                    <Text style={styles.loginText}> 
+                        Reset form 
+                    </Text>
+                    
+                 </TouchableOpacity>
                 {this.debugging ? (
                     <Button title="Log from Home.js" onPress={this.LogItAll} />
                 ) : (
