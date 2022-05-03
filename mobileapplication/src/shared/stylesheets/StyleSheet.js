@@ -42,25 +42,8 @@ export const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginTop: Constants.statusBarHeight,
     },
-    story: {
-        backgroundColor: 'lightblue',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-    },
     pageTitle: {
         textAlign: 'center',
-    },
-    title: {
-        fontSize: 32,
-    },
-    by: {
-        fontSize: 32,
-        color: 'grey',
-    },
-    author: {
-        fontSize: 32,
-        color: 'white',
     },
 
     // Add User
@@ -127,10 +110,6 @@ export const styles = StyleSheet.create({
         fontSize: 32,
         color: 'grey',
     },
-    author: {
-        fontSize: 32,
-        color: 'grey',
-    },
 
     //Stories
     containerConst: {
@@ -140,7 +119,9 @@ export const styles = StyleSheet.create({
     },
     story: {
         backgroundColor: 'lightgrey',
+        borderRadius: 10,
         padding: 20,
+        paddingVertical: 10,
         marginVertical: 8,
         marginHorizontal: 16,
     },
@@ -148,14 +129,14 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     title: {
-        fontSize: 32,
+        fontSize: 24,
     },
     by: {
-        fontSize: 32,
+        fontSize: 20,
         color: 'grey',
     },
     author: {
-        fontSize: 32,
+        fontSize: 24,
         color: 'white',
     },
 
@@ -167,7 +148,7 @@ export const styles = StyleSheet.create({
         left: 36,
         top: 341,
 
-        fontFamily: 'Pacifico-Regular',
+        //fontFamily: 'Pacifico-Regular',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 30,
@@ -241,7 +222,7 @@ export const styles = StyleSheet.create({
         height: 40,
         left: 44,
         top: 6,
-        fontFamily: 'Pacifico-Regular',
+        //fontFamily: 'Pacifico-Regular',
         fontStyle: 'italic',
         fontSize: 17,
         /* or 30px */
@@ -350,14 +331,14 @@ export const styles = StyleSheet.create({
     },
     //Profile
 
-    profileTitle:{
+    profileTitle: {
         position: 'absolute',
         width: 201,
         height: 60,
         left: 94,
-        top: 60,
+        top: 80,
 
-        fontFamily: 'Pacifico-Regular',
+        //fontFamily: 'Pacifico-Regular',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 30,
@@ -394,7 +375,7 @@ export const styles = StyleSheet.create({
         top: 180,
     },
 
-//AddUser
+    //AddUser
 
     createAccountButton: {
         top: 550,
@@ -404,7 +385,7 @@ export const styles = StyleSheet.create({
         top: 600,
     },
 
-// Edit Password
+    // Edit Password
 
     changeButton: {
         top: 450,

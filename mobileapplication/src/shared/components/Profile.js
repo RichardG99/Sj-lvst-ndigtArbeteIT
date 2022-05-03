@@ -47,50 +47,42 @@ export default class Profile extends React.Component {
 
     render() {
         return (
-            
-            <View style={styles.splashBackground}>
-                <View styles={styles.containerProfile}> 
-                <View style={[styles.ellips1, styles.ellips3]}>               
-                    </View>
-                    <View style={[styles.ellips2, styles.ellips4]}>               
-                    </View>
-                <Text style={styles.profileTitle}>
-                
-                    Your Profile
-                   
-                </Text>
+            <SafeAreaView style={styles.splashBackground}>
+                <View styles={styles.containerProfile}>
+                    <View style={[styles.ellips1, styles.ellips3]}></View>
+                    <View style={[styles.ellips2, styles.ellips4]}></View>
+                    <Text style={styles.profileTitle}>Your Profile</Text>
 
-                {/*<Text h3 title={('Hello ', this.state.username)} />*/}
-                <View style={{marginTop: '50%'}}>
-                <TouchableOpacity
-                    style={[styles.buttonLogin, styles.editpButton]}
-                    type="clear"
-                    onPress={() =>
-                        this.props.navigation.navigate('Edit Profile')
-                    }
-                >
-                    <Text style={styles.loginText} >Edit Profile</Text>
-                    </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.buttonLogin, styles.editeButton]}
-                    type="clear"
-                    onPress={() =>
-                        this.props.navigation.navigate('Edit Password')
-                    }
-                   >
-                       <Text style={styles.loginText}>Edit Password</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.buttonLogin, styles.logoutButton]}
-                    type="clear"
-                    onPress={() => this.logout()}
-                >
-                    <Text style={styles.loginText}>Logout</Text>
-                    </TouchableOpacity>
+                    {/*<Text h3 title={('Hello ', this.state.username)} />*/}
+                    <View style={{ marginTop: '50%' }}>
+                        <TouchableOpacity
+                            style={[styles.buttonLogin, styles.editpButton]}
+                            type="clear"
+                            onPress={() =>
+                                this.props.navigation.navigate('Edit Profile')
+                            }
+                        >
+                            <Text style={styles.loginText}>Edit Profile</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.buttonLogin, styles.editeButton]}
+                            type="clear"
+                            onPress={() =>
+                                this.props.navigation.navigate('Edit Password')
+                            }
+                        >
+                            <Text style={styles.loginText}>Edit Password</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.buttonLogin, styles.logoutButton]}
+                            type="clear"
+                            onPress={() => this.logout()}
+                        >
+                            <Text style={styles.loginText}>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                
-                </View>    
-            </View>
+            </SafeAreaView>
         );
     }
 }

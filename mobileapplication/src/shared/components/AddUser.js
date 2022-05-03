@@ -17,7 +17,7 @@ import Game from './Game.js';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 
-export default class Home extends React.Component {
+export default class AddUser extends React.Component {
     constructor(props) {
         super(props);
         this.allStories = [];
@@ -79,61 +79,70 @@ export default class Home extends React.Component {
     render() {
         return (
             <View style={styles.splashBackground}>
-                
-
-                <View style={[styles.ellips1, styles.ellips3]}>               
-                    </View>
-                    <View style={[styles.ellips2, styles.ellips4]}>               
-                    </View>  
-                    <Text style={[styles.splashTitle, styles.loginTitle]}>
-                        Create Account
-                    </Text>
-                <View style={{marginTop: 150}}>   
-                <Input
-                    placeholder="First name"
-                    name="firstName"
-                    color='white'
-                    onChangeText={(value) =>
-                        this.setState({ firstName: value })
-                    }
-                />
-                <Input
-                    placeholder="Last name"
-                    name="lastName"
-                    color='white'
-                    onChangeText={(value) => this.setState({ lastName: value })}
-                />
-                <Input
-                    placeholder="Email"
-                    name="email"
-                    color='white'
-                    onChangeText={(value) => this.setState({ email: value })}
-                />
-                <Input
-                    placeholder="Username"
-                    name="username"
-                    color='white'
-                    onChangeText={(value) => this.setState({ username: value })}
-                />
-                <Input
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    name="password"
-                    color='white'
-                    onChangeText={(value) => this.setState({ password: value })}
-                />
-                <Input
-                    placeholder="Repeat Password"
-                    secureTextEntry={true}
-                    name="passAgain"
-                    color='white'
-                    onChangeText={(value) =>
-                        this.setState({ passAgain: value })
-                    }
-                />
-                </View> 
+                <View style={[styles.ellips1, styles.ellips3]}></View>
+                <View style={[styles.ellips2, styles.ellips4]}></View>
+                <Text style={[styles.splashTitle, styles.loginTitle]}>
+                    Create Account
+                </Text>
+                <View style={{ marginTop: 150 }}>
+                    <Input
+                        placeholder="First name"
+                        name="firstName"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ firstName: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Last name"
+                        name="lastName"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ lastName: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Email"
+                        name="email"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ email: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Username"
+                        name="username"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ username: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Password"
+                        secureTextEntry={true}
+                        name="password"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ password: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Repeat Password"
+                        secureTextEntry={true}
+                        name="passAgain"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ passAgain: value })
+                        }
+                    />
+                </View>
                 <Text name="errorMsg" value={this.errorMsg} color="red" />
-                <TouchableOpacity style={[styles.buttonLogin, styles.editpButton, styles.createAccountButton]}
+                <TouchableOpacity
+                    style={[
+                        styles.buttonLogin,
+                        styles.editpButton,
+                        styles.createAccountButton,
+                    ]}
                     type="clear"
                     onPress={() =>
                         this.validateAndLogin().then(
@@ -143,20 +152,33 @@ export default class Home extends React.Component {
                                 this.errorMsg = error;
                             }
                         )
-                    }>
-                <Text style={styles.loginText}> 
-                    Create Account
-                </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonLogin, styles.editpButton, styles.resetFormButton]}
-                type="clear"
-                onPress={() => this.resetForm()}
+                    }
                 >
-                    <Text style={styles.loginText}> 
-                        Reset form 
-                    </Text>
-                    
-                 </TouchableOpacity>
+                    <Text style={styles.loginText}>Create Account</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[
+                        styles.buttonLogin,
+                        styles.editpButton,
+                        styles.resetFormButton,
+                    ]}
+                    type="clear"
+                    onPress={() => this.resetForm()}
+                >
+                    <Text style={styles.loginText}>Reset form</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[
+                        styles.buttonLogin,
+                        styles.editpButton,
+                        styles.resetFormButton,
+                        { marginTop: 50 },
+                    ]}
+                    type="clear"
+                    onPress={() => this.props.navigation.goBack()}
+                >
+                    <Text style={styles.loginText}>Back</Text>
+                </TouchableOpacity>
                 {this.debugging ? (
                     <Button title="Log from Home.js" onPress={this.LogItAll} />
                 ) : (
