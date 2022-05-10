@@ -42,7 +42,7 @@ const Register = (props) => {
             type="text"
             name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(JSON.stringify(e.target.value))}
             required />
         </label>
 

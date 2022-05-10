@@ -3,7 +3,7 @@ import {
   Route, Switch,
 } from 'react-router-dom';
 import routes from './routes';
-
+import Prices from './pages/Prices';
 import Header from './pages/Header';
 import Parse from './common';
 import Background from './images/paper.jpg';
@@ -86,6 +86,11 @@ class App extends Component {
                 currentStory={tmpState.currentStory}
                 toggleHeader={this.toggleHeader}
               />
+            </div>
+          </Route>
+          <Route path="/prices">
+            <div>
+              <Prices />
             </div>
           </Route>
           {routes.map((route) => (

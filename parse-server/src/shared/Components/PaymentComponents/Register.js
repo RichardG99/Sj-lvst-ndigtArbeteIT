@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-//import './App.css';
 import { Redirect } from 'react-router-dom';
+import Parse from '../../common';
 
 const Register = (props) => {
   const [email, setEmail] = useState('jenny.rosen@example.com');
@@ -12,19 +12,29 @@ const Register = (props) => {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-      },
+      }, 
       body: JSON.stringify({
         email: email,
       }),
     }).then(r => r.json());
-
+    const user = Parse.User.current()
+    user.set('stripeId', customer.id)
+    user.save().then(() => {
+      // Refresh our page to ensure fresh data, and give a feed-forward feeling for the user
+      console.log(`Successfully added stripe account`);
+      window.location.reload();
+    }).catch((error) => {
+      // Alert the user in case something went wrong with data saving
+      alert("Something went wrong when adding customer id"); 
+      console.log(`Error ${error.code} ${error.message}`); 
+    })
     setCustomer(customer);
   };
-
+  
   if(customer) {
     return <Redirect to={{pathname: '/prices'}} />
   }
-
+  
   return (
     <main>
       <h1>Sample Photo Service</h1>
@@ -32,7 +42,7 @@ const Register = (props) => {
       <img src="https://picsum.photos/280/320?random=4" alt="picsum generated" width="140" height="160" />
 
       <p>
-        Unlimited photo hosting, and more. Cancel anytime.
+        Unlimited photo hosting, and more. Cancel anytime. Donde esta la biblioteca?
       </p>
 
       <form onSubmit={handleSubmit}>

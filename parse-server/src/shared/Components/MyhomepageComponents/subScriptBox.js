@@ -22,16 +22,20 @@ class Subscribe extends React.Component {
     super(props);
     this.butClick = this.butClick.bind(this);
     this.state = {
+      idExist :false,
       redirect: false,
     };
   }
-
+ 
   butClick() {
-    const user = Parse.User.current();
-    if (user) {
+    const user = Parse.User.current()
+    const stripeId = user.get("stripeId");             
+    console.log(stripeId)
+    if (stripeId) {                                   //Checking if user is assigned as a stripe customer 
+      this.setState(() => ({ idExist : true }))
+    } else if (user) {                                //Checking if user is logged if not a stripe customer
         this.setState(() => ({ redirect: true }));
     } else {
-      console.log("Du 2");
       alert('You must log in first');
     }
   }
@@ -41,6 +45,10 @@ class Subscribe extends React.Component {
     if (tmpState.redirect) {
       console.log(this.state.redirect);
       return <Redirect to="/subscription" />;
+    }
+    if (tmpState.idExist) {
+      console.log(this.state.idExist);
+      return <Redirect to="/prices" />;
     }
 
     return (
