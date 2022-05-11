@@ -1,8 +1,8 @@
 import * as Permissions from 'expo-permissions';
 import "../local_modules/AugmentedAudio.js";
 import React, { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, Platform, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
-import {AsyncStorage} from '@react-native-async-storage/async-storage'
 import {Button} from 'react-native-elements'
 import "../common.js"
 import * as FileSystem from 'expo-file-system';
@@ -48,7 +48,7 @@ export default class Game extends React.Component {
     this.variableState = new VarState();
     this.backHandler = null;
   }
-  componentDidMount(){
+  UNSAFE_componentDidMount(){
     this.getPermissions();
     this.getChapterInfo().then(() => {
       Parse.User.currentAsync().then((user) => {
@@ -61,7 +61,7 @@ export default class Game extends React.Component {
     );
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     if(this.backHandler != null)
       this.backHandler.remove();
   }

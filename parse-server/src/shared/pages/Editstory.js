@@ -28,8 +28,9 @@ const editStoryStyle = {
  * @param storyId ID of the story to save data about
  * @param storyTitle Title of the story
  * @param storyDesc Description of the story
+ * @param storyCategory Category of the story
  **/
-function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
+function parseSaveStoryInfo(storyId, storyTitle, storyDesc, storyCategory) {
   return new Promise((resolve, reject) => {
     const Story = Parse.Object.extend('Story');
     const query = new Parse.Query(Story);
@@ -37,14 +38,16 @@ function parseSaveStoryInfo(storyId, storyTitle, storyDesc) {
     query.get(storyId).then((story) => {
       story.set('title', storyTitle);
       story.set('desc', storyDesc);
+      story.set('category', storyCategory)
       story.save().then(() => {
         resolve('success');
       }, (error) => {
         reject(error);
-      });
+      }); 
     }, (error) => {
       reject(error);
     });
+    console.log('\n', storyCategory, '\n')
   });
 }
 
@@ -335,10 +338,12 @@ function parseGetStoryInfo(storyId) {
     query.get(storyId).then((story) => {
       const storyTitle = story.get('title');
       const storyDesc = story.get('desc');
+      const storyCategory = story.get('category');
 
       const info = {
         title: storyTitle,
         desc: storyDesc,
+        category: storyCategory,
       };
       resolve(info);
     }, (error) => {
@@ -501,6 +506,7 @@ class Editstory extends React.Component {
       //Information about the current story
       currentStoryTitle: '',
       currentStoryDesc: '',
+      currentCategory: '',
       currentStartingBoxId: '',
 
       //Information about the currently selected box
@@ -594,7 +600,7 @@ class Editstory extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     const tmpState = this.state;
     const tmpProps = this.props;
     if (tmpState.isMounted) {
@@ -905,6 +911,7 @@ class Editstory extends React.Component {
       this.setState({
         currentStoryTitle: info.title,
         currentStoryDesc: info.desc,
+        currentCategory: info.category,
       });
     }, (error) => {
       console.log(`parse get story info error: ${error}`);
@@ -1050,8 +1057,9 @@ class Editstory extends React.Component {
     const tmpProps = this.props;
     const storyTitle = tmpState.currentStoryTitle;
     const storyDesc = tmpState.currentStoryDesc;
+    const storyCategory = tmpState.currentCategory
     const storyId = tmpProps.currentStory;
-    parseSaveStoryInfo(storyId, storyTitle, storyDesc).then(() => {
+    parseSaveStoryInfo(storyId, storyTitle, storyDesc, storyCategory).then(() => {
     }, (error) => {
       console.log(`error saveStoryInfo: ${error}`);
     });
@@ -1276,6 +1284,7 @@ class Editstory extends React.Component {
     });
   }
 
+
   /**
    * Main rendering function
    */
@@ -1296,6 +1305,7 @@ class Editstory extends React.Component {
 
             currentStoryTitle={tmpState.currentStoryTitle}
             currentStoryDesc={tmpState.currentStoryDesc}
+            currentCategory={tmpState.currentCategory}
             onStoryInfoChange={this.onStoryInfoChange}
             saveStoryInfo={this.saveStoryInfo}
             publishStory={this.publishStory}

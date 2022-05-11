@@ -9,7 +9,11 @@ import Bin from '../../images/bin.png';
 import Save from '../../images/save.png';
 import Paperplane from '../../images/paperplane_114200.png';
 import PlayInfo from './PlayInfo';
+import { createPopper } from '@popperjs/core';
 
+/*
+menu box in the top left corner
+*/
 const menuStyle = {
   position: 'fixed',
   fontFamily: 'Verdana, Geneva, sans-serif',
@@ -38,7 +42,7 @@ const buttonStyle = {
   border: '1px solid lightgrey',
   boxShadow: '1px 1px 2px rgba(0,0,0, 0.1)',
   cursor: 'pointer',
-};
+}; 
 
 const buttonAddBoxStyle = {
   width: '65%',
@@ -100,6 +104,7 @@ class Menu extends React.Component {
     const tmpProps = this.props;
     tmpProps.saveStoryInfo();
     this.setStatus('Story saved successfully');
+    console.log("Klart med sparning")
     // TODO: Add any other saving functionality?
   }
 
@@ -179,7 +184,7 @@ class Menu extends React.Component {
           currentStoryTitle={tmpProps.currentStoryTitle}
           currentStoryDesc={tmpProps.currentStoryDesc}
           onStoryInfoChange={tmpProps.onStoryInfoChange}
-
+          currentCategory={tmpProps.currentCategory}
         />
         <button type="button" style={buttonStyle} onClick={this.handleSaveStory}><img draggable="false" style={imgStyle} src={Save}/>Save Story</button>
         <button type="button" style={buttonStyle} onClick={this.handlePublishStory}><img draggable="false" style={imgStyle} src={Paperplane}/>Publish Story</button>
@@ -192,7 +197,7 @@ class Menu extends React.Component {
       </div>
     );
   }
-}
+} 
 Menu.propTypes = {
 
   addNewBox: PropTypes.func.isRequired,
