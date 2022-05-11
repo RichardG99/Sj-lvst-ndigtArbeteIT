@@ -23,19 +23,44 @@ class Subscribe extends React.Component {
     this.butClick = this.butClick.bind(this);
     this.state = {
       idExist :false,
+      isSubscribed: false,
       redirect: false,
     };
   }
- 
-  butClick() {
+
+  async fetchFunction(stripeId) {
+    try {
+        const {subscriptions} = await fetch('/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId: stripeId
+        }),
+      }).then(r => r.json())
+      return subscriptions.data
+    }
+    catch(err) {
+      throw err;
+      console.log(err);
+    }
+  };
+
+  async butClick() {
     const user = Parse.User.current()
-    const stripeId = user.get("stripeId");             
-    console.log(stripeId)
-    if (stripeId) {                                   //Checking if user is assigned as a stripe customer 
-      this.setState(() => ({ idExist : true }))
-    } else if (user) {                                //Checking if user is logged if not a stripe customer
+    const stripeId = user.get("stripeId");  
+    if (stripeId) {            
+      const subscriptions = await this.fetchFunction(stripeId)
+      console.log(subscriptions)
+      if (subscriptions) {                            //Checking if user already is subscribed 
+        this.setState(() => ({ isSubscribed : true}))
+      } else {                                        //Checking if user is assigned as a stripe customer 
+          this.setState(() => ({ idExist : true }))
+        } 
+    } else if (user)                               //Checking if user is logged if not a stripe customer
         this.setState(() => ({ redirect: true }));
-    } else {
+      else {
       alert('You must log in first');
     }
   }
@@ -50,14 +75,17 @@ class Subscribe extends React.Component {
       console.log(this.state.idExist);
       return <Redirect to="/prices" />;
     }
-
+    if (tmpState.isSubscribed) {
+      console.log(this.state.isSubscribed)
+      return <Redirect to={{pathname: '/account'}} />;
+    }
     return (
       <button
         type="button"
         style={newStoryButtonStyle}
         onClick={this.butClick}
       >
-        Subscribe
+        Subscriptions
       </button>
     );
   }

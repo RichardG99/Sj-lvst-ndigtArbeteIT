@@ -13,6 +13,7 @@ const Prices = (props) => {
       setPrices(prices);
     };
     fetchPrices();
+    // TODO: Eventuellt lägga in en cleanup funktion för att inte fetcha fel
   }, [])
 
   const createSubscription = async (priceId) => {
@@ -35,12 +36,12 @@ const Prices = (props) => {
 
   if(subscriptionData) {
     console.log(subscriptionData)
-    /*
+    
     return <Redirect to={{
       pathname: '/subscribe',
       state: subscriptionData
     }} />
-    */
+    
   }
 
   return (

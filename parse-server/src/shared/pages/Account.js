@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import Parse from '../common';
 //import './App.css';
 
+
 const AccountSubscription = ({subscription}) => {
+  console.log(subscription)
   return (
     <section>
       <hr />
@@ -17,7 +20,7 @@ const AccountSubscription = ({subscription}) => {
       </p>
 
       <p>
-        Card last4: {subscription.default_payment_method?.card?.last4}
+        Card last4: {/*subscription.default_payment_method.card.last4*/}
       </p>
 
       <p>
@@ -35,8 +38,17 @@ const Account = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const {subscriptions} = await fetch('/subscriptions').then(r => r.json());
-
+      const stripeId = Parse.User.current().get("stripeId")
+      const {subscriptions} = await fetch('/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId: stripeId
+        }),
+      }).then(r => r.json());
+      console.log(subscriptions)
       setSubscriptions(subscriptions.data);
     }
     fetchData();

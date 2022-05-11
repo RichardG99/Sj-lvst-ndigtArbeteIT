@@ -3,6 +3,9 @@ import Loginpage from './pages/Loginpage';
 import Myhomepage from './pages/Myhomepage';
 import Prices from './pages/Prices';
 import Subscription from './pages/Subscription';
+import Subscribe from './pages/Subscribe';
+import Account from './pages/Account';
+import Cancel from './pages/Cancel';
 
 export default [
   {
@@ -21,8 +24,23 @@ export default [
     exact: true,
   },
   {
+    path:'/account',
+    component: Account,
+    exact: true,
+  },
+  {
+    path:'/cancel',
+    component: Cancel,
+    exact: true,
+  },
+  {
     path:'/prices',
     component: Prices,
+    exact: true,
+  },
+  {
+    path:'/subscribe',
+    component: Subscribe,
     exact: true,
   },
   {

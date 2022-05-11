@@ -68,7 +68,7 @@ const Subscribe = ({location}) => {
   }
 
   return (
-    <>
+    <div>
       <h1>Subscribe</h1>
 
       <p>
@@ -99,7 +99,7 @@ const Subscribe = ({location}) => {
 
         <div>{messages}</div>
       </form>
-    </>
+    </div>
   )
 }
 

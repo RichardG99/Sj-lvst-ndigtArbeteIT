@@ -8,7 +8,11 @@ import Header from './pages/Header';
 import Parse from './common';
 import Background from './images/paper.jpg';
 import Editstory from './pages/Editstory';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+//import settings from '../Settings';
 
+//const stripePromise = loadStripe(settings.STRIPE_PUBLISHABLE_KEY)
 
 const styles = {
   display: 'block',
@@ -32,23 +36,27 @@ const pageStyle = {
   clear: 'both',
 };
 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loggedIn: false,
       currentStory: 'RDrf1AFzP9',
-
       showHeader: true,
+      stripeKey: null
     };
 
     this.setCurrentStory = this.setCurrentStory.bind(this);
     this.authenticate = this.authenticate.bind(this);
     this.toggleHeader = this.toggleHeader.bind(this);
+    this.setStripeKey = this.setStripeKey.bind(this);
+
   }
 
   componentDidMount() {
     this.authenticate();
+    this.setStripeKey();
   }
 
   setCurrentStory(story) {
@@ -65,6 +73,15 @@ class App extends Component {
     return false;
   }
 
+  setStripeKey() {
+    fetch('/config')
+    .then((response) => response.json())
+    .then((data) => {
+      const stripePromise = loadStripe(data.publishableKey);
+      this.setState(({ stripeKey: stripePromise }))
+    }).catch(e => {console.error(e)})
+  }
+
   toggleHeader() {
     this.setState((state) => ({ showHeader: !state.showHeader }));
   }
@@ -72,31 +89,15 @@ class App extends Component {
   render() {
     const tmpState = this.state;
     return (
-      <div style={styles}>
-        {tmpState.showHeader
-          ? <Header />
-          : null}
-        <Switch>
-          <Route key="/editstory" path="/editstory">
-            <div>
-              <Editstory
-                authenticate={this.authenticate}
-                loggedIn={tmpState.loggedIn}
-                setCurrentStory={this.setCurrentStory}
-                currentStory={tmpState.currentStory}
-                toggleHeader={this.toggleHeader}
-              />
-            </div>
-          </Route>
-          <Route path="/prices">
-            <div>
-              <Prices />
-            </div>
-          </Route>
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path}>
-              <div style={pageStyle}>
-                <route.component
+      <Elements stripe={tmpState.stripeKey}>
+        <div style={styles}>
+          {tmpState.showHeader
+            ? <Header />
+            : null}
+          <Switch>
+            <Route key="/editstory" path="/editstory">
+              <div>
+                <Editstory
                   authenticate={this.authenticate}
                   loggedIn={tmpState.loggedIn}
                   setCurrentStory={this.setCurrentStory}
@@ -105,9 +106,27 @@ class App extends Component {
                 />
               </div>
             </Route>
-          ))}
-        </Switch>
-      </div>
+            <Route path="/prices">
+              <div>
+                <Prices />
+              </div>
+            </Route>
+            {routes.map((route) => (
+              <Route key={route.path} path={route.path}>
+                <div style={pageStyle}>
+                  <route.component
+                    authenticate={this.authenticate}
+                    loggedIn={tmpState.loggedIn}
+                    setCurrentStory={this.setCurrentStory}
+                    currentStory={tmpState.currentStory}
+                    toggleHeader={this.toggleHeader}
+                  />
+                </div>
+              </Route>
+            ))}
+          </Switch>
+        </div>
+      </Elements>
     );
   }
 }

@@ -5,8 +5,9 @@ import { Redirect } from 'react-router-dom';
 
 const Cancel = ({location}) => {
   const [cancelled, setCancelled] = useState(false);
+  const [denied, setDenied] = useState(false);
 
-  const handleClick = async (e) => {
+  const handleConfirm = async (e) => {
     e.preventDefault();
 
     await fetch('/cancel-subscription', {
@@ -22,14 +23,20 @@ const Cancel = ({location}) => {
     setCancelled(true);
   };
 
-  if(cancelled) {
+  const handleDenied = async (e) => {
+    e.preventDefault();
+    setDenied(true);
+  };
+
+  if(cancelled || denied) {
     return <Redirect to={`/account`} />
   }
 
   return (
     <div>
-      <h1>Cancel</h1>
-      <button onClick={handleClick}>Cancel</button>
+      <h1>Are you sure you want to cancel your subscription?</h1>
+      <button onClick={handleConfirm}>Yes</button>
+      <button onClick={handleDenied}>No</button>
     </div>
   )
 }

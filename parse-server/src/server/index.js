@@ -8,6 +8,9 @@ import testHTMLRAW from '../TestForParse/test';
 import settings from '../Settings'
 import {STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY} from "../settings"
 const { ParseServer } = require('parse-server');
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
 
 const PORT = settings.serverPort;
 const app = express();
@@ -97,7 +100,7 @@ app.get('/test', (req, res) => {
  // Respone is used to render subscriptions in front end 
  app.get('/config', async (req, res) => {
   const prices = await stripe.prices.list({
-    active : true,//['price_1Kvj3FAqt7xgnAosdjIMuwaw', 'price_1Kvj2dAqt7xgnAosjvRl3RLf'],
+    active : true, //['price_1Kvj3FAqt7xgnAosdjIMuwaw', 'price_1Kvj2dAqt7xgnAosjvRl3RLf'],
     expand: ['data.product']
   })
   res.send({
@@ -135,10 +138,36 @@ app.post('/create-subscription', async (req, res) => {
   }
 });
 
+app.post('/subscriptions', async (req, res) => {
+  // Simulate authenticated user. In practice this will be the
+  // Stripe Customer ID related to the authenticated user.
+  const customerId = req.body.customerId;
+  console.log(customerId)
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: 'all',
+    expand: ['data.default_payment_method'],
+  });
+  res.json({subscriptions});
+});
+
+app.post('/cancel-subscription', async (req, res) => {
+  // Cancel the subscription
+  try {
+    const deletedSubscription = await stripe.subscriptions.del(
+      req.body.subscriptionId
+    );
+
+    res.send({ subscription: deletedSubscription });
+  } catch (error) {
+    return res.status(400).send({ error: { message: error.message } });
+  }
+});
+
 app.get('*', (req, res) => {
   const jsx = renderToString(
     <StaticRouter location={req.url} >
-      <App />
+        <App />
     </StaticRouter>,
   );
   res.send(`
