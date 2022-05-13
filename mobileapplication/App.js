@@ -1,12 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-
 import StackNavigation from './src/shared/navigators/StackNavigation';
-import UserContext from './src/shared/UserContext';
-import { StatusBar, View } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Login from './src/shared/components/Login';
-import Profile from './src/shared/components/Profile';
+import * as Font from 'expo-font';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -18,17 +13,27 @@ export default class App extends React.Component {
             loggedIn: true,
             username: null,
             password: null,
+            fontLoaded: false,
         };
+    }
+    async componentDidMount() {
+        await Font.loadAsync({
+            Pacifico: require('./src/shared/assets/fonts/Pacifico-Regular.ttf'),
+            PTSans: require('./src/shared/assets/fonts/PTSans-Regular.ttf'),
+            InterRegular: require('./src/shared/assets/fonts/Inter-Regular.ttf'),
+            InterSemiBold: require('./src/shared/assets/fonts/Inter-SemiBold.ttf'),
+        });
+        this.setState({ fontLoaded: true });
     }
     // Debugging function -- Helps a lot ฅ^•ﻌ•^ฅ
     LogItAll = async () => {};
-    /* --------------------------------------Audio / voice functionality------------------------------ */
 
     render() {
-        /*         if (!this.state.loggedIn) {
-            return <Login />;
-        } */
-        return <StackNavigation />;
+        if (this.state.fontLoaded) {
+            return <StackNavigation />;
+        } else {
+            return null;
+        }
     }
 }
 

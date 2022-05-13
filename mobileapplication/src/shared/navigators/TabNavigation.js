@@ -52,11 +52,12 @@ function ProfileStack() {
 export default function TabNavigation() {
     return (
         <Tab.Navigator
+            initialRouteName="Explore"
             screenOptions={({ route }) => ({
                 header: () => null,
                 tabBarIcon: ({ focused, color, size, padding }) => {
                     let iconName;
-                    if (route.name == 'Marketplace') {
+                    if (route.name == 'Explore') {
                         iconName = focused ? 'book' : 'book-outline';
                     } else if (route.name == 'My Library') {
                         iconName = focused
@@ -84,15 +85,10 @@ export default function TabNavigation() {
                     null,
                 ],
             })}
-            tabBarOptions={{
-                activeTintColor: '#FF9900',
-                inactiveTintColor: '#CBD9F5',
-                style: { width: screenWidth, backgroundColor: 'red' },
-            }}
         >
             <Tab.Screen name="Profile" component={ProfileStack} />
+            <Tab.Screen name="Explore" component={MarketplaceStack} />
             <Tab.Screen name="My Library" component={MyLibraryStack} />
-            <Tab.Screen name="Marketplace" component={MarketplaceStack} />
         </Tab.Navigator>
     );
 }

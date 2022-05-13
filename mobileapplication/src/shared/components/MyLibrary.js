@@ -23,9 +23,13 @@ function Story({ myStory, selectedStory }) {
         <>
             <View style={styles.story}>
                 <TouchableOpacity onPress={() => selectedStory(myStory)}>
-                    <Text style={styles.title}>Stranded In The Pacific</Text>
+                    <Text style={styles.title}>
+                        {myStory.story.get('title')}
+                    </Text>
                     <Text style={styles.by}>by</Text>
-                    <Text style={styles.author}>The Dreamers</Text>
+                    <Text style={styles.author}>
+                        {myStory.story.get('author')}
+                    </Text>
                 </TouchableOpacity>
             </View>
         </>

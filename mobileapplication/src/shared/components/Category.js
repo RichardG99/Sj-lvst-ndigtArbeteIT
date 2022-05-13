@@ -153,7 +153,9 @@ const ListItem = ({ item }) => {
 export default class Marketplace2 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            categoryTitle: this.props.route.params.categoryTitle,
+        };
     }
     state = {
         search: '',
@@ -198,6 +200,7 @@ export default class Marketplace2 extends React.Component {
                             alignItems: 'center',
                         }}
                     >
+                        <Text>{this.state.categoryTitle}</Text>
                         <SectionList
                             stickySectionHeadersEnabled={false}
                             sections={DATA}

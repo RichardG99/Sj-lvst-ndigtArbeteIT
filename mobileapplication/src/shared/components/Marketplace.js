@@ -62,8 +62,8 @@ const DATA = [
     },
 ];
 
-const Item = ({ title, image, navigation }) => (
-    <TouchableOpacity onPress={() => console.log('Button pressed')}>
+const Item = ({ title, image, myCategory, selectedCategory }) => (
+    <TouchableOpacity onPress={() => selectedCategory(myCategory)}>
         <ImageBackground
             imageStyle={{
                 borderRadius: 10,
@@ -79,7 +79,9 @@ const Item = ({ title, image, navigation }) => (
 export default class Marketplace extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            myCategories: [],
+        };
     }
     state = {
         search: '',
@@ -88,12 +90,27 @@ export default class Marketplace extends React.Component {
     updateSearch = (search) => {
         this.setState({ search });
     };
+    selectedCategory = (myCategory) => {
+        this.props.navigation.navigate('Category', {
+            categoryTitle: myCategory.category.get('title'),
+            //activeStoryId: myStory.story.id,
+            //currentBoxId: myStory.currentBoxId,
+            //currentTime: myStory.timeStamp,
+        });
+    };
 
     render() {
         const { search } = this.state;
 
         const renderItem = ({ item }) => (
-            <Item title={item.title} image={item.image} />
+            <Item
+                title={item.title}
+                image={item.image}
+                navigation={this.props.navigation}
+                id={item.id}
+                myCategory={item}
+                selectedCategory={this.selectedCategory}
+            />
         );
         const headerComponent = () => (
             <View style={{ alignItems: 'center' }}>
@@ -159,15 +176,7 @@ export default class Marketplace extends React.Component {
                         onChangeText={this.updateSearch}
                         value={search}
                     />
-                    <View
-                        style={{
-                            padding: 10,
-                            backgroundColor: 'white',
-                            borderRadius: 40,
-                            marginTop: 10,
-                            alignItems: 'center',
-                        }}
-                    >
+                    <View style={styles.flatlistView}>
                         <FlatList
                             ListHeaderComponent={headerComponent}
                             data={DATA}
