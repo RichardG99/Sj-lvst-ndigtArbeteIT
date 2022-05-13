@@ -6,6 +6,7 @@ import Subscription from './pages/Subscription';
 import Subscribe from './pages/Subscribe';
 import Account from './pages/Account';
 import Cancel from './pages/Cancel';
+import Update from './pages/Update';
 
 export default [
   {
@@ -26,6 +27,11 @@ export default [
   {
     path:'/account',
     component: Account,
+    exact: true,
+  },
+  {
+    path: '/update',
+    component: Update,
     exact: true,
   },
   {

@@ -6,10 +6,12 @@ import { StaticRouter } from 'react-router-dom';
 import App from '../shared/App';
 import testHTMLRAW from '../TestForParse/test';
 import settings from '../Settings'
-import {STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY} from "../settings"
+//import {STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET} from "../settings"
 const { ParseServer } = require('parse-server');
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+//import {Elements} from '@stripe/react-stripe-js';
+//import {loadStripe} from '@stripe/stripe-js';
+const bodyParser = require('body-parser');
+
 
 
 const PORT = settings.serverPort;
@@ -138,6 +140,22 @@ app.post('/create-subscription', async (req, res) => {
   }
 });
 
+app.post('/update', async (req, res) => {
+  // Simulate authenticated user. In practice this will be the
+  // Stripe Customer ID related to the authenticated user.
+  const subscription_id = req.body.subscription_id
+  const payment_intent = req.body.clientSecret
+  console.log(clientSecret)
+  console.log(subscription_id)
+  const subscription = await stripe.subscriptions.update(
+    subscription_id,
+    {
+      default_payment_method: payment_intent.payment_method,
+    },
+  );
+  res.json({subscription});
+});
+
 app.post('/subscriptions', async (req, res) => {
   // Simulate authenticated user. In practice this will be the
   // Stripe Customer ID related to the authenticated user.
@@ -146,7 +164,7 @@ app.post('/subscriptions', async (req, res) => {
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
     status: 'all',
-    expand: ['data.default_payment_method'],
+    expand: ['data.default_payment_method', 'data.latest_invoice.payment_intent'],
   });
   res.json({subscriptions});
 });
@@ -163,6 +181,89 @@ app.post('/cancel-subscription', async (req, res) => {
     return res.status(400).send({ error: { message: error.message } });
   }
 });
+
+app.post(
+  '/webhook',
+  bodyParser.raw({ type: 'application/json' }),
+  async (req, res) => {
+    // Retrieve the event by verifying the signature using the raw body and secret.
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        req.header('Stripe-Signature'),
+        settings.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.log(err);
+      console.log(`⚠️  Webhook signature verification failed.`);
+      console.log(
+        `⚠️  Check the env file and enter the correct webhook secret.`
+      );
+      return res.sendStatus(400);
+    }
+
+    // Extract the object from the event.
+    const dataObject = event.data.object;
+
+    // Handle the event
+    // Review important events for Billing webhooks
+    // https://stripe.com/docs/billing/webhooks
+    // Remove comment to see the various objects sent for this sample
+    switch (event.type) {
+      case 'invoice.payment_succeeded':
+        if(dataObject['billing_reason'] == 'subscription_create') {
+          // The subscription automatically activates after successful payment
+          // Set the payment method used to pay the first invoice
+          // as the default payment method for that subscription
+          const subscription_id = dataObject['subscription']
+          const payment_intent_id = dataObject['payment_intent']
+
+          // Retrieve the payment intent used to pay the subscription
+          const payment_intent = await stripe.paymentIntents.retrieve(payment_intent_id);
+
+          const subscription = await stripe.subscriptions.update(
+            subscription_id,
+            {
+              default_payment_method: payment_intent.payment_method,
+            },
+          );
+
+          console.log("Default payment method set for subscription:" + payment_intent.payment_method);
+        };
+
+        break;
+      case 'invoice.payment_failed':
+        // Use this webhook to notify your user that their payment has
+        // failed and to retrieve new card details.
+        // This can be used in a future implementation where e-mails to customers are present
+        break;
+      case 'invoice.finalized':
+        // If you want to manually send out invoices to your customers
+        // or store them locally to reference to avoid hitting Stripe rate limits.
+        break;
+      case 'customer.subscription.deleted':
+        if (event.request != null) {
+          // handle a subscription cancelled by your request
+          // from above.
+        } else {
+          // handle subscription cancelled automatically based
+          // upon your subscription settings.
+        }
+        break;
+      case 'customer.subscription.trial_will_end':
+        // Send notification to your user that the trial will end
+        break;
+      case 'customer.subscription.trial_will_end':
+          // Send notification to your user that the trial will end
+        break;
+      default:
+      // Unexpected event type
+    }
+    res.sendStatus(200);
+  }
+);
 
 app.get('*', (req, res) => {
   const jsx = renderToString(

@@ -2,10 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Parse from '../common';
 //import './App.css';
-
+import {
+  CardElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 
 const AccountSubscription = ({subscription}) => {
+  console.log("hoop")
   console.log(subscription)
+  console.log("happ")
+  let last4;
+  if (subscription.default_payment_method) {
+    last4 = subscription.default_payment_method.card.last4
+  } else {
+    last4 = false
+  }
+  const clientSecret = subscription.latest_invoice.payment_intent.client_secret;
+  console.log(clientSecret)
+  if (last4) {
+    var last4paragraph = <p> Card last4: {last4} </p>
+  }
   return (
     <section>
       <hr />
@@ -18,20 +35,20 @@ const AccountSubscription = ({subscription}) => {
       <p>
         Status: {subscription.status}
       </p>
-
-      <p>
-        Card last4: {/*subscription.default_payment_method.card.last4*/}
-      </p>
+      
+      {last4paragraph}
 
       <p>
         Current period end: {(new Date(subscription.current_period_end * 1000).toString())}
       </p>
-
-      {/* <Link to={{pathname: '/change-plan', state: {subscription: subscription.id }}}>Change plan</Link><br /> */}
+      {<Link to=
+      {{pathname: '/update', state: {subscriptionId: subscription.id, clientSecret: clientSecret }}}>
+  Update payment</Link>}
       <Link to={{pathname: '/cancel', state: {subscription: subscription.id }}}>Cancel</Link>
     </section>
   )
 }
+
 
 const Account = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -62,15 +79,13 @@ const Account = () => {
     <div>
       <h1>Account</h1>
 
-      <a href="/prices">Add a subscription</a>
-      <a href="/">Restart demo</a>
-
       <h2>Subscriptions</h2>
 
       <div id="subscriptions">
         {subscriptions.map(s => {
           return <AccountSubscription key={s.id} subscription={s} />
         })}
+        
       </div>
     </div>
   );
