@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import { Button, Input } from 'react-native-elements';
+
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import Game from './Game.js';

@@ -32,9 +32,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const api = new ParseServer({
   logLevel: 'warn',
   databaseURI: databaseUri || settings.databaseURI, // We can override our database URI by setting an environment variable
-  appId: process.env.APP_ID || settings.appID, //Same with our app ID...
-  masterKey: process.env.MASTER_KEY || '', 
-  serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse', //...and server URL
+  appId: process.env.APP_ID || "myAppId", //Same with our app ID...
+  masterKey: process.env.MASTER_KEY || 'myMasterKey', 
+  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse', //...and server URL
   javascriptKey: 'AugmentedAudio',
   // -- As we do not use an S3 file bucket, these lines are commented out
   /*filesAdapter: new S3Adapter(

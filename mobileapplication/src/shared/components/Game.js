@@ -46,7 +46,6 @@ export default class Game extends React.Component {
             recordingPermissions: false,
             brightnessPermission: false,
             playing: false,
-
             currentBoxTitle: 'Loading...',
             currentBoxTime: '0',
             storyTitle: this.props.route.params.storyTitle,
