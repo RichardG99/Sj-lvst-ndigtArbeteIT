@@ -35,8 +35,6 @@ function Story({ myStory, selectedStory }) {
         </>
     );
 }
-//{myStory.story.get('title')}
-//{myStory.story.get('author')}
 
 export default class MyLibrary extends React.Component {
     constructor(props) {

@@ -28,6 +28,7 @@ const DATA = [
         nav: {},
         image: require('../assets/raven-gaa8626c41_1920.jpg'),
         title: 'Thriller',
+        //category: this.props.route.params.storyCategory,
     },
     {
         id: 2,
@@ -62,7 +63,7 @@ const DATA = [
     },
 ];
 
-const Item = ({ title, image, myCategory, selectedCategory }) => (
+/* const Item = ({ title, image, myCategory, myStory }) => (
     <TouchableOpacity onPress={() => selectedCategory(myCategory)}>
         <ImageBackground
             imageStyle={{
@@ -74,13 +75,29 @@ const Item = ({ title, image, myCategory, selectedCategory }) => (
             <Text style={styles.categoryText}>{title}</Text>
         </ImageBackground>
     </TouchableOpacity>
-);
+); */
 
-export default class Marketplace extends React.Component {
+function Item({ selectedCategory, myStory, image, title }) {
+    return (
+        <TouchableOpacity onPress={() => selectedCategory(myStory)}>
+            <ImageBackground
+                imageStyle={{
+                    borderRadius: 10,
+                }}
+                source={image}
+                style={styles.categoryButton}
+            >
+                <Text style={styles.categoryText}>{title}</Text>
+            </ImageBackground>
+        </TouchableOpacity>
+    );
+}
+
+export default class Explore extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            myCategories: [],
+            myStories: [],
         };
     }
     state = {
@@ -90,32 +107,22 @@ export default class Marketplace extends React.Component {
     updateSearch = (search) => {
         this.setState({ search });
     };
-    selectedCategory = (myCategory) => {
+
+    selectedCategory = (myStory) => {
         this.props.navigation.navigate('Category', {
-            categoryTitle: myCategory.category.get('title'),
-            //activeStoryId: myStory.story.id,
-            //currentBoxId: myStory.currentBoxId,
-            //currentTime: myStory.timeStamp,
+            /* storyTitle: myStory.story.get('title'),
+            activeStoryId: myStory.story.id,
+            currentBoxId: myStory.currentBoxId,
+            currentTime: myStory.timeStamp, */
         });
     };
 
     render() {
         const { search } = this.state;
-
-        const renderItem = ({ item }) => (
-            <Item
-                title={item.title}
-                image={item.image}
-                navigation={this.props.navigation}
-                id={item.id}
-                myCategory={item}
-                selectedCategory={this.selectedCategory}
-            />
-        );
         const headerComponent = () => (
             <View style={{ alignItems: 'center' }}>
                 <View style={{ backgroundColor: 'transparent', height: 150 }}>
-                    <Text style={styles.categoryTitle}> New </Text>
+                    <Text style={styles.sectionTitle}> New </Text>
                     <TouchableOpacity
                         onPress={() => {
                             console.log('New');
@@ -136,7 +143,7 @@ export default class Marketplace extends React.Component {
                         marginBottom: 70,
                     }}
                 >
-                    <Text style={[styles.categoryTitle]}> Popular </Text>
+                    <Text style={[styles.sectionTitle]}> Popular </Text>
                     <TouchableOpacity
                         onPress={() => console.log('Popular')}
                         style={{ alignSelf: 'center' }}
@@ -147,7 +154,7 @@ export default class Marketplace extends React.Component {
                             imageStyle={{ borderRadius: 10 }}
                         ></ImageBackground>
                     </TouchableOpacity>
-                    <Text style={[styles.categoryTitle, styles.categoryTitle2]}>
+                    <Text style={[styles.sectionTitle, styles.sectionTitle2]}>
                         {' '}
                         Categories{' '}
                     </Text>
@@ -180,7 +187,14 @@ export default class Marketplace extends React.Component {
                         <FlatList
                             ListHeaderComponent={headerComponent}
                             data={DATA}
-                            renderItem={renderItem}
+                            renderItem={({ item }) => (
+                                <Item
+                                    title={item.title}
+                                    image={item.image}
+                                    selectedCategory={this.selectedCategory}
+                                    myStory={item}
+                                />
+                            )}
                             keyExtractor={(item) => item.id}
                             numColumns={2}
                             style={styles.flatlist}
@@ -193,12 +207,4 @@ export default class Marketplace extends React.Component {
     }
 }
 
-/*<ImageBackground
-            
-            imageStyle={{
-                borderRadius: 10,
-            }}
-            source={image}
-        >
-            <Text style={styles.categoryText}>{title}</Text>
-        </ImageBackground>*/
+/*  */

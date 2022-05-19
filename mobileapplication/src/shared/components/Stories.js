@@ -11,7 +11,6 @@ import {
     Item,
     TouchableOpacity,
 } from 'react-native';
-
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';

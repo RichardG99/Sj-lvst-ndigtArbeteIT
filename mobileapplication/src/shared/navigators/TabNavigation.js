@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Dimensions, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Stories from '../components/Stories.js';
-import Marketplace from '../components/Marketplace.js';
+import Explore from '../components/Explore.js';
 import Category from '../components/Category.js';
 import Game from '../components/Game.js';
 import Horror from '../components/Horror.js';
@@ -17,10 +17,10 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const screenWidth = Dimensions.get('window').width;
 
-function MarketplaceStack() {
+function ExploreStack() {
     return (
         <Stack.Navigator screenOptions={{ header: () => null }}>
-            <Stack.Screen name="Marketplace" component={Marketplace} />
+            <Stack.Screen name="Explore" component={Explore} />
             <Stack.Screen name="Category" component={Category} />
             <Stack.Screen name="Stories" component={Stories} />
             <Stack.Screen name="Game" component={Game} />
@@ -58,11 +58,11 @@ export default function TabNavigation() {
                 tabBarIcon: ({ focused, color, size, padding }) => {
                     let iconName;
                     if (route.name == 'Explore') {
-                        iconName = focused ? 'book' : 'book-outline';
+                        iconName = focused ? 'search' : 'search-outline';
                     } else if (route.name == 'My Library') {
                         iconName = focused
-                            ? 'play-circle'
-                            : 'play-circle-outline';
+                            ? 'book'
+                            : 'book-outline';
                     } else if (route.name == 'Profile') {
                         iconName = focused ? 'person' : 'person-outline';
                     }
@@ -87,7 +87,7 @@ export default function TabNavigation() {
             })}
         >
             <Tab.Screen name="Profile" component={ProfileStack} />
-            <Tab.Screen name="Explore" component={MarketplaceStack} />
+            <Tab.Screen name="Explore" component={ExploreStack} />
             <Tab.Screen name="My Library" component={MyLibraryStack} />
         </Tab.Navigator>
     );
