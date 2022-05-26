@@ -11,7 +11,6 @@ class Subscription extends React.Component {
     this.state = {
       redirect: false,
     };
-    
   };
 
 
@@ -23,8 +22,7 @@ class Subscription extends React.Component {
     }
     return (
       <div style={styles.wrapper}>
-         <NavLink to="/myhomepage" className="link" onClick={tmpProps.onClickNavLink}>Go back to my home page</NavLink>
-        <p>HELLOO</p>
+         <NavLink to="/myhomepage" className="link" onClick={tmpProps.onClickNavLink}>Home page</NavLink>
         <Register></Register>
       </div>
     );

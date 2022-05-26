@@ -7,19 +7,20 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { Redirect } from 'react-router-dom';
+import styles from '../styles';
 
 const Subscribe = ({location}) => {
 
   // Get the lookup key for the price from the previous page redirect.
   const [clientSecret] = useState(location.state.clientSecret);
   const [subscriptionId] = useState(location.state.subscriptionId);
-  const [name, setName] = useState('Jenny Rosen');
+  const [name, setName] = useState('');
   const [messages, _setMessages] = useState('');
   const [paymentIntent, setPaymentIntent] = useState();
 
   // helper for displaying status messages.
   const setMessage = (message) => {
-    _setMessages(`${messages}\n\n${message}`);
+    _setMessages(message);
   }
 
   // Initialize an instance of stripe.
@@ -68,7 +69,7 @@ const Subscribe = ({location}) => {
   }
 
   return (
-    <div>
+    <div style={styles.wrapper}>
       <h1>Subscribe</h1>
 
       <p>
@@ -83,11 +84,16 @@ const Subscribe = ({location}) => {
         Use any <i>future</i> expiry date, CVC,5 digit postal code
       </p>
 
+      <p>
+        Card details:
+      </p>
+
+
       <hr />
 
       <form onSubmit={handleSubmit}>
         <label>
-          Full name
+          Card holder
           <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
 

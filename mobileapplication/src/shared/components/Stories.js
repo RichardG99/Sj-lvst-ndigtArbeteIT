@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import '../common.js';
+import settings from '../settings.js';
 
 function Story({ story, selectedStory }) {
     return (
@@ -24,12 +25,38 @@ export default class Stories extends React.Component {
         super(props);
         this.state = {
             stories: [],
+            authenticated:false,
         }
     }
 
     componentDidMount(){
+        this.isSubscribed();
         this.getAllStories();
     }
+
+    isSubscribed = async () => {
+        const user = Parse.User.current()
+        const stripeId = user.get("stripeId");
+        const {subscriptions} = await fetch("http://" + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              customerId: stripeId
+            }),
+          }).then(r => r.json()).
+          catch((err) => {console.log(err)});
+          const status = subscriptions.data[0].status
+          console.log("current status: " + subscriptions.data[0].status)
+          if (status == "active" || status == "canceled") {
+              this.state.authenticated = true;
+              console.log("customer is subscribed")
+              console.log(this.state.authenticated)
+              return;
+          }
+    }
+    
 
     // Empty comment 
     getAllStories = () => {
@@ -46,7 +73,13 @@ export default class Stories extends React.Component {
         this.addToUsersLibrary(story);
     } 
 
+    
+
     addToUsersLibrary = (story) => {
+      if (this.state.authenticated == false){
+        console.log("no subscription no listening")
+        return
+      }
         Parse.User.currentAsync().then((user) => {
             let myLibrary = user.get("myLibrary");
             if(myLibrary === undefined) {

@@ -144,8 +144,8 @@ app.post('/update', async (req, res) => {
   // Simulate authenticated user. In practice this will be the
   // Stripe Customer ID related to the authenticated user.
   const subscription_id = req.body.subscription_id
-  const payment_intent = req.body.clientSecret
-  console.log(clientSecret)
+  const payment_intent = req.body.payment_intent
+  //console.log(clientSecret)
   console.log(subscription_id)
   const subscription = await stripe.subscriptions.update(
     subscription_id,
@@ -154,6 +154,17 @@ app.post('/update', async (req, res) => {
     },
   );
   res.json({subscription});
+});
+
+app.post('/authenticate', async (req, res) => {
+  // Simulate authenticated user. In practice this will be the
+  // Stripe Customer ID related to the authenticated user.
+  const customerId = req.body.stripeId;
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: 'all',
+  });
+  res.json({subscriptions});
 });
 
 app.post('/subscriptions', async (req, res) => {

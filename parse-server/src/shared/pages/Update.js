@@ -8,18 +8,22 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import styles from '../styles';
+
+
 
 const Update = ({location}) => {
   const [cancelled, setCancelled] = useState(false);
   const [clientSecret] = useState(location.state.clientSecret);
   const [subscriptionId] = useState(location.state.subscriptionId);
-  const [name, setName] = useState('Jenny Rosen');
+  const [name, setName] = useState('');
   const [messages, _setMessages] = useState('');
   const [paymentIntent, setPaymentIntent] = useState();
 
   // helper for displaying status messages.
   const setMessage = (message) => {
-    _setMessages(`${messages}\n\n${message}`);
+    //_setMessages(`${messages}\n\n${message}`);
+    _setMessages(message)
   }
 
   // Initialize an instance of stripe.
@@ -39,8 +43,8 @@ const Update = ({location}) => {
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            subscriptionId: subscriptionId,
-            clientSecret: clientSecret
+            subscription_id: subscriptionId,
+            payment_intent: paymentIntent
         }),
     }).then(r => r.json());
     console.log(subscription)
@@ -55,7 +59,6 @@ const Update = ({location}) => {
     const cardElement = elements.getElement(CardElement);
 
     // Use card Element to tokenize payment details
-    console.log("Vi kom hit")
     let { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: cardElement,
@@ -67,11 +70,11 @@ const Update = ({location}) => {
 
     if(error) {
       // show error and collect new card details.
+
       setMessage(error.message);
       return;
     }
     setPaymentIntent(paymentIntent);
-    console.log("Vi kom längre")
   }
 
   const handleCancel = async (e) => {
@@ -90,7 +93,11 @@ const Update = ({location}) => {
   }
 
   return (
-    <div>
+    <div style={styles.wrapper}>
+      <h1>
+        Update payment
+      </h1>
+
       <p>
         Try the successful test card: <span>4242424242424242</span>.
       </p>
@@ -103,9 +110,15 @@ const Update = ({location}) => {
         Use any <i>future</i> expiry date, CVC,5 digit postal code
       </p>
 
+      
+
+      <h2>
+        Card details:
+      </h2>
+
       <form onSubmit={handleSubmit}>
         <label>
-          Full name
+          Card holder
           <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
 

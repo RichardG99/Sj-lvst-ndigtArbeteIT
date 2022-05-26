@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 //import './App.css';
 import { Redirect } from 'react-router-dom';
+import styles from '../styles';
 
 const Cancel = ({location}) => {
   const [cancelled, setCancelled] = useState(false);
@@ -33,7 +34,7 @@ const Cancel = ({location}) => {
   }
 
   return (
-    <div>
+    <div style={styles.wrapper}>
       <h1>Are you sure you want to cancel your subscription?</h1>
       <button onClick={handleConfirm}>Yes</button>
       <button onClick={handleDenied}>No</button>

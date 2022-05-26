@@ -1315,9 +1315,9 @@
   "version" "1.1.0"
 
 "@stripe/react-stripe-js@^1.7.2":
-  "integrity" "sha512-IAVg2nPUPoSwI//XDRCO7D8mGeK4+N3Xg63fYZHmlfEWAuFVcuaqJKTT67uzIdKYZhHZ/NMdZw/ttz+GOjP/rQ=="
-  "resolved" "https://registry.npmjs.org/@stripe/react-stripe-js/-/react-stripe-js-1.7.2.tgz"
-  "version" "1.7.2"
+  "integrity" "sha512-WtF2mIWJKnyAaZledC48NfynFckEseCPG8tybwFgisFxHvLPKrArlLISJOi2cjIY20DkMAkSkdlEljXifJi0ZA=="
+  "resolved" "https://registry.npmjs.org/@stripe/react-stripe-js/-/react-stripe-js-1.8.0.tgz"
+  "version" "1.8.0"
   dependencies:
     "prop-types" "^15.7.2"
 
@@ -8278,7 +8278,7 @@
     "minimist" "^1.2.0"
     "strip-json-comments" "~2.0.1"
 
-"react-dom@^16.3.0", "react-dom@^16.8.0 || ^17.0.0":
+"react-dom@^16.3.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0":
   "integrity" "sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz"
   "version" "16.14.0"
@@ -8352,7 +8352,7 @@
     "tiny-invariant" "^1.0.2"
     "tiny-warning" "^1.0.0"
 
-"react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.14.0", "react@^16.3.0", "react@^16.8.0 || ^17.0.0", "react@>=15":
+"react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.14.0", "react@^16.3.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>=15":
   "integrity" "sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   "version" "16.14.0"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Parse from '../common';
-//import './App.css';
+import styles from '../styles';
 import {
   CardElement,
   useStripe,
@@ -21,30 +21,31 @@ const AccountSubscription = ({subscription}) => {
   const clientSecret = subscription.latest_invoice.payment_intent.client_secret;
   console.log(clientSecret)
   if (last4) {
-    var last4paragraph = <p> Card last4: {last4} </p>
+    var last4paragraph = <p> Card: **** **** **** {last4} </p>
   }
+  const date = new Date(subscription.current_period_end * 1000)
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();   
+  const daystring =  day + "/" + month + "/" + year
+
   return (
     <section>
       <hr />
-      <h4>
-        <a href={`https://dashboard.stripe.com/test/subscriptions/${subscription.id}`}>
-          {subscription.id}
-        </a>
-      </h4>
-
       <p>
         Status: {subscription.status}
       </p>
-      
-      {last4paragraph}
-
+        {last4paragraph}
       <p>
-        Current period end: {(new Date(subscription.current_period_end * 1000).toString())}
+        Current period end: {daystring}
       </p>
-      {<Link to=
-      {{pathname: '/update', state: {subscriptionId: subscription.id, clientSecret: clientSecret }}}>
-  Update payment</Link>}
-      <Link to={{pathname: '/cancel', state: {subscription: subscription.id }}}>Cancel</Link>
+      <p>
+        {<Link to={{pathname: '/update', state: {subscriptionId: subscription.id, clientSecret: clientSecret }}}>
+        Update payment</Link>}
+      </p>
+      <p>
+        <Link to={{pathname: '/cancel', state: {subscription: subscription.id }}}>Cancel subscription</Link>
+      </p>
     </section>
   )
 }
@@ -76,10 +77,10 @@ const Account = () => {
   }
 
   return (
-    <div>
+    <div  style={styles.wrapper}>
       <h1>Account</h1>
 
-      <h2>Subscriptions</h2>
+      <h2>Subscription</h2>
 
       <div id="subscriptions">
         {subscriptions.map(s => {
