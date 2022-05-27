@@ -28,7 +28,6 @@ const DATA = [
         nav: {},
         image: require('../assets/raven-gaa8626c41_1920.jpg'),
         title: 'Thriller',
-        //category: this.props.route.params.storyCategory,
     },
     {
         id: 2,
@@ -77,9 +76,9 @@ const DATA = [
     </TouchableOpacity>
 ); */
 
-function Item({ selectedCategory, myStory, image, title }) {
+function Item({ selectedCategory, category, image, title }) {
     return (
-        <TouchableOpacity onPress={() => selectedCategory(myStory)}>
+        <TouchableOpacity onPress={() => selectedCategory(category)}>
             <ImageBackground
                 imageStyle={{
                     borderRadius: 10,
@@ -97,7 +96,8 @@ export default class Explore extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            myStories: [],
+            categories: [],
+            stories: [],
         };
     }
     state = {
@@ -108,12 +108,12 @@ export default class Explore extends React.Component {
         this.setState({ search });
     };
 
-    selectedCategory = (myStory) => {
-        this.props.navigation.navigate('Category', {
-            /* storyTitle: myStory.story.get('title'),
-            activeStoryId: myStory.story.id,
-            currentBoxId: myStory.currentBoxId,
-            currentTime: myStory.timeStamp, */
+    selectedCategory = ({ category, getStories }) => {
+        this.props.navigation.navigate('Stories', {
+            /*storyCategory: myStory.story.get('category'),
+            //activeStoryId: myStory.story.id,
+            //currentBoxId: myStory.currentBoxId,
+            //currentTime: myStory.timeStamp,*/
         });
     };
 
@@ -192,7 +192,7 @@ export default class Explore extends React.Component {
                                     title={item.title}
                                     image={item.image}
                                     selectedCategory={this.selectedCategory}
-                                    myStory={item}
+                                    category={item}
                                 />
                             )}
                             keyExtractor={(item) => item.id}
@@ -206,5 +206,3 @@ export default class Explore extends React.Component {
         );
     }
 }
-
-/*  */

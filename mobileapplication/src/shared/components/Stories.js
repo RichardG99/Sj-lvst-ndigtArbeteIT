@@ -24,30 +24,32 @@ function Story({ story, selectedStory }) {
                 <Text style={styles.title}>{story.get('title')}</Text>
                 <Text style={styles.by}>by</Text>
                 <Text style={styles.author}>{story.get('author')}</Text>
+                <Text style={styles.author}>{story.get('category')}</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
 export default class Stories extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             stories: [],
+            storyCategory: this.props.route.params.storyCategory,
         };
     }
 
     componentDidMount() {
-        this.getAllStories();
+        this.getStories(this.props.storyCategory);
     }
 
     // Empty comment
-    getAllStories = () => {
+    getStories = () => {
         const Story = Parse.Object.extend('Story');
         const query = new Parse.Query(Story);
+        //query.equalTo('category', 'Thriller');
         query.limit(1000); // TODO :limits the amount of stories we can fetch, might want a way to make this uncapped.
         query.find().then((stories) => {
-            console.log(stories.length);
+            console.log('antal stories: ' + stories.length);
             this.setState({ stories: stories });
         });
     };
@@ -77,7 +79,8 @@ export default class Stories extends React.Component {
             };
             user.add('myLibrary', newStory);
             user.save();
-            this.props.navigation.navigate('My Library');
+
+            //this.props.navigation.navigate('My Library');
         });
     };
 

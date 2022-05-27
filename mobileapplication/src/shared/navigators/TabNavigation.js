@@ -7,7 +7,6 @@ import Stories from '../components/Stories.js';
 import Explore from '../components/Explore.js';
 import Category from '../components/Category.js';
 import Game from '../components/Game.js';
-import Horror from '../components/Horror.js';
 import MyLibrary from '../components/MyLibrary.js';
 import EditProfile from '../components/EditProfile.js';
 import EditPassword from '../components/EditPassword.js';
@@ -21,10 +20,9 @@ function ExploreStack() {
     return (
         <Stack.Navigator screenOptions={{ header: () => null }}>
             <Stack.Screen name="Explore" component={Explore} />
-            <Stack.Screen name="Category" component={Category} />
             <Stack.Screen name="Stories" component={Stories} />
+            <Stack.Screen name="Category" component={Category} />
             <Stack.Screen name="Game" component={Game} />
-            <Stack.Screen name="Horror" component={Horror} />
         </Stack.Navigator>
     );
 }
@@ -60,9 +58,7 @@ export default function TabNavigation() {
                     if (route.name == 'Explore') {
                         iconName = focused ? 'search' : 'search-outline';
                     } else if (route.name == 'My Library') {
-                        iconName = focused
-                            ? 'book'
-                            : 'book-outline';
+                        iconName = focused ? 'book' : 'book-outline';
                     } else if (route.name == 'Profile') {
                         iconName = focused ? 'person' : 'person-outline';
                     }
