@@ -10,6 +10,7 @@ import {
     FlatList,
     Item,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
@@ -39,6 +40,8 @@ export default class Stories extends React.Component {
     }
 
     componentDidMount() {
+        Alert.alert("Detta är stories.js")
+        this.getcategory()
         this.getStories(this.props.storyCategory);
     }
 
@@ -53,6 +56,14 @@ export default class Stories extends React.Component {
             this.setState({ stories: stories });
         });
     };
+
+    getcategory = () => {
+        const Story = Parse.Object.extend('Story');
+        const query = new Parse.Query(Story);
+        console.log(query)
+        //var unique = query.filter((v, i, a) => a.indexOf(v) === i); 
+        
+    }
 
     selectedStory = (story) => {
         this.addToUsersLibrary(story);
