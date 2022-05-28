@@ -57,7 +57,6 @@ const DATA = [
         id: 6,
         nav: {},
         image: require('../assets/couple-g798e44f98_1920.jpg'),
-
         title: 'Children',
     },
 ];
@@ -77,8 +76,9 @@ const DATA = [
 ); */
 
 function Item({ selectedCategory, category, image, title }) {
+    //Title är namnet på kategorin När du klickar på knappen skickar du med title till funktionen selectedCategory.
     return (
-        <TouchableOpacity onPress={() => selectedCategory(category)}>
+        <TouchableOpacity onPress={() => selectedCategory(title)}> 
             <ImageBackground
                 imageStyle={{
                     borderRadius: 10,
@@ -108,13 +108,12 @@ export default class Explore extends React.Component {
         this.setState({ search });
     };
 
-    selectedCategory = ({ category, getStories }) => {
+    selectedCategory = (title) => {
+        console.log(title) //Namnet på den kategori du klickat på. 
+
         this.props.navigation.navigate('Stories', {
-            /*storyCategory: myStory.story.get('category'),
-            //activeStoryId: myStory.story.id,
-            //currentBoxId: myStory.currentBoxId,
-            //currentTime: myStory.timeStamp,*/
-        });
+            storyCategory: title
+       });
     };
 
     render() {
