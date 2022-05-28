@@ -17,15 +17,16 @@ import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
+import Explore from './Explore.js';
 
-function Story({ story, selectedStory }) {
+function Story({ story, selectedStory, storyCategory }) {
     return (
         <View style={styles.story}>
             <TouchableOpacity onPress={() => selectedStory(story)}>
                 <Text style={styles.title}>{story.get('title')}</Text>
                 <Text style={styles.by}>by</Text>
                 <Text style={styles.author}>{story.get('author')}</Text>
-                <Text style={styles.author}>{story.get('category')}</Text>
+                <Text style={styles.author}>{storyCategory}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -40,30 +41,23 @@ export default class Stories extends React.Component {
     }
 
     componentDidMount() {
-        Alert.alert("Detta är stories.js")
-        this.getcategory()
-        this.getStories(this.props.storyCategory);
+        this.getStories();
     }
 
     // Empty comment
     getStories = () => {
+        console.log('storyCategory: ' + this.state.storyCategory);
         const Story = Parse.Object.extend('Story');
         const query = new Parse.Query(Story);
-        //query.equalTo('category', 'Thriller');
+        if (this.state.storyCategory != '') {
+            query.equalTo('category', this.state.storyCategory);
+        }
         query.limit(1000); // TODO :limits the amount of stories we can fetch, might want a way to make this uncapped.
         query.find().then((stories) => {
             console.log('antal stories: ' + stories.length);
             this.setState({ stories: stories });
         });
     };
-
-    getcategory = () => {
-        const Story = Parse.Object.extend('Story');
-        const query = new Parse.Query(Story);
-        console.log(query)
-        //var unique = query.filter((v, i, a) => a.indexOf(v) === i); 
-        
-    }
 
     selectedStory = (story) => {
         this.addToUsersLibrary(story);
@@ -108,6 +102,7 @@ export default class Stories extends React.Component {
                             id={item.id}
                             story={item}
                             selectedStory={this.selectedStory}
+                            storyCategory={this.state.storyCategory}
                         />
                     )}
                     keyExtractor={(item) => item.id}

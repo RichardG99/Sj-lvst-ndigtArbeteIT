@@ -45,7 +45,7 @@ const DATA = [
         id: 4,
         nav: {},
         image: require('../assets/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
-        title: 'Adventure',
+        title: 'Horror',
     },
     {
         id: 5,
@@ -61,24 +61,10 @@ const DATA = [
     },
 ];
 
-/* const Item = ({ title, image, myCategory, myStory }) => (
-    <TouchableOpacity onPress={() => selectedCategory(myCategory)}>
-        <ImageBackground
-            imageStyle={{
-                borderRadius: 10,
-            }}
-            source={image}
-            style={styles.categoryButton}
-        >
-            <Text style={styles.categoryText}>{title}</Text>
-        </ImageBackground>
-    </TouchableOpacity>
-); */
-
-function Item({ selectedCategory, category, image, title }) {
+function Item({ selectedCategory, image, title }) {
     //Title är namnet på kategorin När du klickar på knappen skickar du med title till funktionen selectedCategory.
     return (
-        <TouchableOpacity onPress={() => selectedCategory(title)}> 
+        <TouchableOpacity onPress={() => selectedCategory(title)}>
             <ImageBackground
                 imageStyle={{
                     borderRadius: 10,
@@ -110,11 +96,11 @@ export default class Explore extends React.Component {
     };
 
     selectedCategory = (title) => {
-        console.log(title) //Namnet på den kategori du klickat på. 
+        console.log('Title: ' + title); //Namnet på den kategori du klickat på.
 
         this.props.navigation.navigate('Stories', {
-            storyCategory: title
-       });
+            storyCategory: title,
+        });
     };
 
     componentDidMount() {
@@ -127,24 +113,6 @@ export default class Explore extends React.Component {
         query.find().then((stories) => {
             console.log('antal stories: ' + stories.length);
             this.setState({ stories: stories });
-            //var numStories = this.state.stories.length;
-            console.log(stories.length);
-
-            for (var i = 0; i < 1; i++) {
-                let categoryNames = this.state.categoryNames;
-                if (query.equalTo('category', 'Thriller')) {
-                    categoryNames.push('Thriller');
-                    console.log('kategorier: ' + categoryNames);
-                }
-                if (query.equalTo('category', 'Comedy')) {
-                    categoryNames.push('Comedy');
-                    console.log('kategorier: ' + categoryNames);
-                }
-                if (query.equalTo('category', 'Romance')) {
-                    categoryNames.push('Romance');
-                    console.log('kategorier: ' + categoryNames);
-                }
-            }
         });
     };
 
@@ -153,10 +121,12 @@ export default class Explore extends React.Component {
         const headerComponent = () => (
             <View style={{ alignItems: 'center' }}>
                 <View style={{ backgroundColor: 'transparent', height: 150 }}>
-                    <Text style={styles.sectionTitle}> New </Text>
+                    <Text style={styles.sectionTitle}> All stories </Text>
                     <TouchableOpacity
                         onPress={() => {
-                            console.log('New');
+                            this.props.navigation.navigate('Stories', {
+                                storyCategory: '',
+                            });
                         }}
                         style={{ alignSelf: 'center' }}
                     >
