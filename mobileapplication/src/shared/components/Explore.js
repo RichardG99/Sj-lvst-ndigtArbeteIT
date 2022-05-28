@@ -27,7 +27,7 @@ const DATA = [
         id: 1,
         nav: {},
         image: require('../assets/raven-gaa8626c41_1920.jpg'),
-        title: this.state.categoryNames[0],
+        title: 'Thriller',
     },
     {
         id: 2,
@@ -130,6 +130,7 @@ export default class Explore extends React.Component {
             this.setState({ stories: stories });
             //var numStories = this.state.stories.length;
             console.log(stories.length);
+
             for (var i = 0; i < 1; i++) {
                 let categoryNames = this.state.categoryNames;
                 if (query.equalTo('category', 'Thriller')) {
@@ -148,22 +149,6 @@ export default class Explore extends React.Component {
         });
     };
 
-    /* findCategoryNames = () => {
-        console.log('antal stories: ' + stories.length);
-        for (var i = 0; i < this.state.stories.length; i++) {
-            let categoryNames = [];
-            if (query.equalTo('category', 'Thriller')) {
-                categoryNames.push('Thriller');
-                console.log(categoryNames);
-            } else if (query.equalTo('category', 'Comedy')) {
-                categoryNames.push('Comedy');
-                console.log(categoryNames);
-            } else if (query.equalTo('category', 'Romance')) {
-                categoryNames.push('Romance');
-                console.log(categoryNames);
-            }
-        }
-    }; */
     render() {
         const { search } = this.state;
         const headerComponent = () => (
