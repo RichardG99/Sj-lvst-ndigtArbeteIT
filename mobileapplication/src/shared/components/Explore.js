@@ -27,7 +27,7 @@ const DATA = [
         id: 1,
         nav: {},
         image: require('../assets/raven-gaa8626c41_1920.jpg'),
-        title: 'Thriller',
+        title: this.state.categoryNames[0],
     },
     {
         id: 2,
@@ -98,6 +98,7 @@ export default class Explore extends React.Component {
         this.state = {
             categories: [],
             stories: [],
+            categoryNames: [],
         };
     }
     state = {
@@ -117,6 +118,52 @@ export default class Explore extends React.Component {
         });
     };
 
+    componentDidMount() {
+        this.getCategories();
+    }
+    getCategories = () => {
+        const Story = Parse.Object.extend('Story');
+        const query = new Parse.Query(Story);
+        query.limit(1000); // TODO :limits the amount of stories we can fetch, might want a way to make this uncapped.
+        query.find().then((stories) => {
+            console.log('antal stories: ' + stories.length);
+            this.setState({ stories: stories });
+            //var numStories = this.state.stories.length;
+            console.log(stories.length);
+            for (var i = 0; i < 1; i++) {
+                let categoryNames = this.state.categoryNames;
+                if (query.equalTo('category', 'Thriller')) {
+                    categoryNames.push('Thriller');
+                    console.log('kategorier: ' + categoryNames);
+                }
+                if (query.equalTo('category', 'Comedy')) {
+                    categoryNames.push('Comedy');
+                    console.log('kategorier: ' + categoryNames);
+                }
+                if (query.equalTo('category', 'Romance')) {
+                    categoryNames.push('Romance');
+                    console.log('kategorier: ' + categoryNames);
+                }
+            }
+        });
+    };
+
+    /* findCategoryNames = () => {
+        console.log('antal stories: ' + stories.length);
+        for (var i = 0; i < this.state.stories.length; i++) {
+            let categoryNames = [];
+            if (query.equalTo('category', 'Thriller')) {
+                categoryNames.push('Thriller');
+                console.log(categoryNames);
+            } else if (query.equalTo('category', 'Comedy')) {
+                categoryNames.push('Comedy');
+                console.log(categoryNames);
+            } else if (query.equalTo('category', 'Romance')) {
+                categoryNames.push('Romance');
+                console.log(categoryNames);
+            }
+        }
+    }; */
     render() {
         const { search } = this.state;
         const headerComponent = () => (
