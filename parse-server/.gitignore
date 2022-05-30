@@ -10,9 +10,6 @@ server.js
 *.jpg
 *.png
 
-
-
-
 # Logs
 logs
 *.log
@@ -46,7 +43,6 @@ node_modules
 
 #Package-lock
 package-lock.json
-
 
 #yarn-lock
 yarn.lock

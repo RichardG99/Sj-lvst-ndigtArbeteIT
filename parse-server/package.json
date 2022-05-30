@@ -43,6 +43,9 @@
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.13.13",
     "@google-cloud/speech": "^4.4.0",
+
+    "@stripe/react-stripe-js": "^1.7.2",
+    "@stripe/stripe-js": "^1.29.0",
     "@popperjs/core": "^2.11.5",
     "bufferutil": "^4.0.3",
     "cors": "^2.8.4",
@@ -60,6 +63,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^4.2.2",
     "serialize-javascript": "^5.0.1",
+    "stripe": "^8.219.0",
     "utf-8-validate": "^5.0.4",
     "webpack-cli": "^4.6.0"
   }
