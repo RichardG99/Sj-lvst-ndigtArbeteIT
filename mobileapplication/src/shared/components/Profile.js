@@ -1,6 +1,6 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
@@ -15,11 +15,15 @@ export default class Profile extends React.Component {
         this.allStories = [];
         this.myStories = [];
         this.debugging = false;
+        const user = Parse.User.current(); // wait for user to be loaded
         this.state = {
             activeStory: null, // ID of current story that you're listening to.
             activeStoryBoxID: 'tmp',
             loggedIn: true,
             username: '',
+            email: user.get('email'),
+            firstName: user.get('firstName'),
+            lastName: user.get('lastName'),
         };
         this.logout = this.logout.bind();
     }
@@ -47,50 +51,73 @@ export default class Profile extends React.Component {
 
     render() {
         return (
-            
-            <View style={styles.splashBackground}>
-                <View styles={styles.containerProfile}> 
-                <View style={[styles.ellips1, styles.ellips3]}>               
-                    </View>
-                    <View style={[styles.ellips2, styles.ellips4]}>               
-                    </View>
-                <Text style={styles.profileTitle}>
-                
-                    Your Profile
-                   
-                </Text>
+            <SafeAreaView style={styles.splashBackground}>
+                <View styles={styles.containerProfile}>
+                    <View style={[styles.ellips1, styles.ellips3]}></View>
+                    <View style={[styles.ellips2, styles.ellips4]}></View>
+                    <Text style={styles.profileTitle}>Your Profile</Text>
+                    {/*<View
+                        style={{
+                            top: '40%',
+                            flex: 2,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                        }}
+                    >
+                       <Image
+                            style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: 10000,
+                            }}
+                            source={require('../assets/couple-g798e44f98_1920.jpg')}
+                        />
+                    <Text
+                        style={{
+                            color: '#CBD9F5',
+                            alignSelf: 'center',
+                            fontFamily: 'InterRegular',
+                            fontSize: 20,
+                            fontWeight: '400',
+                            lineHeight: 30,
+                            letterSpacing: -0.4,
+                            top: 170,
+                        }}
+                    >
+                        Hello {this.state.firstName} {this.state.lastName}!
+                    </Text>
+                    </View>*/}
 
-                {/*<Text h3 title={('Hello ', this.state.username)} />*/}
-                <View style={{marginTop: '50%'}}>
-                <TouchableOpacity
-                    style={[styles.buttonLogin, styles.editpButton]}
-                    type="clear"
-                    onPress={() =>
-                        this.props.navigation.navigate('Edit Profile')
-                    }
-                >
-                    <Text style={styles.loginText} >Edit Profile</Text>
-                    </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.buttonLogin, styles.editeButton]}
-                    type="clear"
-                    onPress={() =>
-                        this.props.navigation.navigate('Edit Password')
-                    }
-                   >
-                       <Text style={styles.loginText}>Edit Password</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.buttonLogin, styles.logoutButton]}
-                    type="clear"
-                    onPress={() => this.logout()}
-                >
-                    <Text style={styles.loginText}>Logout</Text>
-                    </TouchableOpacity>
+                    <View style={{ marginTop: '50%' }}>
+                        <TouchableOpacity
+                            style={[styles.buttonLogin, styles.editpButton]}
+                            type="clear"
+                            onPress={() =>
+                                this.props.navigation.navigate('Edit Profile')
+                            }
+                        >
+                            <Text style={styles.loginText}>Edit Profile</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.buttonLogin, styles.editeButton]}
+                            type="clear"
+                            onPress={() =>
+                                this.props.navigation.navigate('Edit Password')
+                            }
+                        >
+                            <Text style={styles.loginText}>Edit Password</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.buttonLogin, styles.logoutButton]}
+                            type="clear"
+                            onPress={() => this.logout()}
+                        >
+                            <Text style={styles.loginText}>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                
-                </View>    
-            </View>
+            </SafeAreaView>
         );
     }
 }

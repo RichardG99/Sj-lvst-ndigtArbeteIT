@@ -20,7 +20,8 @@ import { SearchBar } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-const screenWidth = Dimensions.get('window').width;
+
+//const screenWidth = Dimensions.get('window').width;
 
 const DATA = [
     {
@@ -30,18 +31,18 @@ const DATA = [
             {
                 key: '1',
                 text: 'Item text 1',
-                uri: 'https://picsum.photos/id/1/200',
+                uri: 'https://picsum.photos/id/236/200/',
             },
             {
                 key: '2',
                 text: 'Item text 2',
-                uri: 'https://picsum.photos/id/10/200',
+                uri: 'https://picsum.photos/id/1014/200',
             },
 
             {
                 key: '3',
                 text: 'Item text 3',
-                uri: 'https://picsum.photos/id/1002/200',
+                uri: 'https://picsum.photos/id/1021/200',
             },
         ],
     },
@@ -50,28 +51,28 @@ const DATA = [
         horizontal: true,
         data: [
             {
-                key: '4',
+                key: '1',
                 text: 'Item text 1',
-                uri: 'https://picsum.photos/id/1011/200',
+                uri: 'https://picsum.photos/id/1028/200',
             },
             {
-                key: '5',
+                key: '2',
                 text: 'Item text 2',
-                uri: 'https://picsum.photos/id/1012/200',
+                uri: 'https://picsum.photos/id/1054/200',
             },
 
             {
-                key: '6',
+                key: '3',
                 text: 'Item text 3',
-                uri: 'https://picsum.photos/id/1013/200',
+                uri: 'https://picsum.photos/id/1064/200',
             },
             {
-                key: '7',
+                key: '4',
                 text: 'Item text 4',
                 uri: 'https://picsum.photos/id/1015/200',
             },
             {
-                key: '8',
+                key: '5',
                 text: 'Item text 5',
                 uri: 'https://picsum.photos/id/1016/200',
             },
@@ -79,22 +80,23 @@ const DATA = [
     },
     {
         title: 'Recommended',
+        horizontal: true,
         data: [
             {
                 key: '1',
                 text: 'Item text 1',
-                uri: 'https://picsum.photos/id/1011/200',
+                uri: 'https://picsum.photos/id/1014/200',
             },
             {
                 key: '2',
                 text: 'Item text 2',
-                uri: 'https://picsum.photos/id/1012/200',
+                uri: 'https://picsum.photos/id/240/200',
             },
 
             {
                 key: '3',
                 text: 'Item text 3',
-                uri: 'https://picsum.photos/id/1013/200',
+                uri: 'https://picsum.photos/id/1008/200',
             },
             {
                 key: '4',
@@ -110,106 +112,78 @@ const DATA = [
     },
 ];
 
-const Item = ({ title, image }) => (
-    <FlatList>
-        <TouchableOpacity
-            style={{
-                width: 120,
-                height: 120,
-                borderRadius: 10,
-                marginHorizontal: 7,
-                marginBottom: '6%',
-                backgroundColor: '#CBD9F5',
-                //Dropshadow
-                shadowOffset: { width: 2, height: 4 },
-                shadowRadius: 3,
-                shadowOpacity: 0.2,
-                shadowColor: '#000',
-            }}
-        ></TouchableOpacity>
-    </FlatList>
-);
-
-const ListItem = ({ item }) => {
+const ListItem = ({ item, myStory, selectedStory }) => {
     return (
-        <TouchableOpacity
-            style={{
-                width: 120,
-                height: 120,
-                borderRadius: 10,
-                marginHorizontal: 7,
-                marginBottom: '6%',
-                backgroundColor: '#CBD9F5',
-                //Dropshadow
-                shadowOffset: { width: 2, height: 4 },
-                shadowRadius: 3,
-                shadowOpacity: 0.2,
-                shadowColor: '#000',
-            }}
-        ></TouchableOpacity>
+        <View style={styles.item}>
+            <ImageBackground
+                source={{
+                    uri: item.uri,
+                }}
+                imageStyle={{
+                    borderRadius: 10,
+                }}
+                style={styles.itemPhoto}
+                resizeMode="cover"
+            />
+            <Text style={styles.itemText}>{item.text}</Text>
+        </View>
     );
 };
 
-export default class Marketplace2 extends React.Component {
+export default class Category extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            myStories: [],
+            //storyCategory: this.props.route.params.storyCategory,
+        };
     }
-    state = {
-        search: '',
-    };
+    componentDidMount() {
+        this.getMyStories();
+    }
 
-    updateSearch = (search) => {
-        this.setState({ search });
+    getMyStories = () => {
+        console.log('getting stories!');
+        Parse.User.currentAsync().then((user) => {
+            let myLibrary = user.get('myLibrary');
+            this.setState({ myStories: myLibrary });
+        });
+    };
+    selectedStory = (myStory) => {
+        this.props.navigation.navigate('Game', {
+            storyTitle: myStory.story.get('title'),
+            activeStoryId: myStory.story.id,
+            currentBoxId: myStory.currentBoxId,
+            currentTime: myStory.timeStamp,
+        });
     };
 
     render() {
         const { search } = this.state;
-        const renderItem = ({ item }) => (
+        /* const renderItem = ({ item }) => (
             <Item title={item.title} image={item.image} />
-        );
+        ); */
 
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: '#00082F' }}>
-                    <SearchBar
-                        inputStyle={{ fontSize: 16 }}
-                        containerStyle={{
-                            marginTop: 25,
-                            height: 70,
-                            backgroundColor: '#00082F',
-                        }}
-                        inputContainerStyle={{
-                            borderRadius: 20,
-                            height: 20,
-                            justifyContent: 'center',
-                            backgroundColor: 'white',
-                        }}
-                        placeholder="Search for stories"
-                        onChangeText={this.updateSearch}
-                        value={search}
-                    />
-                    <View
-                        style={{
-                            padding: 10,
-                            backgroundColor: 'white',
-                            borderRadius: 40,
-                            marginTop: 10,
-                            alignItems: 'center',
-                        }}
-                    >
+                    <View style={[styles.ellips1, { left: -180 }]}></View>
+                    <Text style={styles.categoryTitle}>Thriller </Text>
+                    <View style={[styles.flatlistView, { top: 20 }]}>
                         <SectionList
                             stickySectionHeadersEnabled={false}
                             sections={DATA}
                             keyExtractor={(item) => item.id}
                             style={styles.flatlist}
                             contentContainerStyle={{
-                                alignItems: 'center',
+                                //alignItems: 'center',
                                 paddingHorizontal: 10,
+                                paddingVertical: 10,
+                                marginVertical: 30,
                             }}
                             renderSectionHeader={({ section }) => (
                                 <>
-                                    <Text style={styles.sectionHeader}>
+                                    <Text style={styles.sectionTitles}>
                                         {section.title}
                                     </Text>
                                     {section.horizontal ? (
@@ -219,6 +193,7 @@ export default class Marketplace2 extends React.Component {
                                             renderItem={({ item }) => (
                                                 <ListItem item={item} />
                                             )}
+                                            style={{ paddingVertical: 10 }}
                                             showsHorizontalScrollIndicator={
                                                 false
                                             }

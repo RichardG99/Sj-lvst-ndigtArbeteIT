@@ -21,6 +21,7 @@ import { Audio } from 'expo-av';
 import Parse, { User } from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import { styles } from '../stylesheets/StyleSheet';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // TODO : change this.currentBoxID -> currentBoxId
 // TODO : change activeStoryID -> activeStoryId
@@ -46,7 +47,6 @@ export default class Game extends React.Component {
             recordingPermissions: false,
             brightnessPermission: false,
             playing: false,
-
             currentBoxTitle: 'Loading...',
             currentBoxTime: '0',
             storyTitle: this.props.route.params.storyTitle,
@@ -589,7 +589,9 @@ export default class Game extends React.Component {
 
     render() {
         return (
-            <View style={styles.containerDefault}>
+            <View style={styles.gameContainer}>
+                <View style={[styles.ellips1, styles.ellips3]}></View>
+                <View style={[styles.ellips2, styles.ellips4]}></View>
                 {this.state.playing ? (
                     <View>
                         <TouchableOpacity
@@ -618,28 +620,85 @@ export default class Game extends React.Component {
                                 {this.state.storyTitle}
                             </Text>
                         </Text>
-                        <Text style={styles.headerSmall}>Chapter :</Text>
+                        <View
+                            style={{
+                                backgroundColor: 'white',
+                                width: 120,
+                                height: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderRadius: 3,
+                                backgroundColor: '#FF9900',
+                            }}
+                        >
+                            <Text style={styles.headerSmall}>Chapter : 2</Text>
+                        </View>
+
                         <Text style={styles.titleSmall}>
                             {this.state.currentBoxTitle}
                         </Text>
-                        <Button
-                            style={styles.button}
-                            icon={{ name: 'play-circle', type: 'font-awesome' }}
-                            title="Play Story"
+
+                        <TouchableOpacity
                             onPress={this.enterMainLoop}
-                            //onPress={this.playAugmentedAudio}
-                        />
-                        <Button
-                            style={styles.button}
-                            icon={{ name: 'cached' }}
-                            title="Reset Story"
+                            style={styles.gameButton}
+                        >
+                            <Ionicons
+                                name={'play-circle'}
+                                color={'white'}
+                                size={20}
+                            />
+
+                            <Text
+                                style={{
+                                    marginLeft: 10,
+                                    color: '#fff',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                Play Story
+                            </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
                             onPress={this.resetStory}
-                        />
-                        <Button
-                            style={styles.button}
-                            title="Stop audio"
+                            style={styles.gameButton}
+                        >
+                            <Ionicons
+                                name={'repeat'}
+                                color={'white'}
+                                size={20}
+                            />
+
+                            <Text
+                                style={{
+                                    marginLeft: 10,
+                                    color: '#fff',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                Reset Story
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             onPress={stopAudio}
-                        />
+                            style={styles.gameButton}
+                        >
+                            <Ionicons
+                                name={'stop-circle'}
+                                color={'white'}
+                                size={20}
+                            />
+
+                            <Text
+                                style={{
+                                    marginLeft: 10,
+                                    color: '#fff',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                Stop audio
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 )}
             </View>

@@ -45,7 +45,7 @@ const DATA = [
         id: 4,
         nav: {},
         image: require('../assets/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
-        title: 'Adventure',
+        title: 'Horror',
     },
     {
         id: 5,
@@ -57,29 +57,35 @@ const DATA = [
         id: 6,
         nav: {},
         image: require('../assets/couple-g798e44f98_1920.jpg'),
-
         title: 'Children',
     },
 ];
 
-const Item = ({ title, image, navigation }) => (
-    <TouchableOpacity onPress={() => console.log('Button pressed')}>
-        <ImageBackground
-            imageStyle={{
-                borderRadius: 10,
-            }}
-            source={image}
-            style={styles.categoryButton}
-        >
-            <Text style={styles.categoryText}>{title}</Text>
-        </ImageBackground>
-    </TouchableOpacity>
-);
+function Item({ selectedCategory, image, title }) {
+    //Title är namnet på kategorin När du klickar på knappen skickar du med title till funktionen selectedCategory.
+    return (
+        <TouchableOpacity onPress={() => selectedCategory(title)}>
+            <ImageBackground
+                imageStyle={{
+                    borderRadius: 10,
+                }}
+                source={image}
+                style={styles.categoryButton}
+            >
+                <Text style={styles.categoryText}>{title}</Text>
+            </ImageBackground>
+        </TouchableOpacity>
+    );
+}
 
-export default class Marketplace extends React.Component {
+export default class Explore extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            categories: [],
+            stories: [],
+            categoryNames: [],
+        };
     }
     state = {
         search: '',
@@ -89,19 +95,38 @@ export default class Marketplace extends React.Component {
         this.setState({ search });
     };
 
+    selectedCategory = (title) => {
+        console.log('Title: ' + title); //Namnet på den kategori du klickat på.
+
+        this.props.navigation.navigate('Stories', {
+            storyCategory: title,
+        });
+    };
+
+    componentDidMount() {
+        this.getCategories();
+    }
+    getCategories = () => {
+        const Story = Parse.Object.extend('Story');
+        const query = new Parse.Query(Story);
+        query.limit(1000); // TODO :limits the amount of stories we can fetch, might want a way to make this uncapped.
+        query.find().then((stories) => {
+            console.log('antal stories: ' + stories.length);
+            this.setState({ stories: stories });
+        });
+    };
+
     render() {
         const { search } = this.state;
-
-        const renderItem = ({ item }) => (
-            <Item title={item.title} image={item.image} />
-        );
         const headerComponent = () => (
             <View style={{ alignItems: 'center' }}>
                 <View style={{ backgroundColor: 'transparent', height: 150 }}>
-                    <Text style={styles.categoryTitle}> New </Text>
+                    <Text style={styles.sectionTitle}> All stories </Text>
                     <TouchableOpacity
                         onPress={() => {
-                            console.log('New');
+                            this.props.navigation.navigate('Stories', {
+                                storyCategory: '',
+                            });
                         }}
                         style={{ alignSelf: 'center' }}
                     >
@@ -119,7 +144,7 @@ export default class Marketplace extends React.Component {
                         marginBottom: 70,
                     }}
                 >
-                    <Text style={[styles.categoryTitle]}> Popular </Text>
+                    <Text style={[styles.sectionTitle]}> Popular </Text>
                     <TouchableOpacity
                         onPress={() => console.log('Popular')}
                         style={{ alignSelf: 'center' }}
@@ -130,7 +155,7 @@ export default class Marketplace extends React.Component {
                             imageStyle={{ borderRadius: 10 }}
                         ></ImageBackground>
                     </TouchableOpacity>
-                    <Text style={[styles.categoryTitle, styles.categoryTitle2]}>
+                    <Text style={[styles.sectionTitle, styles.sectionTitle2]}>
                         {' '}
                         Categories{' '}
                     </Text>
@@ -159,19 +184,18 @@ export default class Marketplace extends React.Component {
                         onChangeText={this.updateSearch}
                         value={search}
                     />
-                    <View
-                        style={{
-                            padding: 10,
-                            backgroundColor: 'white',
-                            borderRadius: 40,
-                            marginTop: 10,
-                            alignItems: 'center',
-                        }}
-                    >
+                    <View style={styles.flatlistView}>
                         <FlatList
                             ListHeaderComponent={headerComponent}
                             data={DATA}
-                            renderItem={renderItem}
+                            renderItem={({ item }) => (
+                                <Item
+                                    title={item.title}
+                                    image={item.image}
+                                    selectedCategory={this.selectedCategory}
+                                    category={item}
+                                />
+                            )}
                             keyExtractor={(item) => item.id}
                             numColumns={2}
                             style={styles.flatlist}
@@ -183,13 +207,3 @@ export default class Marketplace extends React.Component {
         );
     }
 }
-
-/*<ImageBackground
-            
-            imageStyle={{
-                borderRadius: 10,
-            }}
-            source={image}
-        >
-            <Text style={styles.categoryText}>{title}</Text>
-        </ImageBackground>*/

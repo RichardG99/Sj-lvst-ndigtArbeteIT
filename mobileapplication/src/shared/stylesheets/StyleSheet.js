@@ -42,25 +42,8 @@ export const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginTop: Constants.statusBarHeight,
     },
-    story: {
-        backgroundColor: 'lightblue',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-    },
     pageTitle: {
         textAlign: 'center',
-    },
-    title: {
-        fontSize: 32,
-    },
-    by: {
-        fontSize: 32,
-        color: 'grey',
-    },
-    author: {
-        fontSize: 32,
-        color: 'white',
     },
 
     // Add User
@@ -102,32 +85,47 @@ export const styles = StyleSheet.create({
     },
 
     // Game
-    containerDefault: {
+    gameContainer: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: '#00082F',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    button: {
-        padding: 10,
+    gameButton: {
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        flexDirection: 'row',
+        //backgroundColor: '#3578E5',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+
+        // backgroundColor: '#FF9900',
+        backgroundColor: '#506BC8',
+        shadowOpacity: 0.5,
+        shadowColor: 'white',
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
     },
     titleSmall: {
         fontSize: 18,
         color: 'white',
+        margin: 10,
+        fontFamily: 'InterRegular',
     },
     headerSmall: {
-        fontSize: 18,
-        color: 'grey',
+        fontSize: 20,
+        color: '#fff',
+        fontFamily: 'InterSemiBold',
     },
     titleLarge: {
         fontSize: 32,
         color: 'white',
+        fontFamily: 'InterSemiBold',
+        margin: 10,
     },
     headerLarge: {
-        fontSize: 32,
-        color: 'grey',
-    },
-    author: {
         fontSize: 32,
         color: 'grey',
     },
@@ -140,7 +138,9 @@ export const styles = StyleSheet.create({
     },
     story: {
         backgroundColor: 'lightgrey',
+        borderRadius: 10,
         padding: 20,
+        paddingVertical: 10,
         marginVertical: 8,
         marginHorizontal: 16,
     },
@@ -148,14 +148,14 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     title: {
-        fontSize: 32,
+        fontSize: 24,
     },
     by: {
-        fontSize: 32,
+        fontSize: 20,
         color: 'grey',
     },
     author: {
-        fontSize: 32,
+        fontSize: 24,
         color: 'white',
     },
 
@@ -167,7 +167,7 @@ export const styles = StyleSheet.create({
         left: 36,
         top: 341,
 
-        fontFamily: 'Pacifico-Regular',
+        fontFamily: 'Pacifico',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 30,
@@ -241,9 +241,9 @@ export const styles = StyleSheet.create({
         height: 40,
         left: 44,
         top: 6,
-        fontFamily: 'Pacifico-Regular',
+        fontFamily: 'PTSans',
         fontStyle: 'italic',
-        fontSize: 17,
+        fontSize: 18,
         /* or 30px */
         flex: 1,
         alignItems: 'center',
@@ -272,6 +272,14 @@ export const styles = StyleSheet.create({
     flatlist: {
         marginBottom: 150,
         paddingBottom: 100,
+        //backgroundColor: 'red',
+    },
+    flatlistView: {
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        marginTop: 10,
+        //alignItems: 'center',
     },
     categoryButton: {
         width: 150,
@@ -288,7 +296,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 15,
         position: 'relative',
         marginTop: 75,
-        //fontFamily: 'Inter',
+        fontFamily: 'InterSemiBold',
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
@@ -296,13 +304,14 @@ export const styles = StyleSheet.create({
         color: '#fff',
         textAlign: 'left',
     },
-    categoryTitle: {
+
+    sectionTitle: {
         position: 'absolute',
         marginTop: 1,
         width: 299,
         height: 150,
         left: 10,
-        //fontFamily: 'Noto Sans Kannada UI',
+        fontFamily: 'InterSemiBold',
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 32,
@@ -313,11 +322,11 @@ export const styles = StyleSheet.create({
         textAlign: 'left',
         letterSpacing: -0.41,
     },
-    categoryTitle1: {
+    sectionTitle1: {
         marginTop: 160,
     },
-    categoryTitle2: {
-        marginTop: 155,
+    sectionTitle2: {
+        marginTop: 158,
     },
 
     searchBarInput: {
@@ -348,16 +357,62 @@ export const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 60,
     },
+    //Category page
+    squareButton: {
+        width: 120,
+        height: 120,
+        borderRadius: 10,
+        marginHorizontal: 7,
+        //marginBottom: '6%',
+        backgroundColor: '#CBD9F5',
+        //Dropshadow
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
+    },
+    categoryTitle: {
+        fontSize: 30,
+        fontFamily: 'Pacifico',
+        alignSelf: 'center',
+        marginTop: 20,
+        color: '#FF9900',
+        shadowOpacity: 0.5,
+        shadowColor: 'white',
+    },
+    sectionTitles: {
+        fontFamily: 'InterSemiBold',
+        fontSize: 24,
+        lineHeight: 29,
+        letterSpacing: 0,
+        textAlign: 'left',
+        //marginTop: 10,
+    },
+    item: {
+        margin: 5,
+    },
+    itemPhoto: {
+        width: 120,
+        height: 120,
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
+    },
+    itemText: {
+        color: 'rgba(255, 255, 255, 0.5)',
+        marginTop: 5,
+    },
+
     //Profile
 
-    profileTitle:{
+    profileTitle: {
         position: 'absolute',
         width: 201,
         height: 60,
         left: 94,
-        top: 60,
-
-        fontFamily: 'Pacifico-Regular',
+        top: 80,
+        fontFamily: 'Pacifico',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 30,
@@ -394,7 +449,7 @@ export const styles = StyleSheet.create({
         top: 180,
     },
 
-//AddUser
+    //AddUser
 
     createAccountButton: {
         top: 550,
@@ -404,7 +459,7 @@ export const styles = StyleSheet.create({
         top: 600,
     },
 
-// Edit Password
+    // Edit Password
 
     changeButton: {
         top: 450,

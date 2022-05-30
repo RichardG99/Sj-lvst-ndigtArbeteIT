@@ -16,16 +16,23 @@ import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function Story({ myStory, selectedStory }) {
     return (
-        <View style={styles.story}>
-            <TouchableOpacity onPress={() => selectedStory(myStory)}>
-                <Text style={styles.title}>{myStory.story.get('title')}</Text>
-                <Text style={styles.by}>by</Text>
-                <Text style={styles.author}>{myStory.story.get('author')}</Text>
-            </TouchableOpacity>
-        </View>
+        <>
+            <View style={styles.story}>
+                <TouchableOpacity onPress={() => selectedStory(myStory)}>
+                    <Text style={styles.title}>
+                        {myStory.story.get('title')}
+                    </Text>
+                    <Text style={styles.by}>by</Text>
+                    <Text style={styles.author}>
+                        {myStory.story.get('author')}
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </>
     );
 }
 
@@ -57,9 +64,12 @@ export default class MyLibrary extends React.Component {
     };
     render() {
         return (
-            <View>
-                <Text>Select Story to Play</Text>
+            <SafeAreaView style={styles.splashBackground}>
+                <View style={[styles.ellips1, styles.ellips3]}></View>
+                <View style={[styles.ellips2, styles.ellips4]}></View>
+                <Text style={[styles.profileTitle]}>Select Story</Text>
                 <FlatList
+                    style={{ marginTop: 100 }}
                     data={this.state.myStories}
                     renderItem={({ item }) => (
                         <Story
@@ -70,7 +80,7 @@ export default class MyLibrary extends React.Component {
                     )}
                     keyExtractor={(item) => item.story.id}
                 />
-            </View>
+            </SafeAreaView>
         );
     }
 }

@@ -10,45 +10,51 @@ import {
     FlatList,
     Item,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
-
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
+import Explore from './Explore.js';
 
-function Story({ story, selectedStory }) {
+function Story({ story, selectedStory, storyCategory }) {
     return (
         <View style={styles.story}>
             <TouchableOpacity onPress={() => selectedStory(story)}>
                 <Text style={styles.title}>{story.get('title')}</Text>
                 <Text style={styles.by}>by</Text>
                 <Text style={styles.author}>{story.get('author')}</Text>
+                <Text style={styles.author}>{storyCategory}</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
 export default class Stories extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             stories: [],
+            storyCategory: this.props.route.params.storyCategory,
         };
     }
 
     componentDidMount() {
-        this.getAllStories();
+        this.getStories();
     }
 
     // Empty comment
-    getAllStories = () => {
+    getStories = () => {
+        console.log('storyCategory: ' + this.state.storyCategory);
         const Story = Parse.Object.extend('Story');
         const query = new Parse.Query(Story);
+        if (this.state.storyCategory != '') {
+            query.equalTo('category', this.state.storyCategory);
+        }
         query.limit(1000); // TODO :limits the amount of stories we can fetch, might want a way to make this uncapped.
         query.find().then((stories) => {
-            console.log(stories.length);
+            console.log('antal stories: ' + stories.length);
             this.setState({ stories: stories });
         });
     };
@@ -78,7 +84,8 @@ export default class Stories extends React.Component {
             };
             user.add('myLibrary', newStory);
             user.save();
-            this.props.navigation.navigate('My Library');
+
+            //this.props.navigation.navigate('My Library');
         });
     };
 
@@ -95,6 +102,7 @@ export default class Stories extends React.Component {
                             id={item.id}
                             story={item}
                             selectedStory={this.selectedStory}
+                            storyCategory={this.state.storyCategory}
                         />
                     )}
                     keyExtractor={(item) => item.id}

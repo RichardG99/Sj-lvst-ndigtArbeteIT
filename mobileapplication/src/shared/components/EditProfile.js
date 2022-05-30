@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Text,
+    SafeAreaView,
+} from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import Parse from 'parse/react-native';
 import { styles } from '../stylesheets/StyleSheet';
@@ -41,62 +47,66 @@ export default class EditProfile extends React.Component {
 
     render() {
         return (
-            <View style={styles.splashBackground}>
-                <View style={[styles.ellips1, styles.ellips3]}>               
-                </View>
-                <View style={[styles.ellips2, styles.ellips4]}>               
-                </View>
-                <Text style={styles.profileTitle}>
-                    Edit Profile
-                </Text>
-                <View style={{marginTop: 200}}>
-                <Input
-                    placeholder="First name"
-                    value={this.state.firstName}
-                    name="firstName"
-                    color='white'
-                    onChangeText={(value) =>
-                        this.setState({ firstName: value })
-                    }
-                />
-                <Input
-                    placeholder="Last name"
-                    value={this.state.lastName}
-                    name="lastName"
-                    color='white'
-                    onChangeText={(value) => this.setState({ lastName: value })}
-                />
-                <Input
-                    placeholder="Email"
-                    value={this.state.email}
-                    name="email"
-                    color='white'
-                    onChangeText={(value) => this.setState({ email: value })}
-                />
+            <SafeAreaView style={styles.splashBackground}>
+                <View style={[styles.ellips1, styles.ellips3]}></View>
+                <View style={[styles.ellips2, styles.ellips4]}></View>
+                <Text style={styles.profileTitle}>Edit Profile</Text>
+                <View style={{ marginTop: 200 }}>
+                    <Input
+                        placeholder="First name"
+                        value={this.state.firstName}
+                        name="firstName"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ firstName: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Last name"
+                        value={this.state.lastName}
+                        name="lastName"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ lastName: value })
+                        }
+                    />
+                    <Input
+                        placeholder="Email"
+                        value={this.state.email}
+                        name="email"
+                        color="white"
+                        onChangeText={(value) =>
+                            this.setState({ email: value })
+                        }
+                    />
                 </View>
                 <TouchableOpacity
-                    style={[styles.buttonLogin, styles.editpButton, styles.changeButton]}
+                    style={[
+                        styles.buttonLogin,
+                        styles.editpButton,
+                        styles.changeButton,
+                    ]}
                     //title="Update profile"
                     type="clear"
-                    color='white'
-                    onPress={() => this.saveData()}>
-                        <Text style={styles.loginText}>
-                            Update Profile
-                        </Text>
-
+                    color="white"
+                    onPress={() => this.saveData()}
+                >
+                    <Text style={styles.loginText}>Update Profile</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
-                    style={[styles.buttonLogin, styles.editpButton, styles.resetButton]}
+                    style={[
+                        styles.buttonLogin,
+                        styles.editpButton,
+                        styles.resetButton,
+                    ]}
                     type="clear"
                     //title="Reset profile"
-                    onPress={() => this.resetForm()}>
-                        <Text style={styles.loginText}>
-                            Reset Profile
-                        </Text>
-               
+                    onPress={() => this.resetForm()}
+                >
+                    <Text style={styles.loginText}>Reset Profile</Text>
                 </TouchableOpacity>
-            </View>
+            </SafeAreaView>
         );
     }
 }
