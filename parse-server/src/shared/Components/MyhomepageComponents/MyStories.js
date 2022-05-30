@@ -188,6 +188,7 @@ class MyStories extends React.Component {
   render() {
     const tmpState = this.state;
     if (tmpState.redirect) {
+      console.log("vi är här")
       return <Redirect to="/editstory" />;
     }
     const tmpProps = this.props;

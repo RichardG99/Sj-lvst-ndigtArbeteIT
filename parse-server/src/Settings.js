@@ -16,11 +16,24 @@ var devServerPort = 1337;
 var devAppID = "myAppId";
 var devDatabaseURI = "mongodb://localhost";
 
+
+// Isaks
+// var STRIPE_PUBLISHABLE_KEY = "pk_test_51KrJ5HAqt7xgnAosh9b6e6BWi6LjPOqIuR0srraW0NhEQic3BRypd1Yy5QVSAfJFDko3JEhnyp3mCx0eLYihezZu00wpue7tpi"
+// Viktors
+var STRIPE_PUBLISHABLE_KEY = "pk_test_51KoR1DH4rsPpfikp8tbu2XmCtyVGfchiKq0nT41La9cDa6dteU00TwX1l3QUSFJcFhIB7Eqr1yYfWsWI0WX1mvas006L4QZD6Z"
+// Isaks
+// var STRIPE_SECRET_KEY = "sk_test_51KrJ5HAqt7xgnAosEShNJIlil09QWgMETFN3g8oHlqOHo29XM5QJHOSVGderXS3UWmCJ6v1XLzDQx1aYw8SdOUI000qBIWFneJ"
+// Viktor 
+var STRIPE_SECRET_KEY = "sk_test_51KoR1DH4rsPpfikp2hmuBqDxfIp877y64ixqo3HgeUOr2sLzqagw6qsnOv4FSnhXNVbjgsjurxAhKVTOn6dVWUeH00DnKyemlv"
+var STRIPE_WEBHOOK_SECRET = "whsec_119acad24ac7290b7be65eae3c1044d085da0683d51c8492899ceed972f68183"
+
 //"Cheating" macros to only expose our currently valid settings: these should NOT be changed manually
 settings.serverURL = settings.devmode ? devServerURL : liveServerURL;
 settings.serverPort = settings.devmode ? devServerPort : liveServerPort;
 settings.appID = settings.devmode ? devAppID : liveAppID;
 settings.databaseURI = settings.devmode ? devDatabaseURI : liveDatabaseURI;
-
+settings.STRIPE_PUBLISHABLE_KEY = STRIPE_PUBLISHABLE_KEY;
+settings.STRIPE_SECRET_KEY = STRIPE_SECRET_KEY;
+settings.STRIPE_WEBHOOK_SECRET = STRIPE_WEBHOOK_SECRET;
 
 module.exports = settings;

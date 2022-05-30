@@ -70,7 +70,7 @@ class CreateAccountForm extends React.Component {
     user.set('firstName', tmpState.firstName);
     user.set('lastName', tmpState.lastName);
     user.set('myLibrary', []);
-
+    user.set('stripeId', null)
     user.signUp().then((loggedInUser) => {
       Parse.User.logIn(tmpState.username, tmpState.password).then(()=> {
         console.log(`Success, welcome ${tmpState.username}`);
