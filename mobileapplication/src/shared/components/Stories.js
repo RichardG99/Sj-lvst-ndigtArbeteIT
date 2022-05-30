@@ -38,6 +38,7 @@ export default class Stories extends React.Component {
         this.state = {
             stories: [],
             authenticated:false,
+            storyCategory: this.props.route.params.storyCategory,
         }
     }
 
@@ -49,6 +50,11 @@ export default class Stories extends React.Component {
     isSubscribed = async () => {
         const user = Parse.User.current()
         const stripeId = user.get("stripeId");
+        if(!stripeId) {
+            console.log("customer is not a stripe user")
+            return;
+        }
+        console.log("current Stripe user: " + stripeId)
         const {subscriptions} = await fetch("http://" + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
             method: 'POST',
             headers: {
@@ -68,8 +74,6 @@ export default class Stories extends React.Component {
               return;
           }
     }
-    
-
 
     // Empty comment
     getStories = () => {
@@ -94,7 +98,8 @@ export default class Stories extends React.Component {
 
     addToUsersLibrary = (story) => {
       if (this.state.authenticated == false){
-        console.log("no subscription no listening")
+        console.log("Customer is not subscribed")
+        // TODO: ADD ALERT FOR NOT SUBSCRIBED
         return
       }
         Parse.User.currentAsync().then((user) => {
@@ -117,7 +122,7 @@ export default class Stories extends React.Component {
             };
             user.add('myLibrary', newStory);
             user.save();
-
+            // TODO: ADD ALERT FOR ADDITION TO LIBRARY
             //this.props.navigation.navigate('My Library');
         });
     };
