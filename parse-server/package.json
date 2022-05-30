@@ -43,8 +43,10 @@
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.13.13",
     "@google-cloud/speech": "^4.4.0",
+
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
+    "@popperjs/core": "^2.11.5",
     "bufferutil": "^4.0.3",
     "cors": "^2.8.4",
     "draggable": "^4.2.0",

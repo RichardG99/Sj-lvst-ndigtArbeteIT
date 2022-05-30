@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Parse from '../../common';
 
+
+
 const labelStyle = {
   margin: '1em 0',
 };
@@ -31,6 +33,8 @@ const createAccountButtonStyle = {
   cursor: 'pointer',
 };
 
+
+
 class CreateAccountForm extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +49,7 @@ class CreateAccountForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });

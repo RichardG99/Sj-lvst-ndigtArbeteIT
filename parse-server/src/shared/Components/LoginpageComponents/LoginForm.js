@@ -74,7 +74,7 @@ class LoginForm extends React.Component {
         <div className="container">
           <div>
             <label style={labelStyle} htmlFor="username">
-              Username
+              username
               <input
                 style={inputStyle}
                 type="text"
