@@ -307,10 +307,10 @@ export const styles = StyleSheet.create({
 
     sectionTitle: {
         position: 'absolute',
-        marginTop: 1,
+        /* marginTop: 1,
         width: 299,
         height: 150,
-        left: 10,
+        left: 10, */
         fontFamily: 'InterSemiBold',
         fontStyle: 'normal',
         fontWeight: '700',
@@ -321,12 +321,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'left',
         letterSpacing: -0.41,
+        backgroundColor: 'red',
     },
     sectionTitle1: {
         marginTop: 160,
     },
     sectionTitle2: {
-        marginTop: 158,
+        marginTop: 10,
     },
 
     searchBarInput: {

@@ -25,57 +25,95 @@ const screenWidth = Dimensions.get('window').width;
 const DATA = [
     {
         id: 1,
-        nav: {},
+        title: 'All stories',
+        header: true,
+    },
+    {
+        id: 1,
+        image: require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg'),
+        title: 'All stories',
+        top: true,
+    },
+    {
+        id: 1,
+        title: 'Categories',
+        header: true,
+    },
+    {
+        id: 1,
         image: require('../assets/raven-gaa8626c41_1920.jpg'),
         title: 'Thriller',
+        header: false,
     },
     {
         id: 2,
-        nav: {},
         image: require('../assets/not-hear-g120d30a73_1920.jpg'),
         title: 'Comedy',
+        header: false,
     },
     {
         id: 3,
-        nav: {},
         image: require('../assets/couple-g798e44f98_1920.jpg'),
         title: 'Romance',
+        header: false,
     },
     {
         id: 4,
-        nav: {},
         image: require('../assets/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
         title: 'Horror',
+        header: false,
     },
     {
         id: 5,
-        nav: {},
         image: require('../assets/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
         title: 'Thriller',
+        header: false,
     },
     {
         id: 6,
-        nav: {},
         image: require('../assets/couple-g798e44f98_1920.jpg'),
         title: 'Children',
+        header: false,
     },
 ];
 
-function Item({ selectedCategory, image, title }) {
+function Item({ item, selectedCategory, image, title }) {
     //Title är namnet på kategorin När du klickar på knappen skickar du med title till funktionen selectedCategory.
-    return (
-        <TouchableOpacity onPress={() => selectedCategory(title)}>
-            <ImageBackground
-                imageStyle={{
-                    borderRadius: 10,
+    if (item.header) {
+        return <Text style={styles.sectionTitle}> {title} </Text>;
+    }
+    if (item.top) {
+        return (
+            <TouchableOpacity
+                onPress={() => {
+                    this.props.navigation.navigate('Stories', {
+                        storyCategory: '',
+                    });
                 }}
-                source={image}
-                style={styles.categoryButton}
+                style={{ alignSelf: 'center' }}
             >
-                <Text style={styles.categoryText}>{title}</Text>
-            </ImageBackground>
-        </TouchableOpacity>
-    );
+                <ImageBackground
+                    style={styles.allCategories}
+                    source={image}
+                    imageStyle={{ borderRadius: 10 }}
+                ></ImageBackground>
+            </TouchableOpacity>
+        );
+    } else {
+        return (
+            <TouchableOpacity onPress={() => selectedCategory(title)}>
+                <ImageBackground
+                    imageStyle={{
+                        borderRadius: 10,
+                    }}
+                    source={image}
+                    style={styles.categoryButton}
+                >
+                    <Text style={styles.categoryText}>{title}</Text>
+                </ImageBackground>
+            </TouchableOpacity>
+        );
+    }
 }
 
 export default class Explore extends React.Component {
@@ -139,22 +177,11 @@ export default class Explore extends React.Component {
                 </View>
                 <View
                     style={{
-                        backgroundColor: 'transparent',
-                        height: 150,
-                        marginBottom: 70,
+                        backgroundColor: 'red',
+                        height: 50,
+                        marginBottom: 40,
                     }}
                 >
-                    <Text style={[styles.sectionTitle]}> Popular </Text>
-                    <TouchableOpacity
-                        onPress={() => console.log('Popular')}
-                        style={{ alignSelf: 'center' }}
-                    >
-                        <ImageBackground
-                            style={styles.allCategories}
-                            source={require('../assets/alistair-macrobert-b6NIuzqaD0s-unsplash.jpg')}
-                            imageStyle={{ borderRadius: 10 }}
-                        ></ImageBackground>
-                    </TouchableOpacity>
                     <Text style={[styles.sectionTitle, styles.sectionTitle2]}>
                         {' '}
                         Categories{' '}
@@ -186,14 +213,14 @@ export default class Explore extends React.Component {
                     />
                     <View style={styles.flatlistView}>
                         <FlatList
-                            ListHeaderComponent={headerComponent}
+                            //ListHeaderComponent={headerComponent}
                             data={DATA}
                             renderItem={({ item }) => (
                                 <Item
                                     title={item.title}
                                     image={item.image}
                                     selectedCategory={this.selectedCategory}
-                                    category={item}
+                                    item={item}
                                 />
                             )}
                             keyExtractor={(item) => item.id}
