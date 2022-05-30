@@ -16,6 +16,7 @@ import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import '../common.js';
+import settings from '../settings.js';
 import { styles } from '../stylesheets/StyleSheet';
 import Explore from './Explore.js';
 
@@ -36,12 +37,42 @@ export default class Stories extends React.Component {
         super(props);
         this.state = {
             stories: [],
+            authenticated:false,
             storyCategory: this.props.route.params.storyCategory,
-        };
+        }
     }
 
-    componentDidMount() {
+    componentDidMount(){
+        this.isSubscribed();
         this.getStories();
+    }
+
+    isSubscribed = async () => {
+        const user = Parse.User.current()
+        const stripeId = user.get("stripeId");
+        if(!stripeId) {
+            console.log("customer is not a stripe user")
+            return;
+        }
+        console.log("current Stripe user: " + stripeId)
+        const {subscriptions} = await fetch("http://" + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              customerId: stripeId
+            }),
+          }).then(r => r.json()).
+          catch((err) => {console.log(err)});
+          const status = subscriptions.data[0].status
+          console.log("current status: " + subscriptions.data[0].status)
+          if (status == "active" || status == "canceled") {
+              this.state.authenticated = true;
+              console.log("customer is subscribed")
+              console.log(this.state.authenticated)
+              return;
+          }
     }
 
     // Empty comment
@@ -63,7 +94,14 @@ export default class Stories extends React.Component {
         this.addToUsersLibrary(story);
     };
 
+    
+
     addToUsersLibrary = (story) => {
+      if (this.state.authenticated == false){
+        console.log("Customer is not subscribed")
+        // TODO: ADD ALERT FOR NOT SUBSCRIBED
+        return
+      }
         Parse.User.currentAsync().then((user) => {
             let myLibrary = user.get('myLibrary');
             if (myLibrary === undefined) {
@@ -84,7 +122,7 @@ export default class Stories extends React.Component {
             };
             user.add('myLibrary', newStory);
             user.save();
-
+            // TODO: ADD ALERT FOR ADDITION TO LIBRARY
             //this.props.navigation.navigate('My Library');
         });
     };
