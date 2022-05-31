@@ -39,7 +39,7 @@ const api = new ParseServer({
   databaseURI: databaseUri || settings.databaseURI, // We can override our database URI by setting an environment variable
   appId: process.env.APP_ID || settings.appID, //Same with our app ID...
   masterKey: process.env.MASTER_KEY || 'myMasterKey', 
-  serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse', //...and server URL
+  serverURL: process.env.SERVER_URL || settings.serverURL + "/parse", //...and server URL //`http://${settings.serverURL}:${settings.serverPort}/parse`
   javascriptKey: 'AugmentedAudio',
   // -- As we do not use an S3 file bucket, these lines are commented out
   /*filesAdapter: new S3Adapter(

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "augmented-audio-351811",
+  "private_key_id": "694936262f7cae984d46ff748d62996371ccdc3f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCq/CUCa2MoVdgU\neDx/6dBhDv+s+5bva//vK/dX4keGKBWBZGTPUOQPsk1IqTWW+oYVNdFy0j7BSM0w\ny7W86GKsBkfXdC2L33GP9lw1IniOnnEqj6EuaxqAgoBEbMp/Er30ANHNEqZMrdvR\nODEuxF6x+ccfbyZ6BKv3kllF1kzP9L+0H14B3g+VCpZQBExqmjuaEk7WJyjDKQrd\nY/H2aA0pFjA5TDEnqBZUrYsEmX/CPIN2BHdZYZmTdlksasVc0wQPwGwW1IJAQBN1\nQzDceLF7onFNgTm6afssgy2mG7JOxUJat7Z63E99XXIl2zTPIcaUpR25Qvx11Azd\nyMkvI68TAgMBAAECggEABpQtC5EvzFC0cuH6Pr6AUtVNtE1gQVYM3ICUkI0XgDhX\naEmBZEV4gO7oI/BexeOQ+FmM9YRuMoGnY3k/3ngShwvqBIaaOgeFSkS9LefMCH2Q\nKeypoJLLMkA5lZuZ+8mwBVnPhYelXmeFTa3onPDXs+fCAZoFOpMNCtMjgpkvdQQM\nASZtGng8y9/2eciWCwl/p2XmAI/CdRK3yv5jpqpi0MK95ZOnDhFnJz8NUbSSkbx5\nuGS+LnGkFe180jexztPxQTH9F/AAqhQ+YdhXKhSqoDi2Iiw88iyp1zY6I5vut/+t\nwXEvwbXFIUTl6pj3mGMty8VSk0jV+RSAh0FI6LBkAQKBgQDjYWiDRitMqrpQiQFV\nLL9OCtFEmqG/Vp1FdCEFzsvyD/K/vp8OK7ke5RpCUmDgRATm2S1pLbVMsSrTCUaX\n7pHLdeaLGk49RLo9iCKU/HmPEetEAzn6o3lp2PrGOlaNFdP0bGL7Ml3Dn0dHBMaE\nG4M1rkwBF4h2EuA7dk1U0JvdmwKBgQDAgZL4h9N8U0BwpVHtc9SlBZgLhqGxtHef\nTvgDrqGkCaFNMrjZY1vrL+uCxYWCQ4MeZHfZiuD/cg3YCQSUuldN2IwVQgRr6xsR\naN8LYrGpY4ds1buj9iBnWV+oXyIlzEXWQ44cxqI828Te1dLX367U56fmJ2R35cmV\naJkAWgNH6QKBgF7uslXsm/NcbIFnUhkfn5eTyJ9d+B4MqYjv3UGxf1DG+9C2Y23l\nL1sIyBfckPnRLEK9dcot/T3R0lFd1A1m25QY23JEP1oxMZizF80gRBhJoPI6bqCI\nVA6vOrQ8cxpgfKfWANVjx+X+wCGUitVpLzTgWncyPhUd+GSbFdpNZmX1AoGAI/iS\nU+pddD/CLMpXcr1QIL3Y2V6A3EnSiGwjH90DyzkZcOlnbQeJ53p+0WLDPcILwCQZ\n2QaAYHsZZyLYPkpLgfpSwq4hUWEPH8Ou2dvJQtOcPJP7ifm1uFoU68tLADEZY54f\n8fST4DdYpCLkUP41FwdqcjEuLtE7R7XR0SUAs/ECfymo099a0zPToOd0IBsugwGH\nRechothmx9SbYiO4B4nySlJsAVNVoa4WYzqOfr7lJNu1mTZmyZlairekK77VN7U/\nVN9GmSfmGAVSNDVAJN3iCt8uHS3HMLMddDFPLiJJXEb8nQbsC8YbeUPOnx24WViR\n3TgH4ZUZipATyxuUi7s=\n-----END PRIVATE KEY-----\n",
+  "client_email": "viktor-test@augmented-audio-351811.iam.gserviceaccount.com",
+  "client_id": "114462475733583055190",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/viktor-test%40augmented-audio-351811.iam.gserviceaccount.com"
+}

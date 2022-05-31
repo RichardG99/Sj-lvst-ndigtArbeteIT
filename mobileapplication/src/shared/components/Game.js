@@ -14,10 +14,10 @@ import {
 import { Button } from 'react-native-elements';
 import '../common.js';
 import * as FileSystem from 'expo-file-system';
-import * as Brightness from 'expo-brightness';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import VarState from './VarState.js';
 import { Audio } from 'expo-av';
+import * as Brightness from 'expo-brightness';
 import Parse, { User } from 'parse/react-native';
 import ParseReact from 'parse-react/react-native';
 import { styles } from '../stylesheets/StyleSheet';
@@ -44,7 +44,7 @@ export default class Game extends React.Component {
         this.maxAttempts = 5;
         this.savedBrightness = 1;
         this.state = {
-            recordingPermissions: false,
+            recordingPermissions: false, // TODO: Denna state används aldrig
             brightnessPermission: false,
             playing: false,
             currentBoxTitle: 'Loading...',
@@ -55,8 +55,10 @@ export default class Game extends React.Component {
         this.variableState = new VarState();
         this.backHandler = null;
     }
-    UNSAFE_componentDidMount() {
-        this.getPermissions();
+    componentDidMount() {
+        console.log("Audio hatar mig")
+        //this.getAudioPersmission();
+        this.getPermissions(); // TODO: REMOVE THIS
         this.getChapterInfo().then(() => {
             Parse.User.currentAsync().then((user) => {
                 this.variableState.loadData(
@@ -85,15 +87,41 @@ export default class Game extends React.Component {
             });
         });
     };
-    getPermissions = async () => {
-        console.log('getting perms');
-        const respAudio = await Permissions.askAsync(
-            Permissions.AUDIO_RECORDING
-        ); // Get recording permission
-        this.setState({
-            recordingPermissions: respAudio.status === 'granted', // Evaluates true given that permissions are granted.
+    
+    /*
+    getAudioPersmission = async () => {
+        console.log("ljud")
+        await Audio.requestPermissionsAsync().then((result) => {
+            console.log(result)
+            this.setState({
+                recordingPermissions: result.status === 'granted', // Evaluates true given that permissions are granted.
+            });
         });
-        console.log(respAudio.status);
+        
+    }
+    */
+
+    getPermissions = async () => {
+        // Get recording permission
+        console.log('getting perms');                   // TODO: REMOVE CONSOLE LOG
+        await Audio.requestPermissionsAsync().then((result) => {
+            console.log(result)
+            this.setState({
+                recordingPermissions: result.status === 'granted', // Evaluates true given that permissions are granted.
+            });
+        });       
+        
+        /*
+        await Brightness.requestPermissionsAsync().then((result) => {
+            console.log(result)
+            this.setState({
+                brightnessPermission: result.status === 'granted', // Evaluates true given that permissions are granted.
+            });
+        }); 
+        */
+
+        
+        // TODO: Eventuellt funkar inte detta under!
         const respBrightness = await Permissions.askAsync(
             Permissions.SYSTEM_BRIGHTNESS
         );
@@ -101,10 +129,12 @@ export default class Game extends React.Component {
             brightnessPermission: respBrightness.status === 'granted',
         });
         console.log(respBrightness.status);
+        
     };
+
     speechToTextAPI = async (audio) => {
         const recordingURI = audio.getURI();
-        file_to_send = await FileSystem.readAsStringAsync(recordingURI, {
+        const file_to_send = await FileSystem.readAsStringAsync(recordingURI, {
             encoding: FileSystem.EncodingType.Base64,
         });
         const possiblePaths = await this.getBoxPaths(this.currentBoxID);
@@ -112,11 +142,13 @@ export default class Game extends React.Component {
         for (let i = 0; i < possiblePaths.length; i++) {
             keywords = [...keywords, possiblePaths[i].get('keyword')];
         }
-        //const params = {audio_base64: file_to_send, OS: Platform.OS}; // Send audio + platform info
+        // CHANGES FOR GOOGLE SOLUTION: PARAMS BELOW USED FOR IBM
+        const params = {audio_base64: file_to_send, OS: Platform.OS}; // Send audio + platform info
+        /*
         const params = {
             audio: file_to_send,
             keywords: keywords,
-        };
+        };*/
         const converted_text = await Parse.Cloud.run(
             'speechToTextCall',
             params
@@ -125,8 +157,14 @@ export default class Game extends React.Component {
         // don't care if file is already deleted
         FileSystem.deleteAsync(recordingURI, { idempotent: true });
         console.log(converted_text);
-        return converted_text;
+        // ADDING CHECK FOR TRANSCRIPTION SUCESS
+        if (converted_text.transcriptSuccess == -1) {
+            return null; 
+        }
+        return converted_text.finishedTranscript;
+        // return converted_text // IBM Version
     };
+
     recordAndTranscribe = async (messageLength) => {
         stopAudio();
         record();
@@ -144,6 +182,7 @@ export default class Game extends React.Component {
         const query = new Parse.Query(Box);
         await query.get(boxID).then(async (box) => {
             audioURL = box.get('audio_url');
+            console.log("current audio URL: " + audioURL) // TODO: REMOVE CONSOLE LOG
             await setAudioModePlayback();
             await setAudioWithUrl(audioURL);
         });
@@ -353,10 +392,9 @@ export default class Game extends React.Component {
     }*/
 
         // End of temporary fix
-        console.log(
-            this.currentBoxID,
-            this.currentTime,
-            this.state.currentBoxTitle
+        console.log("current box: " + this.currentBoxID 
+        + "\ncurrent time: " + this.currentTime
+        + "\ncurrent boxtitle: " + this.state.currentBoxTitle
         );
         while (this.state.playing) {
             // Check if this.state.playing on each thing you do in case the game has been paused.
@@ -386,6 +424,7 @@ export default class Game extends React.Component {
                             this.pickedPathIndex = -1;
                         }
                     } else {
+                        console.log("GETANDLOAD")
                         await this.getAndLoadBoxAudioFile(this.currentBoxID); // downLoad
                     }
                     this.trackEnded = false;

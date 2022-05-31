@@ -44,6 +44,7 @@ setAudioModeRecording = async () => {
     staysActiveInBackground: false,
   });
 };
+
 setAudioModePlayback = async () => {
   const promise = await Audio.setAudioModeAsync({
     allowsRecordingIOS: false, // SHouldn't this be true?`sInce we are getting permissions first...
@@ -56,11 +57,18 @@ setAudioModePlayback = async () => {
     staysActiveInBackground: false, // playback in background, false means we cant play audio whilst application is in background
   });
 };
+
 record = async () => {
   if (audio !== null) {
     await audio.unloadAsync(); // stops playing Audio
     audio = null; // Removes previous recording... since java it should just be completely removed but idk...
   }
+  /*
+  console.log("PERMISSIONS IN RECORD")
+  await Audio.requestPermissionsAsync().then((result) => {
+    console.log(result)
+    }); 
+    */
   await setAudioModeRecording();
   const newRecording = new Audio.Recording();
 
@@ -72,6 +80,7 @@ record = async () => {
   // /console.log(recording);
   console.log('recording ...');
 };
+
 stopRecording = async () => {
   await recording.stopAndUnloadAsync(); // Ends recording
   // console.log(recording.getURI()); // checks destination
@@ -154,12 +163,11 @@ setAudioWithUrl = async (audioURL) => {
   );
   try {
     const uri = await dl.downloadAsync();
-    //console.log('Finished downloading to ', uri);
+    console.log('Finished downloading to ', uri); // TODO: REMOVE CONSOLE LOG
     audio = new Audio.Sound();
     await audio.loadAsync(uri, {}, null, true);
   } catch (e) {
-    console.error(e);
-    console.log("something went wrong...");
+    console.log("setting audio error (setAudioWithUrl): " + e);
   }    
 }
 setAudioWithUri = async (audioURI) => {
@@ -171,7 +179,7 @@ setAudioWithUri = async (audioURI) => {
     audio = new Audio.Sound();
     await audio.loadAsync(audioURI, {}, null, true);
   } catch (e){
-    console.error(e);
+    console.error("Error setting audio (setAudioWithUri): " + e);
   }
 }
 // TODO if audio is already running replay it.
@@ -191,7 +199,7 @@ startPlayingAtTime = async (ms) => {
     }
     console.log('startPlayingAtTime finished running');
   } catch (e) {
-    console.log("startPlayingAtTime error...")
+    console.log("startPlayingAtTime error: " + e)
   }
 };
 // TODO add handling of non looping audio

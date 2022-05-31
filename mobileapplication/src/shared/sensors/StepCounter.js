@@ -27,7 +27,10 @@ export default class StepCounter {
 
     updateSteps(result) {
         console.log("Adding", result.steps);
-        this.state.steps += result.steps;
+        //this.state.steps += result.steps;
+        this.setState({
+            steps: steps + result.steps
+        });
     }
 
     setSysDefault(val) {
