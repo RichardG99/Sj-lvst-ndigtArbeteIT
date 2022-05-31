@@ -50,7 +50,9 @@ export default class EditProfile extends React.Component {
             <SafeAreaView style={styles.splashBackground}>
                 <View style={[styles.ellips1, styles.ellips3]}></View>
                 <View style={[styles.ellips2, styles.ellips4]}></View>
-                <Text style={styles.profileTitle}>Edit Profile</Text>
+                <Text style={[styles.profileTitle, { marginTop: 100 }]}>
+                    Edit Profile
+                </Text>
                 <View style={{ marginTop: 200 }}>
                     <Input
                         placeholder="First name"
@@ -80,32 +82,31 @@ export default class EditProfile extends React.Component {
                         }
                     />
                 </View>
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.changeButton,
-                    ]}
-                    //title="Update profile"
-                    type="clear"
-                    color="white"
-                    onPress={() => this.saveData()}
+                <View
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
                 >
-                    <Text style={styles.loginText}>Update Profile</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.defaultButton]}
+                        //title="Update profile"
+                        type="clear"
+                        color="white"
+                        onPress={() => this.saveData()}
+                    >
+                        <Text style={styles.loginText}>Update Profile</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.resetButton,
-                    ]}
-                    type="clear"
-                    //title="Reset profile"
-                    onPress={() => this.resetForm()}
-                >
-                    <Text style={styles.loginText}>Reset Profile</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.defaultButton]}
+                        type="clear"
+                        //title="Reset profile"
+                        onPress={() => this.resetForm()}
+                    >
+                        <Text style={styles.loginText}>Reset Profile</Text>
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
         );
     }

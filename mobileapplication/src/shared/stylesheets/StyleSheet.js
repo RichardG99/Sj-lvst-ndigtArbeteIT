@@ -5,6 +5,8 @@ import Constants from 'expo-constants';
 //const mainTextColor = '#FFDB21';
 //const secondaryTextColor = 'black';
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
+
 const buttonWidth = screenWidth / 2 - 30;
 
 export const styles = StyleSheet.create({
@@ -17,21 +19,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    // App
-    containerDefault: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
     // Home
-    containerDefault: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+
     button: {
         padding: 10,
     },
@@ -47,13 +36,6 @@ export const styles = StyleSheet.create({
     },
 
     // Add User
-
-    containerDefault: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     button: {
         padding: 10,
     },
@@ -74,12 +56,7 @@ export const styles = StyleSheet.create({
     },
 
     // Edit Profile
-    containerDefault: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+
     button: {
         padding: 10,
     },
@@ -91,8 +68,40 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    gameButtonText: {
+        marginLeft: 10,
+        color: '#fff',
+        fontFamily: 'InterSemiBold',
+        fontSize: 20,
+    },
     gameButton: {
-        borderRadius: 5,
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        backgroundColor: '#506BC8',
+        width: screenWidth * 0.65,
+        height: screenHeight * 0.06,
+
+        shadowOpacity: 0.5,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+
+        /* justifyContent: 'center',
+        alignItems: 'center',
+        width: screenWidth * 0.65,
+        height: screenHeight * 0.06,
+        shadowColor: '#fff',
+        backgroundColor: '#506BC8',
+        borderRadius: 10,
+        margin: 15,*/
+    },
+    pauseButton: {
+        borderRadius: 1000,
         paddingVertical: 10,
         paddingHorizontal: 30,
         flexDirection: 'row',
@@ -100,9 +109,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         margin: 10,
+        width: 160,
+        height: 160,
 
         // backgroundColor: '#FF9900',
-        backgroundColor: '#506BC8',
+        backgroundColor: '#FF9900',
         shadowOpacity: 0.5,
         shadowColor: 'white',
         shadowOffset: { width: 2, height: 4 },
@@ -137,41 +148,53 @@ export const styles = StyleSheet.create({
         marginTop: Constants.statusBarHeight,
     },
     story: {
-        backgroundColor: 'lightgrey',
+        backgroundColor: 'white',
+        borderColor: 'lightgrey',
+        borderWidth: 0.8,
         borderRadius: 10,
         padding: 20,
         paddingVertical: 10,
         marginVertical: 8,
         marginHorizontal: 16,
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.12,
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowColor: '#000',
     },
     pageTitle: {
         textAlign: 'center',
+        fontSize: 18,
+        margin: 10,
+        fontFamily: 'InterSemiBold',
     },
     title: {
-        fontSize: 24,
+        fontFamily: 'InterSemiBold',
+        fontSize: 28,
+        marginBottom: 10,
     },
     by: {
+        fontFamily: 'InterRegular',
+        marginRight: 10,
         fontSize: 20,
         color: 'grey',
     },
     author: {
+        fontFamily: 'InterRegular',
         fontSize: 24,
-        color: 'white',
+        color: 'black',
     },
 
     //Splash
     splashTitle: {
         position: 'absolute',
-        width: 318,
-        height: 60,
-        left: 36,
-        top: 341,
-
         fontFamily: 'Pacifico',
         fontStyle: 'normal',
         fontWeight: '400',
-        fontSize: 30,
-        lineHeight: 50,
+        fontSize: 38,
+        lineHeight: 60,
+        marginTop: 115,
         /* or 57px */
         flex: 1,
         alignItems: 'center',
@@ -179,7 +202,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.41,
         color: '#FF9900',
         shadowOpacity: 0.5,
-        shadowColor: 'white',
+        shadowColor: 'black',
     },
     splashBackground: {
         backgroundColor: '#00082F',
@@ -189,8 +212,8 @@ export const styles = StyleSheet.create({
     ellips1: {
         //top left corner
         position: 'absolute',
-        width: 318,
-        height: 297,
+        width: 300,
+        height: 300,
         left: -123,
         top: -90,
         borderRadius: 10000,
@@ -200,7 +223,7 @@ export const styles = StyleSheet.create({
         //bottom right corner
         position: 'absolute',
         width: 360,
-        height: 323,
+        height: 360,
         left: 136,
         top: 555,
         borderRadius: 10000,
@@ -209,47 +232,34 @@ export const styles = StyleSheet.create({
 
     //Login
 
-    loginTitle: {
-        left: 36,
-        top: 100,
-    },
-
-    containerDefault: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
+    defaultButton: {
         justifyContent: 'center',
-    },
-    buttonLogin: {
-        position: 'absolute',
-        width: 244,
-        height: 33,
-        left: 73,
-        top: 471,
+        alignItems: 'center',
+        width: screenWidth * 0.55,
+        height: screenHeight * 0.06,
         shadowColor: '#fff',
         backgroundColor: '#506BC8',
         borderRadius: 10,
+        margin: 15,
+
+        shadowOpacity: 0.5,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
     },
-    buttonAccount: {
-        left: 75,
-        top: 519,
-    },
+
+    buttonAccount: {},
 
     loginText: {
         position: 'absolute',
-        width: 150,
-        height: 40,
-        left: 44,
-        top: 6,
-        fontFamily: 'PTSans',
-        fontStyle: 'italic',
-        fontSize: 18,
+        fontFamily: 'InterSemiBold',
+        fontSize: 20,
         /* or 30px */
         flex: 1,
         alignItems: 'center',
         textAlign: 'center',
         letterSpacing: -0.41,
-        color: '#FF9900',
+        color: 'white',
     },
 
     ellips3: {
@@ -269,20 +279,21 @@ export const styles = StyleSheet.create({
         maxHeight: '100%',
         alignItems: 'center',
     },
-    flatlist: {
-        marginBottom: 150,
-        paddingBottom: 100,
-        //backgroundColor: 'red',
-    },
+
+    flatlist: { marginBottom: 80 },
+
     flatlistView: {
-        padding: 10,
+        alignItems: 'center',
         backgroundColor: 'white',
-        borderRadius: 40,
-        marginTop: 10,
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        height: screenHeight * 0.8,
+        marginTop: 25,
+        //marginTop: 100,
         //alignItems: 'center',
     },
     categoryButton: {
-        width: 150,
+        width: screenWidth * 0.4,
         height: 100,
         marginHorizontal: 7,
         marginBottom: '6%',
@@ -299,18 +310,21 @@ export const styles = StyleSheet.create({
         fontFamily: 'InterSemiBold',
         fontStyle: 'normal',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 18,
         lineHeight: 20,
         color: '#fff',
         textAlign: 'left',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 8,
+        textShadowColor: 'black',
     },
 
     sectionTitle: {
         position: 'absolute',
-        /* marginTop: 1,
+        marginTop: 1,
         width: 299,
         height: 150,
-        left: 10, */
+        left: 10,
         fontFamily: 'InterSemiBold',
         fontStyle: 'normal',
         fontWeight: '700',
@@ -321,43 +335,25 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'left',
         letterSpacing: -0.41,
-        backgroundColor: 'red',
-    },
-    sectionTitle1: {
-        marginTop: 160,
-    },
-    sectionTitle2: {
-        marginTop: 10,
-    },
-
-    searchBarInput: {
-        backgroundColor: '#C4C4C4',
-    },
-    searchBarCont: {
-        backgroundColor: '#AAAAAA',
-        borderColor: '#000',
     },
     allCategories: {
-        paddingHorizontal: 5,
-        paddingVertical: 60,
-        width: screenWidth * 0.82,
-        left: 10,
-        height: 100,
-        //backgroundColor: 'blue',
+        //paddingHorizontal: 5,
+        //paddingVertical: 60,
+        width: screenWidth * 0.84,
+        //left: 10,
+        height: 110,
         borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 60,
-        minWidth: '96%',
+        //alignSelf: 'center',
+        margin: 15,
+        //minWidth: '96%',
+
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
         shadowRadius: 3,
         shadowOpacity: 0.2,
         shadowColor: '#000',
     },
-    allCategories1: {
-        marginTop: 50,
-        marginBottom: 60,
-    },
+
     //Category page
     squareButton: {
         width: 120,
@@ -373,13 +369,16 @@ export const styles = StyleSheet.create({
         shadowColor: '#000',
     },
     categoryTitle: {
-        fontSize: 30,
+        fontSize: 40,
         fontFamily: 'Pacifico',
         alignSelf: 'center',
-        marginTop: 20,
-        color: '#FF9900',
+        marginTop: 25,
+        color: '#CBD9F5',
         shadowOpacity: 0.5,
-        shadowColor: 'white',
+        shadowColor: 'black',
+    },
+    mainTitles: {
+        color: '#FF9900',
     },
     sectionTitles: {
         fontFamily: 'InterSemiBold',
@@ -409,15 +408,13 @@ export const styles = StyleSheet.create({
 
     profileTitle: {
         position: 'absolute',
-        width: 201,
-        height: 60,
-        left: 94,
-        top: 80,
+        alignSelf: 'center',
+        marginTop: 70,
         fontFamily: 'Pacifico',
         fontStyle: 'normal',
         fontWeight: '400',
-        fontSize: 30,
-        lineHeight: 50,
+        fontSize: 40,
+        lineHeight: 60,
         /* or 57px */
         //flex: 1,
         alignItems: 'center',
@@ -425,29 +422,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.41,
         color: '#FF9900',
         shadowOpacity: 0.5,
-        shadowColor: 'white',
-        //backgroundColor: 'red',
-    },
-
-    editpButton: {
-        width: 244,
-        height: 33,
-        left: 73,
-        top: 80,
-    },
-
-    editeButton: {
-        width: 244,
-        height: 33,
-        left: 73,
-        top: 130,
-    },
-
-    logoutButton: {
-        width: 244,
-        height: 33,
-        left: 73,
-        top: 180,
+        shadowColor: 'black',
     },
 
     //AddUser

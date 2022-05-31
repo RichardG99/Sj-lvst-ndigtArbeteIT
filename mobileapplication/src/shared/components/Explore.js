@@ -25,95 +25,51 @@ const screenWidth = Dimensions.get('window').width;
 const DATA = [
     {
         id: 1,
-        title: 'All stories',
-        header: true,
-    },
-    {
-        id: 1,
-        image: require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg'),
-        title: 'All stories',
-        top: true,
-    },
-    {
-        id: 1,
-        title: 'Categories',
-        header: true,
-    },
-    {
-        id: 1,
-        image: require('../assets/raven-gaa8626c41_1920.jpg'),
+        image: require('../assets/pictures/raven-gaa8626c41_1920.jpg'),
         title: 'Thriller',
-        header: false,
     },
     {
         id: 2,
-        image: require('../assets/not-hear-g120d30a73_1920.jpg'),
+        image: require('../assets/pictures/not-hear-g120d30a73_1920.jpg'),
         title: 'Comedy',
-        header: false,
     },
     {
         id: 3,
-        image: require('../assets/couple-g798e44f98_1920.jpg'),
+        image: require('../assets/pictures/couple-g798e44f98_1920.jpg'),
         title: 'Romance',
-        header: false,
     },
     {
         id: 4,
-        image: require('../assets/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
-        title: 'Horror',
-        header: false,
+        image: require('../assets/pictures/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
+        title: 'Adventure',
     },
     {
         id: 5,
-        image: require('../assets/fredrik-solli-wandem-TrPwD7wfrG0-unsplash.jpg'),
-        title: 'Thriller',
-        header: false,
+        image: require('../assets/pictures/fantasy-g87d508ae3_1920.jpg'),
+        title: 'Fantasy',
     },
     {
         id: 6,
-        image: require('../assets/couple-g798e44f98_1920.jpg'),
-        title: 'Children',
-        header: false,
+        image: require('../assets/pictures/happy-g7ecb1ad97_1920.jpg'),
+        title: 'Kids',
     },
 ];
 
 function Item({ item, selectedCategory, image, title }) {
     //Title är namnet på kategorin När du klickar på knappen skickar du med title till funktionen selectedCategory.
-    if (item.header) {
-        return <Text style={styles.sectionTitle}> {title} </Text>;
-    }
-    if (item.top) {
-        return (
-            <TouchableOpacity
-                onPress={() => {
-                    this.props.navigation.navigate('Stories', {
-                        storyCategory: '',
-                    });
+    return (
+        <TouchableOpacity onPress={() => selectedCategory(title)}>
+            <ImageBackground
+                imageStyle={{
+                    borderRadius: 10,
                 }}
-                style={{ alignSelf: 'center' }}
+                source={image}
+                style={styles.categoryButton}
             >
-                <ImageBackground
-                    style={styles.allCategories}
-                    source={image}
-                    imageStyle={{ borderRadius: 10 }}
-                ></ImageBackground>
-            </TouchableOpacity>
-        );
-    } else {
-        return (
-            <TouchableOpacity onPress={() => selectedCategory(title)}>
-                <ImageBackground
-                    imageStyle={{
-                        borderRadius: 10,
-                    }}
-                    source={image}
-                    style={styles.categoryButton}
-                >
-                    <Text style={styles.categoryText}>{title}</Text>
-                </ImageBackground>
-            </TouchableOpacity>
-        );
-    }
+                <Text style={styles.categoryText}>{title}</Text>
+            </ImageBackground>
+        </TouchableOpacity>
+    );
 }
 
 export default class Explore extends React.Component {
@@ -157,44 +113,75 @@ export default class Explore extends React.Component {
     render() {
         const { search } = this.state;
         const headerComponent = () => (
-            <View style={{ alignItems: 'center' }}>
-                <View style={{ backgroundColor: 'transparent', height: 150 }}>
-                    <Text style={styles.sectionTitle}> All stories </Text>
-                    <TouchableOpacity
-                        onPress={() => {
-                            this.props.navigation.navigate('Stories', {
-                                storyCategory: '',
-                            });
-                        }}
-                        style={{ alignSelf: 'center' }}
-                    >
-                        <ImageBackground
-                            style={styles.allCategories}
-                            source={require('../assets/mark-mc-neill-qEBg-naOcQY-unsplash.jpg')}
-                            imageStyle={{ borderRadius: 10 }}
-                        ></ImageBackground>
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={{
-                        backgroundColor: 'red',
-                        height: 50,
-                        marginBottom: 40,
-                    }}
+            <TouchableOpacity
+                onPress={() => {
+                    this.props.navigation.navigate('Stories', {
+                        storyCategory: '',
+                    });
+                }}
+                style={
+                    {
+                        //backgroundColor: 'red',
+                        //flex: 1,
+                        //justifyContent: 'center',
+                        //alignItems: 'center',
+                    }
+                }
+            >
+                <ImageBackground
+                    style={styles.allCategories}
+                    source={require('../assets/pictures/book-gc83b91fb9_1920.jpg')}
+                    imageStyle={{ borderRadius: 10 }}
                 >
-                    <Text style={[styles.sectionTitle, styles.sectionTitle2]}>
-                        {' '}
-                        Categories{' '}
+                    <Text
+                        style={[
+                            styles.categoryText,
+                            { marginTop: 85, fontSize: 20 },
+                        ]}
+                    >
+                        All stories
                     </Text>
-                </View>
-            </View>
+                </ImageBackground>
+            </TouchableOpacity>
         );
 
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: '#00082F' }}>
-                    <StatusBar style="light" />
-                    <SearchBar
+                    <View style={[styles.ellips1, { left: -180 }]}></View>
+                    <Text style={[styles.categoryTitle, styles.mainTitles]}>
+                        Explore{' '}
+                    </Text>
+                    <View style={[styles.flatlistView]}>
+                        <StatusBar style="light" />
+
+                        <View style={styles.flatlistView}>
+                            <FlatList
+                                ListHeaderComponent={headerComponent}
+                                data={DATA}
+                                renderItem={({ item }) => (
+                                    <Item
+                                        title={item.title}
+                                        image={item.image}
+                                        selectedCategory={this.selectedCategory}
+                                        item={item}
+                                    />
+                                )}
+                                keyExtractor={(item) => item.id}
+                                numColumns={2}
+                                //  style={styles.flatlist}
+                                contentContainerStyle={{ alignItems: 'center' }}
+                            ></FlatList>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </>
+        );
+    }
+}
+
+{
+    /* <SearchBar
                         inputStyle={{ fontSize: 16 }}
                         containerStyle={{
                             marginTop: 25,
@@ -210,27 +197,5 @@ export default class Explore extends React.Component {
                         placeholder="Search for stories"
                         onChangeText={this.updateSearch}
                         value={search}
-                    />
-                    <View style={styles.flatlistView}>
-                        <FlatList
-                            //ListHeaderComponent={headerComponent}
-                            data={DATA}
-                            renderItem={({ item }) => (
-                                <Item
-                                    title={item.title}
-                                    image={item.image}
-                                    selectedCategory={this.selectedCategory}
-                                    item={item}
-                                />
-                            )}
-                            keyExtractor={(item) => item.id}
-                            numColumns={2}
-                            style={styles.flatlist}
-                            contentContainerStyle={{ alignItems: 'center' }}
-                        ></FlatList>
-                    </View>
-                </SafeAreaView>
-            </>
-        );
-    }
+                    /> */
 }

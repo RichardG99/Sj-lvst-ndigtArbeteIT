@@ -10,6 +10,7 @@ import {
     FlatList,
     Item,
     TouchableOpacity,
+    Dimensions,
 } from 'react-native';
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
@@ -17,6 +18,7 @@ import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
+const screenHeight = Dimensions.get('window').height;
 
 function Story({ myStory, selectedStory }) {
     return (
@@ -26,10 +28,12 @@ function Story({ myStory, selectedStory }) {
                     <Text style={styles.title}>
                         {myStory.story.get('title')}
                     </Text>
-                    <Text style={styles.by}>by</Text>
-                    <Text style={styles.author}>
-                        {myStory.story.get('author')}
-                    </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.by}>by</Text>
+                        <Text style={styles.author}>
+                            {myStory.story.get('author')}
+                        </Text>
+                    </View>
                 </TouchableOpacity>
             </View>
         </>
@@ -67,19 +71,23 @@ export default class MyLibrary extends React.Component {
             <SafeAreaView style={styles.splashBackground}>
                 <View style={[styles.ellips1, styles.ellips3]}></View>
                 <View style={[styles.ellips2, styles.ellips4]}></View>
-                <Text style={[styles.profileTitle]}>Select Story</Text>
-                <FlatList
-                    style={{ marginTop: 100 }}
-                    data={this.state.myStories}
-                    renderItem={({ item }) => (
-                        <Story
-                            id={item.story.id}
-                            myStory={item}
-                            selectedStory={this.selectedStory}
-                        />
-                    )}
-                    keyExtractor={(item) => item.story.id}
-                />
+                <Text style={[styles.categoryTitle, styles.mainTitles]}>
+                    Select Story
+                </Text>
+                <View>
+                    <FlatList
+                        style={{ marginTop: 30, height: screenHeight * 0.7 }}
+                        data={this.state.myStories}
+                        renderItem={({ item }) => (
+                            <Story
+                                id={item.story.id}
+                                myStory={item}
+                                selectedStory={this.selectedStory}
+                            />
+                        )}
+                        keyExtractor={(item) => item.story.id}
+                    />
+                </View>
             </SafeAreaView>
         );
     }

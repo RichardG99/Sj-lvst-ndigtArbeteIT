@@ -24,7 +24,7 @@ export default function StackNavigation() {
         <NavigationContainer>
             <StatusBar barStyle="light-content" />
             <Stack.Navigator
-                initialRouteName="Login"
+                initialRouteName="Home"
                 screenOptions={{ header: () => null }}
             >
                 <Stack.Screen name="Login" component={LoginStack} />

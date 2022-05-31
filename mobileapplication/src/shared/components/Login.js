@@ -53,13 +53,16 @@ export default class Login extends React.Component {
             <View style={styles.splashBackground}>
                 <View style={[styles.ellips1, styles.ellips3]}></View>
                 <View style={[styles.ellips2, styles.ellips4]}></View>
-                <Text style={[styles.splashTitle, styles.loginTitle]}>
-                    Augmented Audio
-                </Text>
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={[styles.splashTitle, styles.loginTitle]}>
+                        Augmented Audio
+                    </Text>
+                </View>
+
                 <View>
                     <View style={{ padding: (0, 20, 0, 20) }}>
                         <Input
-                            inputStyle={{ marginLeft: 15 }}
+                            inputStyle={{ marginLeft: 15, fontSize: 22 }}
                             containerStyle={{ marginTop: 270, padding: 5 }}
                             placeholder="Username"
                             color="white"
@@ -67,7 +70,7 @@ export default class Login extends React.Component {
                                 <Icon
                                     containerStyle={{ marginBottom: 1 }}
                                     name="user"
-                                    size={24}
+                                    size={26}
                                     color="white"
                                 />
                             }
@@ -76,12 +79,12 @@ export default class Login extends React.Component {
                             }
                         />
                         <Input
-                            inputStyle={{ marginLeft: 15 }}
+                            inputStyle={{ marginLeft: 15, fontSize: 22 }}
                             containerStyle={{ marginBottom: 200, padding: 1 }}
                             placeholder="Password"
                             color="white"
                             leftIcon={
-                                <Icon name="lock" size={24} color="white" />
+                                <Icon name="lock" size={26} color="white" />
                             }
                             secureTextEntry={true}
                             onChangeText={(value) =>
@@ -89,23 +92,30 @@ export default class Login extends React.Component {
                             }
                         />
                     </View>
-                    <TouchableOpacity
-                        style={styles.buttonLogin}
-                        onPress={() => {
-                            this.login();
+                    <View
+                        style={{
+                            alignItems: 'center',
+                            bottom: 200,
                         }}
                     >
-                        <Text style={styles.loginText}> Login </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.defaultButton}
+                            onPress={() => {
+                                this.login();
+                            }}
+                        >
+                            <Text style={styles.loginText}> Login </Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={[styles.buttonLogin, styles.buttonAccount]}
-                        onPress={() =>
-                            this.props.navigation.navigate('AddUser')
-                        }
-                    >
-                        <Text style={styles.loginText}>Create Account</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.defaultButton, styles.buttonAccount]}
+                            onPress={() =>
+                                this.props.navigation.navigate('AddUser')
+                            }
+                        >
+                            <Text style={styles.loginText}>Create Account</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 {this.debugging ? (
