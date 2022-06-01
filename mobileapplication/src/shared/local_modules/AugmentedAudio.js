@@ -163,7 +163,6 @@ setAudioWithUrl = async (audioURL) => {
   );
   try {
     const uri = await dl.downloadAsync();
-    console.log('Finished downloading to ', uri); // TODO: REMOVE CONSOLE LOG
     audio = new Audio.Sound();
     await audio.loadAsync(uri, {}, null, true);
   } catch (e) {
@@ -182,7 +181,7 @@ setAudioWithUri = async (audioURI) => {
     console.error("Error setting audio (setAudioWithUri): " + e);
   }
 }
-// TODO if audio is already running replay it.
+
 // Start playing at a time
 startPlayingAtTime = async (ms) => {
   try {

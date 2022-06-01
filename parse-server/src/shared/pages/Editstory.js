@@ -874,7 +874,6 @@ class Editstory extends React.Component {
     if (!storyId) {
       storyId = 'GAXuyImQMC'; //TODO: this should throw an error, not default to an arbitrary story ID
     }
-    //console.log(`current storyId: ${storyId}`);
 
     parseGetStoryStartingBox(storyId).then((startingBoxId) => {
       if (startingBoxId === 'noStartingBoxYet') {
@@ -882,12 +881,10 @@ class Editstory extends React.Component {
           this.setState({ currentStartingBoxId: boxId });
           const startingBoxIdToSet = boxId;
           parseSetStoryStartingBoxId(storyId, startingBoxIdToSet).then((startingBoxIdToPrint) => {
-            //console.log(`StartingBoxId: ${startingBoxIdToPrint}`);
           });
         });
       } else {
         this.setState({ currentStartingBoxId: startingBoxId });
-        //console.log(`StartingBoxId: ${startingBoxId}`);
       }
     });
 
@@ -897,9 +894,6 @@ class Editstory extends React.Component {
     }, (error) => {
       console.log(`parse get story error: ${error}`);
     });
-
-
-    //console.log(`current storyId: ${storyId}`);
 
     parseGetStoryBoxes(storyId).then((boxes) => {
       this.setState({ boxes });
@@ -929,7 +923,6 @@ class Editstory extends React.Component {
 
     parseSetStoryStartingBoxId(storyId, currentBoxId).then((startingBoxId) => {
       this.setState({ currentStartingBoxId: currentBoxId });
-      //console.log(`New startingBoxId: ${startingBoxId}`);
     });
   }
 

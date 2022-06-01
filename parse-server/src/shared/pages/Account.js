@@ -9,9 +9,7 @@ import {
 } from '@stripe/react-stripe-js';
 
 const AccountSubscription = ({subscription}) => {
-  console.log("hoop")
   console.log(subscription)
-  console.log("happ")
   let last4;
   if (subscription.default_payment_method) {
     last4 = subscription.default_payment_method.card.last4
@@ -19,7 +17,6 @@ const AccountSubscription = ({subscription}) => {
     last4 = false
   }
   const clientSecret = subscription.latest_invoice.payment_intent.client_secret;
-  console.log(clientSecret)
   if (last4) {
     var last4paragraph = <p> Card: **** **** **** {last4} </p>
   }
@@ -66,7 +63,6 @@ const Account = () => {
           customerId: stripeId
         }),
       }).then(r => r.json());
-      console.log(subscriptions)
       setSubscriptions(subscriptions.data);
     }
     fetchData();

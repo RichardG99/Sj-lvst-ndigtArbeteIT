@@ -51,4 +51,4 @@ yarn.lock
 .DS_Store
 
 # Sensitive keys
-.src/cloud/speech_to_text_key.json
+src/cloud/speech_to_text_key.json

@@ -47,7 +47,6 @@ const Update = ({location}) => {
             payment_intent: paymentIntent
         }),
     }).then(r => r.json());
-    console.log(subscription)
 }  
 
   const handleSubmit = async (e) => {

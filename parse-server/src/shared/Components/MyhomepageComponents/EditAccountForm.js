@@ -16,7 +16,7 @@ const inputDivStyle = {
 class EditAccountForm extends React.Component {
   constructor(props) {
     super(props);
-    const properties = this.props; // TODO this might create issues...?
+    const properties = this.props; 
     this.state = {
       firstName: properties.firstName,
       lastName: properties.lastName,

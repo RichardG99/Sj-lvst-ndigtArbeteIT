@@ -45,7 +45,7 @@ export default class Game extends React.Component {
         this.maxAttempts = 5;
         this.savedBrightness = 1;
         this.state = {
-            recordingPermissions: false, // TODO: Denna state används aldrig
+            recordingPermissions: false, 
             brightnessPermission: false,
             playing: false,
             currentBoxTitle: 'Loading...',
@@ -58,7 +58,6 @@ export default class Game extends React.Component {
         this.backHandler = null;
     }
     componentDidMount() {
-        console.log("Audio hatar mig")
         //this.getAudioPersmission();
         this.getPermissions(); // TODO: REMOVE THIS
         this.getChapterInfo().then(() => {
@@ -89,23 +88,8 @@ export default class Game extends React.Component {
             });
         });
     };
-    
-    /*
-    getAudioPersmission = async () => {
-        console.log("ljud")
-        await Audio.requestPermissionsAsync().then((result) => {
-            console.log(result)
-            this.setState({
-                recordingPermissions: result.status === 'granted', // Evaluates true given that permissions are granted.
-            });
-        });
-        
-    }
-    */
 
     getPermissions = async () => {
-        // Get recording permission
-        console.log('getting perms');                   // TODO: REMOVE CONSOLE LOG
         await Audio.requestPermissionsAsync().then((result) => {
             console.log(result)
             this.setState({
@@ -113,17 +97,6 @@ export default class Game extends React.Component {
             });
         });       
         
-        /*
-        await Brightness.requestPermissionsAsync().then((result) => {
-            console.log(result)
-            this.setState({
-                brightnessPermission: result.status === 'granted', // Evaluates true given that permissions are granted.
-            });
-        }); 
-        */
-
-        
-        // TODO: Eventuellt funkar inte detta under!
         const respBrightness = await Permissions.askAsync(
             Permissions.SYSTEM_BRIGHTNESS
         );
@@ -186,13 +159,12 @@ export default class Game extends React.Component {
         const query = new Parse.Query(Box);
         await query.get(boxID).then(async (box) => {
             audioURL = box.get('audio_url');
-            console.log("current audio URL: " + audioURL) // TODO: REMOVE CONSOLE LOG
+            console.log("Loading following audio URL: " + audioURL) 
             await setAudioModePlayback();
             await setAudioWithUrl(audioURL);
         });
     };
     downloadAudio = async (audioURL, fileName) => {
-        console.log(audioURL)
         const dl = FileSystem.createDownloadResumable(
             audioURL,
             FileSystem.documentDirectory + fileName
@@ -229,7 +201,6 @@ export default class Game extends React.Component {
                     audioURL,
                     'audio' + i + '.mp3'
                 );
-                console.log(downloadedAudio);
                 this.potentialStoriesURI[i] = {
                     status: 1,
                     address: downloadedAudio.fileObjectMeta, 
@@ -377,7 +348,6 @@ export default class Game extends React.Component {
     };
 
     // TODO fix a _onTrackEnd function.. ...
-    // TODO remake this part... honestly  its bingo bango...
     playAugmentedAudio = async () => {
         await this.setState({ playing: true }); // Currently playing
         // this.savedBrightness = await Brightness.getBrightnessAsync(); // TODO: MAYBE REINTRODUCE BRIGHTNESS
@@ -406,8 +376,7 @@ export default class Game extends React.Component {
         while (this.state.playing) {
             // Check if this.state.playing on each thing you do in case the game has been paused.
             // Load and play audio
-
-            if (newBoxReady) {
+            if (newBoxReady) { 
                 // check if currently playing audio
                 // currentBox and currentTime have to be correct here
                 try {
@@ -421,7 +390,7 @@ export default class Game extends React.Component {
                         ) {
                             console.log("Setting Audio with URI: " + this.potentialStoriesURI + "\nDetail: "+this.potentialStoriesURI[this.pickedPathIndex]
                             .address)
-                            await setAudioWithUri( // TODO: CHANGED TO URL INSTEAD OF URI
+                            await setAudioWithUri( 
                                 this.potentialStoriesURI[this.pickedPathIndex]
                                     .address
                             ); //Load
@@ -500,23 +469,21 @@ export default class Game extends React.Component {
                         // Brightness.setSystemBrightnessAsync( // TODO: MAYBE REINTRODUCE BRIGHTNESS
                         //     this.savedBrightness
                         // );
-                        //Alert.alert("You've reached an ending of the story")
-                        //this.setState({ playing: false })
+                        Alert.alert("You've reached an ending of the story")
+                        this.setState({ playing: false })
                         return;
                     }
                     //If we have paths with keywords, we wait for a keyword
                     if (this.pathsHasKeywords(this.potentialPaths)) {
-                        console.log('start speaking...');
+                        Alert.alert('start speaking...');
                         speechString = await this.recordAndTranscribe(6000);
                         if (!this.state.playing) {
                             return; // game has been ended during recording phase.
                         }
-                        console.log(this.potentialPaths) // TODO: REMOVE CONSOLE LOG
                         path = await this.pathPicking(
                             speechString,
                             this.potentialPaths
                         );
-                        console.log(path) // TODO: REMOVE CONSOLE LOG
                     } else {
                         console.log('no recording will be done');
                         path = await this.pathPicking(
@@ -639,12 +606,6 @@ export default class Game extends React.Component {
         //Brightness.setSystemBrightnessAsync(this.savedBrightness); // TODO: MAYBE REINTRODUCE BRIGHTNESS
         this.props.navigation.navigate('My Library');
     };
-
-    // {/*TODO: CHAPTER THAT SHOULD NOT BE STATIC */}
-
-    /*<View>
-        this.state.recording && <Text>What is your choice?</Text>
-    </View> */
 
     render() {
         return (

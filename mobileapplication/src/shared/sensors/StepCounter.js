@@ -53,7 +53,7 @@ export default class StepCounter {
 
     get() {
         if(this.state.isPedometerAvailable === 'yes') {
-            // TODO: callvack doesn't work. We hack the return value
+            // TODO: callback doesn't work. We hack the return value
             // Replace with getStepCountAsync and push async up the stack
             console.log(++this.state.steps);
             return this.state.steps;

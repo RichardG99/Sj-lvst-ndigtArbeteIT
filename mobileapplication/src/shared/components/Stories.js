@@ -55,7 +55,11 @@ export default class Stories extends React.Component {
             return;
         }
         console.log("current Stripe user: " + stripeId)
-        const {subscriptions} = await fetch("http://" + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
+        const protocol = "https://"
+        if (settings.devmode) {
+            protocol = "http://"
+        }
+        const {subscriptions} = await fetch(protocol + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { 
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -99,7 +103,6 @@ export default class Stories extends React.Component {
     addToUsersLibrary = (story) => {
       if (this.state.authenticated == false){
         console.log("Customer is not subscribed")
-        // TODO: ADD ALERT FOR NOT SUBSCRIBED
         return
       }
         Parse.User.currentAsync().then((user) => {
@@ -108,7 +111,7 @@ export default class Stories extends React.Component {
                 user.set('myLibrary', []);
                 myLibrary = user.get('myLibrary');
             }
-            console.log('here iasdnit', myLibrary, myLibrary.length);
+            console.log('Library', myLibrary, myLibrary.length);
             for (let i = 0; i < myLibrary.length; i++) {
                 let libraryStory = myLibrary[i].story;
                 if (libraryStory.id == story.id) {
@@ -122,8 +125,6 @@ export default class Stories extends React.Component {
             };
             user.add('myLibrary', newStory);
             user.save();
-            // TODO: ADD ALERT FOR ADDITION TO LIBRARY
-            //this.props.navigation.navigate('My Library');
         });
     };
 

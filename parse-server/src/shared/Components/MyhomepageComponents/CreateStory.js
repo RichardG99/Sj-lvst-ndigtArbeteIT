@@ -63,7 +63,7 @@ class CreateStory extends React.Component {
   render() {
     const tmpState = this.state;
     if (tmpState.redirect) {
-      console.log("ceate")
+      console.log("create")
       return <Redirect to="/editstory" />;
     }
 
