@@ -39,7 +39,7 @@ const api = new ParseServer({
   databaseURI: databaseUri || settings.databaseURI, // We can override our database URI by setting an environment variable
   appId: process.env.APP_ID || settings.appID, //Same with our app ID...
   masterKey: process.env.MASTER_KEY || 'myMasterKey', 
-  serverURL: process.env.SERVER_URL || 'http://localhost:'+PORT+'/parse', //...and server URL
+  serverURL: process.env.SERVER_URL || settings.serverURL + "/parse", //...and server URL //`http://${settings.serverURL}:${settings.serverPort}/parse`
   javascriptKey: 'AugmentedAudio',
   // -- As we do not use an S3 file bucket, these lines are commented out
   /*filesAdapter: new S3Adapter(
@@ -61,8 +61,6 @@ app.use(cors());
 
 app.use(express.static('public'));
 
-//STRIPE IMPLEMENTATION START
-
 // Use JSON parser for parsing payloads as JSON on all non-webhook routes.
 app.use((req, res, next) => {
   if (req.originalUrl === '/webhook') {
@@ -74,16 +72,13 @@ app.use((req, res, next) => {
 
 // Initializing the stripe client
 if (
-  !process.env.STRIPE_SECRET_KEY ||
-  !process.env.STRIPE_PUBLISHABLE_KEY ||
-  !process.env.STATIC_DIR // TODO: VAD INNEBÄR STATIC DIR?
+  !settings.STRIPE_SECRET_KEY ||
+  !settings.STRIPE_SECRET_KEY 
 ) {console.log("Stripe keys not setup correctly, one or more variable/s is missing")}
 const stripe = require('stripe')(settings.STRIPE_SECRET_KEY);
 
-//Requests to connect with Stripe and creating a customer to the account linked to used keys
-//Response is customer that can buy from store
+// Create a new customer object
 app.post('/create-customer', async (req, res) => {
-  // Create a new customer object
   try {
     const customer = await stripe.customers.create({
     email: req.body.email});
@@ -98,11 +93,10 @@ app.get('/test', (req, res) => {
   res.status(200).send(testHTMLRAW());
  });
 
- // Request from front end to recieve the active subscriptions on the Stripe account
- // Respone is used to render subscriptions in front end 
+// Retrieves all the available subscriptions on stripe account
  app.get('/config', async (req, res) => {
   const prices = await stripe.prices.list({
-    active : true, //['price_1Kvj3FAqt7xgnAosdjIMuwaw', 'price_1Kvj2dAqt7xgnAosjvRl3RLf'],
+    active : true,                                // true gives all the active prices, you can specify specific prices if you have their IDs 
     expand: ['data.product']
   })
   res.send({
@@ -111,17 +105,12 @@ app.get('/test', (req, res) => {
   });
 });
 
+  // Create a subscription
 app.post('/create-subscription', async (req, res) => {
-  // Simulate authenticated user. In practice this will be the
-  // Stripe Customer ID related to the authenticated user.
-  // TODO Retrieve the StripeID from the user in question
   const customerId = req.body.customerId;
-  console.log(customerId)
-
-  // Create the subscription
+  console.log("Created new customer: " + customerId)
   const priceId = req.body.priceId;
-  console.log(priceId)
-
+  console.log("Created subscription: " + priceId)
   try {
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
@@ -140,13 +129,11 @@ app.post('/create-subscription', async (req, res) => {
   }
 });
 
+// Update a subscription
 app.post('/update', async (req, res) => {
-  // Simulate authenticated user. In practice this will be the
-  // Stripe Customer ID related to the authenticated user.
   const subscription_id = req.body.subscription_id
   const payment_intent = req.body.payment_intent
-  //console.log(clientSecret)
-  console.log(subscription_id)
+  console.log("Updated subscription: " + subscription_id)
   const subscription = await stripe.subscriptions.update(
     subscription_id,
     {
@@ -156,9 +143,8 @@ app.post('/update', async (req, res) => {
   res.json({subscription});
 });
 
+// Authentication of subscription in mobile app
 app.post('/authenticate', async (req, res) => {
-  // Simulate authenticated user. In practice this will be the
-  // Stripe Customer ID related to the authenticated user.
   const customerId = req.body.stripeId;
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
@@ -167,11 +153,10 @@ app.post('/authenticate', async (req, res) => {
   res.json({subscriptions});
 });
 
+// Get a customers subscriptions
 app.post('/subscriptions', async (req, res) => {
-  // Simulate authenticated user. In practice this will be the
-  // Stripe Customer ID related to the authenticated user.
   const customerId = req.body.customerId;
-  console.log(customerId)
+  console.log("Retrieving subscriptions for: " + customerId)
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
     status: 'all',
@@ -180,8 +165,8 @@ app.post('/subscriptions', async (req, res) => {
   res.json({subscriptions});
 });
 
+// Cancel a subscription
 app.post('/cancel-subscription', async (req, res) => {
-  // Cancel the subscription
   try {
     const deletedSubscription = await stripe.subscriptions.del(
       req.body.subscriptionId
@@ -243,31 +228,6 @@ app.post(
 
           console.log("Default payment method set for subscription:" + payment_intent.payment_method);
         };
-
-        break;
-      case 'invoice.payment_failed':
-        // Use this webhook to notify your user that their payment has
-        // failed and to retrieve new card details.
-        // This can be used in a future implementation where e-mails to customers are present
-        break;
-      case 'invoice.finalized':
-        // If you want to manually send out invoices to your customers
-        // or store them locally to reference to avoid hitting Stripe rate limits.
-        break;
-      case 'customer.subscription.deleted':
-        if (event.request != null) {
-          // handle a subscription cancelled by your request
-          // from above.
-        } else {
-          // handle subscription cancelled automatically based
-          // upon your subscription settings.
-        }
-        break;
-      case 'customer.subscription.trial_will_end':
-        // Send notification to your user that the trial will end
-        break;
-      case 'customer.subscription.trial_will_end':
-          // Send notification to your user that the trial will end
         break;
       default:
       // Unexpected event type

@@ -59,37 +59,30 @@ export default class Stories extends React.Component {
             console.log('customer is not a stripe user');
             return;
         }
-        console.log('current Stripe user: ' + stripeId);
-        const { subscriptions } = await fetch(
-            'http://' +
-                settings.serverURL +
-                ':' +
-                settings.serverPort +
-                '/authenticate',
-            {
-                // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    customerId: stripeId,
-                }),
-            }
-        )
-            .then((r) => r.json())
-            .catch((err) => {
-                console.log(err);
-            });
-        const status = subscriptions.data[0].status;
-        console.log('current status: ' + subscriptions.data[0].status);
-        if (status == 'active' || status == 'canceled') {
-            this.state.authenticated = true;
-            console.log('customer is subscribed');
-            console.log(this.state.authenticated);
-            return;
+        console.log("current Stripe user: " + stripeId)
+        const protocol = "https://"
+        if (settings.devmode) {
+            protocol = "http://"
         }
-    };
+        const {subscriptions} = await fetch(protocol + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { 
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              customerId: stripeId
+            }),
+          }).then(r => r.json()).
+          catch((err) => {console.log(err)});
+          const status = subscriptions.data[0].status
+          console.log("current status: " + subscriptions.data[0].status)
+          if (status == "active" || status == "canceled") {
+              this.state.authenticated = true;
+              console.log("customer is subscribed")
+              console.log(this.state.authenticated)
+              return;
+          }
+    }
 
     // Empty comment
     getStories = () => {
@@ -123,7 +116,7 @@ export default class Stories extends React.Component {
                 user.set('myLibrary', []);
                 myLibrary = user.get('myLibrary');
             }
-            console.log('here iasdnit', myLibrary, myLibrary.length);
+            console.log('Library', myLibrary, myLibrary.length);
             for (let i = 0; i < myLibrary.length; i++) {
                 let libraryStory = myLibrary[i].story;
                 if (libraryStory.id == story.id) {
@@ -140,8 +133,6 @@ export default class Stories extends React.Component {
             console.log('Added to library');
             Alert.alert('Story has been added to My Library');
 
-            // TODO: ADD ALERT FOR ADDITION TO LIBRARY
-            //this.props.navigation.navigate('My Library');
         });
     };
 

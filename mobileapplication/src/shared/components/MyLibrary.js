@@ -52,7 +52,11 @@ export default class MyLibrary extends React.Component {
     componentDidMount() {
         this.getMyStories();
     }
-
+    /*
+    componentDidUpdate() {
+        this.getMyStories();
+    }
+    */
     getMyStories = () => {
         console.log('getting stories!');
         Parse.User.currentAsync().then((user) => {

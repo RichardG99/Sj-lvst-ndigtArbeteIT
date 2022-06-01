@@ -105,18 +105,15 @@ class Menu extends React.Component {
     tmpProps.saveStoryInfo();
     this.setStatus('Story saved successfully');
     console.log("Klart med sparning")
-    // TODO: Add any other saving functionality?
   }
 
   handlePublishStory() {
-    // TODO: Add functionaloty to publish story
     const tmpProps = this.props;
     tmpProps.publishStory();
     this.setStatus('Story published successfully');
   }
 
   handleDeleteStory() {
-    // TODO: Add functionality to delete story
     const tmpProps = this.props;
     tmpProps.deleteStory();
   }

@@ -11,10 +11,10 @@ var liveAppID = "AugAud";
 var liveDatabaseURI = "mongodb://localhost"; //TODO: add a live database URI
 
 //The server URL, port, appID and database URI that our development server is deployed on
-var devServerURL = "http://localhost:1337";
+var devServerURL = "http://172.20.10.2:1337"; // http://localhost:1337 http://172.20.10.2:1337
 var devServerPort = 1337;
 var devAppID = "myAppId";
-var devDatabaseURI = "mongodb://localhost";
+var devDatabaseURI = "mongodb://172.20.10.2"; // mongodb://localhost mongodb://172.20.10.2
 
 
 // Isaks

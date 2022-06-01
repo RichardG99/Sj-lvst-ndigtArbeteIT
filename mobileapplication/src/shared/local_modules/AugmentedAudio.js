@@ -43,6 +43,7 @@ setAudioModeRecording = async () => {
         staysActiveInBackground: false,
     });
 };
+
 setAudioModePlayback = async () => {
     const promise = await Audio.setAudioModeAsync({
         allowsRecordingIOS: false, // SHouldn't this be true?`sInce we are getting permissions first...
@@ -55,6 +56,7 @@ setAudioModePlayback = async () => {
         staysActiveInBackground: false, // playback in background, false means we cant play audio whilst application is in background
     });
 };
+
 record = async () => {
     if (audio !== null) {
         await audio.unloadAsync(); // stops playing Audio
@@ -73,6 +75,7 @@ record = async () => {
     // /console.log(recording);
     console.log('recording ...');
 };
+
 stopRecording = async () => {
     await recording.stopAndUnloadAsync(); // Ends recording
     // console.log(recording.getURI()); // checks destination
@@ -141,25 +144,23 @@ setAudio = (newAudio) => {
     audio = audio;
 };
 setAudioWithUrl = async (audioURL) => {
-    if (audio !== null) {
-        await audio.unloadAsync();
-        audio = null;
-    }
-    // WIP
-    const dl = FileSystem.createDownloadResumable(
-        audioURL,
-        `${FileSystem.documentDirectory}currentAudio.mp3`
-    );
-    try {
-        const uri = await dl.downloadAsync();
-        //console.log('Finished downloading to ', uri);
-        audio = new Audio.Sound();
-        await audio.loadAsync(uri, {}, null, true);
-    } catch (e) {
-        console.error(e);
-        console.log('something went wrong...');
-    }
-};
+  if (audio !== null) {
+    await audio.unloadAsync();
+    audio = null;
+  }
+  // WIP
+  const dl = FileSystem.createDownloadResumable(
+    audioURL,
+    `${FileSystem.documentDirectory}currentAudio.mp3`,
+  );
+  try {
+    const uri = await dl.downloadAsync();
+    audio = new Audio.Sound();
+    await audio.loadAsync(uri, {}, null, true);
+  } catch (e) {
+    console.log("setting audio error (setAudioWithUrl): " + e);
+  }    
+}
 setAudioWithUri = async (audioURI) => {
     try {
         if (audio !== null) {
@@ -171,8 +172,13 @@ setAudioWithUri = async (audioURI) => {
     } catch (e) {
         console.error(e);
     }
-};
-// TODO if audio is already running replay it.
+    audio = new Audio.Sound();
+    await audio.loadAsync(audioURI, {}, null, true);
+  } catch (e){
+    console.error("Error setting audio (setAudioWithUri): " + e);
+  }
+}
+
 // Start playing at a time
 startPlayingAtTime = async (ms) => {
     try {
@@ -187,10 +193,10 @@ startPlayingAtTime = async (ms) => {
             audio.playAsync();
             console.log('Audio playing');
         }
-        console.log('startPlayingAtTime finished running');
-    } catch (e) {
-        console.log('startPlayingAtTime error...');
-    }
+    console.log('startPlayingAtTime finished running');
+  } catch (e) {
+    console.log("startPlayingAtTime error: " + e)
+  }
 };
 // TODO add handling of non looping audio
 playAudio = async () => {
@@ -233,16 +239,15 @@ pauseAudio = async () => {
 };
 
 forcePauseAudio = async () => {
-    try {
-        if (audio !== null) {
-            //console.log('Audio Exists');
-            paused = true;
-            audio.pauseAsync();
-        }
-        console.log('Force Pause Audio finished running');
-    } catch (e) {
-        console.log('Error in pauseAudio...');
-    }
+  try {
+  if (audio !== null) {
+    paused = true;
+    audio.pauseAsync();
+  }
+  console.log('Force Pause Audio finished running');
+  } catch (e) {
+    console.log("Error in pauseAudio...")
+  }
 };
 
 stopAudio = async () => {
