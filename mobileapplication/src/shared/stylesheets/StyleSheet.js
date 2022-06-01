@@ -34,6 +34,18 @@ export const styles = StyleSheet.create({
     pageTitle: {
         textAlign: 'center',
     },
+    refreshButton: {
+        marginLeft: '75%',
+        top: '2%',
+        height: 40,
+        width: 40,
+        borderRadius: 100,
+        backgroundColor: '#FF9900',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowOpacity: 0.5,
+        shadowColor: 'black',
+    },
 
     // Add User
     button: {
@@ -105,14 +117,10 @@ export const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 30,
         flexDirection: 'row',
-        //backgroundColor: '#3578E5',
         justifyContent: 'center',
-        alignItems: 'center',
         margin: 10,
         width: 160,
         height: 160,
-
-        // backgroundColor: '#FF9900',
         backgroundColor: '#FF9900',
         shadowOpacity: 0.5,
         shadowColor: 'white',
@@ -337,15 +345,10 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.41,
     },
     allCategories: {
-        //paddingHorizontal: 5,
-        //paddingVertical: 60,
         width: screenWidth * 0.84,
-        //left: 10,
         height: 110,
         borderRadius: 10,
-        //alignSelf: 'center',
         margin: 15,
-        //minWidth: '96%',
 
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
@@ -360,7 +363,6 @@ export const styles = StyleSheet.create({
         height: 120,
         borderRadius: 10,
         marginHorizontal: 7,
-        //marginBottom: '6%',
         backgroundColor: '#CBD9F5',
         //Dropshadow
         shadowOffset: { width: 2, height: 4 },
