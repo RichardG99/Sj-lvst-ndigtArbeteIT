@@ -111,11 +111,11 @@ export default class Stories extends React.Component {
     };
 
     addToUsersLibrary = (story) => {
-        /* if (this.state.authenticated == false) {
+        if (this.state.authenticated == false) {
             console.log('Customer is not subscribed');
-            // TODO: ADD ALERT FOR NOT SUBSCRIBED
+            Alert.alert('You are not subscribed!');
             return;
-        } */
+        }
         Parse.User.currentAsync().then((user) => {
             console.log('hello');
             let myLibrary = user.get('myLibrary');
@@ -138,7 +138,7 @@ export default class Stories extends React.Component {
             user.add('myLibrary', newStory);
             user.save();
             console.log('Added to library');
-            Alert.alert('Story added to My Library');
+            Alert.alert('Story has been added to My Library');
 
             // TODO: ADD ALERT FOR ADDITION TO LIBRARY
             //this.props.navigation.navigate('My Library');
