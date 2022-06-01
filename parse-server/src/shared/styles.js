@@ -41,6 +41,7 @@ const styles = {
     boxSizing: 'border-box',
     padding: '2em',
     overflow: 'hidden',
+    borderRadius: '100px',
   },
 };
 
