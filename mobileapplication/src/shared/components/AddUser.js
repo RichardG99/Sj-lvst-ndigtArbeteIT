@@ -82,10 +82,15 @@ export default class AddUser extends React.Component {
             <View style={styles.splashBackground}>
                 <View style={[styles.ellips1, styles.ellips3]}></View>
                 <View style={[styles.ellips2, styles.ellips4]}></View>
-                <Text style={[styles.splashTitle, styles.loginTitle]}>
+                <Text
+                    style={[
+                        styles.profileTitle,
+                        { marginTop: 80, width: 1000 },
+                    ]}
+                >
                     Create Account
                 </Text>
-                <View style={{ marginTop: 150 }}>
+                <View style={{ marginTop: 205 }}>
                     <Input
                         placeholder="First name"
                         name="firstName"
@@ -138,48 +143,44 @@ export default class AddUser extends React.Component {
                     />
                 </View>
                 <Text name="errorMsg" value={this.errorMsg} color="red" />
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.createAccountButton,
-                    ]}
-                    type="clear"
-                    onPress={() =>
-                        this.validateAndLogin().then(
-                            () => this.props.navigation.navigate('Home'),
-                            (error) => {
-                                console.log(error);
-                                this.errorMsg = error;
-                            }
-                        )
-                    }
+                <View
+                    style={{
+                        marginTop: -25,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
                 >
-                    <Text style={styles.loginText}>Create Account</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.resetFormButton,
-                    ]}
-                    type="clear"
-                    onPress={() => this.resetForm()}
-                >
-                    <Text style={styles.loginText}>Reset form</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.resetFormButton,
-                        { marginTop: 50 },
-                    ]}
-                    type="clear"
-                    onPress={() => this.props.navigation.goBack()}
-                >
-                    <Text style={styles.loginText}>Back</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.defaultButton]}
+                        type="clear"
+                        onPress={() =>
+                            this.validateAndLogin().then(
+                                () => this.props.navigation.navigate('Home'),
+                                (error) => {
+                                    console.log(error);
+                                    this.errorMsg = error;
+                                }
+                            )
+                        }
+                    >
+                        <Text style={styles.loginText}>Create Account</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.defaultButton, { margin: 1 }]}
+                        type="clear"
+                        onPress={() => this.resetForm()}
+                    >
+                        <Text style={styles.loginText}>Reset form</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.defaultButton}
+                        type="clear"
+                        onPress={() => this.props.navigation.goBack()}
+                    >
+                        <Text style={styles.loginText}>Back</Text>
+                    </TouchableOpacity>
+                </View>
+
                 {this.debugging ? (
                     <Button title="Log from Home.js" onPress={this.LogItAll} />
                 ) : (
