@@ -78,7 +78,7 @@ export default class MyLibrary extends React.Component {
                     //TODO: Refresh stories on press
                     style={styles.refreshButton}
                 >
-                    <Ionicons name={'refresh'} color={'white'} size={25} />
+                    <Ionicons name={'reload'} color={'white'} size={25} />
                 </TouchableOpacity>
                 <Text style={[styles.categoryTitle, styles.mainTitles]}>
                     Select Story

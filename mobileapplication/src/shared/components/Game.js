@@ -623,20 +623,20 @@ export default class Game extends React.Component {
                         </Text>
                         <View
                             style={{
-                                width: 120,
-                                height: 30,
+                                height: 35,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                borderRadius: 3,
-                                backgroundColor: '#FF9900',
+                                borderRadius: 5,
+                                borderColor: '#FF9900',
+                                borderWidth: 2,
+                                marginVertical: 10,
                             }}
                         >
-                            <Text style={styles.headerSmall}>Chapter : 2</Text>
+                            <Text style={styles.headerSmall}>
+                                Chapter: {this.state.currentBoxTitle}
+                            </Text>
                         </View>
 
-                        <Text style={styles.titleSmall}>
-                            {this.state.currentBoxTitle}
-                        </Text>
                         <View
                             style={{
                                 alignItems: 'center',
