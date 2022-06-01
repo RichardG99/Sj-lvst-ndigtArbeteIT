@@ -5,6 +5,7 @@ import styles from '../../styles';
 
 const labelStyle = {
   margin: '1em 0',
+  color: 'grey'
 };
 
 const statusStyle = {
@@ -15,11 +16,14 @@ const statusStyle = {
 const inputStyle = {
   width: '100%',
   marginBottom: '1em',
-  height: '1.5em',
+  height: '2.5em',
+  backgroundColor: '#F5F5F5',
+  border: 'none',
+  borderRadius: '10px'
 };
 
 const signInButtonStyle = {
-  width: '6em',
+  width: '10em',
   fontSize: '16px',
   margin: '0 auto 1em auto',
   height: '4em',
@@ -32,9 +36,19 @@ const signInButtonStyle = {
   cursor: 'pointer',
 };
 
+
+
+
 const contentStyle = {
   width: '400px',
   margin: '0 auto',
+};
+
+const PaymentHeader = {
+  position: 'relative',
+  left: '35%',
+  top: '0px',
+
 };
 
 const Register = (props) => {
@@ -77,11 +91,7 @@ const Register = (props) => {
 
   return (
     <main style={styles.wrapper}>
-      <h1>Payment details</h1>
-
-      <p>
-        Please enter your subscription information below:
-      </p>
+      <h1 style={PaymentHeader}>Payment details</h1>
 
       <form onSubmit={handleSubmit} style={contentStyle}>
         <div className="container">

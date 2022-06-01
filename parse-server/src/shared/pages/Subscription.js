@@ -22,7 +22,7 @@ class Subscription extends React.Component {
     }
     return (
       <div style={styles.wrapper}>
-         <NavLink to="/myhomepage" className="link" onClick={tmpProps.onClickNavLink}>Home page</NavLink>
+         {/*<NavLink to="/myhomepage" className="link" onClick={tmpProps.onClickNavLink}>Home page</NavLink>*/}
         <Register></Register>
       </div>
     );
