@@ -18,6 +18,8 @@ import ParseReact from 'parse-react/react-native';
 import '../common.js';
 import { styles } from '../stylesheets/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const screenHeight = Dimensions.get('window').height;
 
 function Story({ myStory, selectedStory }) {
@@ -71,12 +73,19 @@ export default class MyLibrary extends React.Component {
             <SafeAreaView style={styles.splashBackground}>
                 <View style={[styles.ellips1, styles.ellips3]}></View>
                 <View style={[styles.ellips2, styles.ellips4]}></View>
+                <TouchableOpacity
+                    onPress={console.log('refresh')}
+                    //TODO: Refresh stories on press
+                    style={styles.refreshButton}
+                >
+                    <Ionicons name={'refresh'} color={'white'} size={25} />
+                </TouchableOpacity>
                 <Text style={[styles.categoryTitle, styles.mainTitles]}>
                     Select Story
                 </Text>
                 <View>
                     <FlatList
-                        style={{ marginTop: 30, height: screenHeight * 0.7 }}
+                        style={{ marginTop: 30, height: screenHeight * 0.65 }}
                         data={this.state.myStories}
                         renderItem={({ item }) => (
                             <Story
