@@ -595,14 +595,14 @@ export default class Game extends React.Component {
                 {this.state.playing ? (
                     <View>
                         <TouchableOpacity
-                            style={{
-                                height: 9999, // TODO make this fullscreen not fixed value
-                                width: 9999, // TODO make this fullscreen not fixed value
-                                backgroundColor: 'black',
-                            }}
                             onPress={this.pauseAugmentedAudio}
+                            style={styles.pauseButton}
                         >
-                            <View></View>
+                            <Ionicons
+                                name={'pause'}
+                                color={'white'}
+                                size={60}
+                            />
                         </TouchableOpacity>
                     </View>
                 ) : (
@@ -615,6 +615,7 @@ export default class Game extends React.Component {
                         ) : (
                             <View />
                         )}
+
                         <Text style={styles.headerLarge}>
                             <Text style={styles.titleLarge}>
                                 {this.state.storyTitle}
@@ -622,7 +623,6 @@ export default class Game extends React.Component {
                         </Text>
                         <View
                             style={{
-                                backgroundColor: 'white',
                                 width: 120,
                                 height: 30,
                                 justifyContent: 'center',
@@ -637,68 +637,55 @@ export default class Game extends React.Component {
                         <Text style={styles.titleSmall}>
                             {this.state.currentBoxTitle}
                         </Text>
-
-                        <TouchableOpacity
-                            onPress={this.enterMainLoop}
-                            style={styles.gameButton}
+                        <View
+                            style={{
+                                alignItems: 'center',
+                            }}
                         >
-                            <Ionicons
-                                name={'play-circle'}
-                                color={'white'}
-                                size={20}
-                            />
-
-                            <Text
-                                style={{
-                                    marginLeft: 10,
-                                    color: '#fff',
-                                    fontWeight: 'bold',
-                                }}
+                            <TouchableOpacity
+                                onPress={this.enterMainLoop}
+                                style={[styles.gameButton]}
                             >
-                                Play Story
-                            </Text>
-                        </TouchableOpacity>
+                                <Ionicons
+                                    name={'play-circle'}
+                                    color={'white'}
+                                    size={24}
+                                />
 
-                        <TouchableOpacity
-                            onPress={this.resetStory}
-                            style={styles.gameButton}
-                        >
-                            <Ionicons
-                                name={'repeat'}
-                                color={'white'}
-                                size={20}
-                            />
+                                <Text style={styles.gameButtonText}>
+                                    Play Story{' '}
+                                </Text>
+                            </TouchableOpacity>
 
-                            <Text
-                                style={{
-                                    marginLeft: 10,
-                                    color: '#fff',
-                                    fontWeight: 'bold',
-                                }}
+                            <TouchableOpacity
+                                onPress={this.resetStory}
+                                style={styles.gameButton}
                             >
-                                Reset Story
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={stopAudio}
-                            style={styles.gameButton}
-                        >
-                            <Ionicons
-                                name={'stop-circle'}
-                                color={'white'}
-                                size={20}
-                            />
+                                <Ionicons
+                                    name={'refresh-circle'}
+                                    color={'white'}
+                                    size={24}
+                                />
 
-                            <Text
-                                style={{
-                                    marginLeft: 10,
-                                    color: '#fff',
-                                    fontWeight: 'bold',
-                                }}
+                                <Text style={styles.gameButtonText}>
+                                    Reset Story
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={stopAudio}
+                                style={styles.gameButton}
                             >
-                                Stop audio
-                            </Text>
-                        </TouchableOpacity>
+                                <Ionicons
+                                    name={'stop-circle'}
+                                    color={'white'}
+                                    size={24}
+                                />
+
+                                <Text style={styles.gameButtonText}>
+                                    Stop Audio{' '}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 )}
             </View>

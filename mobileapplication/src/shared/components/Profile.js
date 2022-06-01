@@ -52,46 +52,19 @@ export default class Profile extends React.Component {
     render() {
         return (
             <SafeAreaView style={styles.splashBackground}>
-                <View styles={styles.containerProfile}>
+                <View styles={{ backgroundColor: 'red' }}>
                     <View style={[styles.ellips1, styles.ellips3]}></View>
                     <View style={[styles.ellips2, styles.ellips4]}></View>
                     <Text style={styles.profileTitle}>Your Profile</Text>
-                    {/*<View
+                    <View
                         style={{
-                            top: '40%',
-                            flex: 2,
-                            flexDirection: 'row',
+                            marginTop: '65%',
                             justifyContent: 'center',
-                            alignContent: 'center',
+                            alignItems: 'center',
                         }}
                     >
-                       <Image
-                            style={{
-                                width: 60,
-                                height: 60,
-                                borderRadius: 10000,
-                            }}
-                            source={require('../assets/couple-g798e44f98_1920.jpg')}
-                        />
-                    <Text
-                        style={{
-                            color: '#CBD9F5',
-                            alignSelf: 'center',
-                            fontFamily: 'InterRegular',
-                            fontSize: 20,
-                            fontWeight: '400',
-                            lineHeight: 30,
-                            letterSpacing: -0.4,
-                            top: 170,
-                        }}
-                    >
-                        Hello {this.state.firstName} {this.state.lastName}!
-                    </Text>
-                    </View>*/}
-
-                    <View style={{ marginTop: '50%' }}>
                         <TouchableOpacity
-                            style={[styles.buttonLogin, styles.editpButton]}
+                            style={[styles.defaultButton, styles.editpButton]}
                             type="clear"
                             onPress={() =>
                                 this.props.navigation.navigate('Edit Profile')
@@ -100,7 +73,7 @@ export default class Profile extends React.Component {
                             <Text style={styles.loginText}>Edit Profile</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[styles.buttonLogin, styles.editeButton]}
+                            style={[styles.defaultButton, styles.editeButton]}
                             type="clear"
                             onPress={() =>
                                 this.props.navigation.navigate('Edit Password')
@@ -109,7 +82,7 @@ export default class Profile extends React.Component {
                             <Text style={styles.loginText}>Edit Password</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[styles.buttonLogin, styles.logoutButton]}
+                            style={[styles.defaultButton, styles.logoutButton]}
                             type="clear"
                             onPress={() => this.logout()}
                         >

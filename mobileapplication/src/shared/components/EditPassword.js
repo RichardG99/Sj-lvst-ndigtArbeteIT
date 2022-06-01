@@ -71,7 +71,14 @@ export default class EditProfile extends React.Component {
             <SafeAreaView style={styles.splashBackground}>
                 <View style={[styles.ellips1, styles.ellips3]}></View>
                 <View style={[styles.ellips2, styles.ellips4]}></View>
-                <Text style={styles.profileTitle}>Edit Password</Text>
+                <Text
+                    style={[
+                        styles.profileTitle,
+                        { marginTop: 100, width: 1000 },
+                    ]}
+                >
+                    Edit Password
+                </Text>
 
                 <View style={{ marginTop: 200 }}>
                     <Input
@@ -99,28 +106,27 @@ export default class EditProfile extends React.Component {
                         }
                     />
                 </View>
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.changeButton,
-                    ]}
-                    type="clear"
-                    onPress={() => this.saveData()}
+                <View
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
                 >
-                    <Text style={styles.loginText}>Change Password</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[
-                        styles.buttonLogin,
-                        styles.editpButton,
-                        styles.resetButton,
-                    ]}
-                    type="clear"
-                    onPress={() => this.resetForm()}
-                >
-                    <Text style={styles.loginText}>Reset Changes</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.defaultButton}
+                        type="clear"
+                        onPress={() => this.saveData()}
+                    >
+                        <Text style={styles.loginText}>Change Password</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.defaultButton}
+                        type="clear"
+                        onPress={() => this.resetForm()}
+                    >
+                        <Text style={styles.loginText}>Reset Changes</Text>
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
         );
     }

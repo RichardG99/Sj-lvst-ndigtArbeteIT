@@ -22,6 +22,8 @@ export default class App extends React.Component {
             PTSans: require('./src/shared/assets/fonts/PTSans-Regular.ttf'),
             InterRegular: require('./src/shared/assets/fonts/Inter-Regular.ttf'),
             InterSemiBold: require('./src/shared/assets/fonts/Inter-SemiBold.ttf'),
+            Lato: require('./src/shared/assets/fonts/Lato-Regular.ttf'),
+            //Roboto_Mono: require('./src/shared/assets/fonts/RobotoMono-Italic-VariableFont_wght.ttf'),
         });
         this.setState({ fontLoaded: true });
     }
@@ -53,21 +55,4 @@ export default class App extends React.Component {
 ░░░█░░░░░░░░░░░█▄█░░▄▀
 ░░░█░░░░░░░░░░░████▀
 ░░░▀▄▄▀▀▄▄▀▀▄▄▄█
-
-
-<NavigationContainer>
-      <Stack.Navigator initialRouteName="AddUser">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="AddUser" component={AddUser} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Stories" component={Stories} />
-        <Stack.Screen name="Game" component={Game} />
-        <Stack.Screen name="My Library" component={MyLibrary} />
-        <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name="Edit Password" component={EditPassword} />
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Marketplace" component={Marketplace} />
-      </Stack.Navigator>
-    </NavigationContainer>
-
 */

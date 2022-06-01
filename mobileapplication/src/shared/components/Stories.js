@@ -11,6 +11,7 @@ import {
     Item,
     TouchableOpacity,
     Alert,
+    Dimensions,
 } from 'react-native';
 import Constants from 'expo-constants';
 import Parse from 'parse/react-native';
@@ -19,15 +20,19 @@ import '../common.js';
 import settings from '../settings.js';
 import { styles } from '../stylesheets/StyleSheet';
 import Explore from './Explore.js';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const screenHeight = Dimensions.get('window').height;
 
 function Story({ story, selectedStory, storyCategory }) {
     return (
         <View style={styles.story}>
             <TouchableOpacity onPress={() => selectedStory(story)}>
                 <Text style={styles.title}>{story.get('title')}</Text>
-                <Text style={styles.by}>by</Text>
-                <Text style={styles.author}>{story.get('author')}</Text>
-                <Text style={styles.author}>{storyCategory}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.by}>by</Text>
+                    <Text style={styles.author}>{story.get('author')}</Text>
+                </View>
             </TouchableOpacity>
         </View>
     );
@@ -37,43 +42,54 @@ export default class Stories extends React.Component {
         super(props);
         this.state = {
             stories: [],
-            authenticated:false,
+            authenticated: false,
             storyCategory: this.props.route.params.storyCategory,
-        }
+        };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.isSubscribed();
         this.getStories();
     }
 
     isSubscribed = async () => {
-        const user = Parse.User.current()
-        const stripeId = user.get("stripeId");
-        if(!stripeId) {
-            console.log("customer is not a stripe user")
+        const user = Parse.User.current();
+        const stripeId = user.get('stripeId');
+        if (!stripeId) {
+            console.log('customer is not a stripe user');
             return;
         }
-        console.log("current Stripe user: " + stripeId)
-        const {subscriptions} = await fetch("http://" + settings.serverURL+ ":" + settings.serverPort+'/authenticate', { // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              customerId: stripeId
-            }),
-          }).then(r => r.json()).
-          catch((err) => {console.log(err)});
-          const status = subscriptions.data[0].status
-          console.log("current status: " + subscriptions.data[0].status)
-          if (status == "active" || status == "canceled") {
-              this.state.authenticated = true;
-              console.log("customer is subscribed")
-              console.log(this.state.authenticated)
-              return;
-          }
-    }
+        console.log('current Stripe user: ' + stripeId);
+        const { subscriptions } = await fetch(
+            'http://' +
+                settings.serverURL +
+                ':' +
+                settings.serverPort +
+                '/authenticate',
+            {
+                // TODO: DET KAN INTE VARA HTTP HÅRDKODAT
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    customerId: stripeId,
+                }),
+            }
+        )
+            .then((r) => r.json())
+            .catch((err) => {
+                console.log(err);
+            });
+        const status = subscriptions.data[0].status;
+        console.log('current status: ' + subscriptions.data[0].status);
+        if (status == 'active' || status == 'canceled') {
+            this.state.authenticated = true;
+            console.log('customer is subscribed');
+            console.log(this.state.authenticated);
+            return;
+        }
+    };
 
     // Empty comment
     getStories = () => {
@@ -94,15 +110,14 @@ export default class Stories extends React.Component {
         this.addToUsersLibrary(story);
     };
 
-    
-
     addToUsersLibrary = (story) => {
-      if (this.state.authenticated == false){
-        console.log("Customer is not subscribed")
-        // TODO: ADD ALERT FOR NOT SUBSCRIBED
-        return
-      }
+        /* if (this.state.authenticated == false) {
+            console.log('Customer is not subscribed');
+            // TODO: ADD ALERT FOR NOT SUBSCRIBED
+            return;
+        } */
         Parse.User.currentAsync().then((user) => {
+            console.log('hello');
             let myLibrary = user.get('myLibrary');
             if (myLibrary === undefined) {
                 user.set('myLibrary', []);
@@ -122,6 +137,9 @@ export default class Stories extends React.Component {
             };
             user.add('myLibrary', newStory);
             user.save();
+            console.log('Added to library');
+            Alert.alert('Story added to My Library');
+
             // TODO: ADD ALERT FOR ADDITION TO LIBRARY
             //this.props.navigation.navigate('My Library');
         });
@@ -129,23 +147,36 @@ export default class Stories extends React.Component {
 
     render() {
         return (
-            <View style={styles.containerConst}>
-                <Text style={styles.pageTitle}>
-                    Select story to add to your library
-                </Text>
-                <FlatList
-                    data={this.state.stories}
-                    renderItem={({ item }) => (
-                        <Story
-                            id={item.id}
-                            story={item}
-                            selectedStory={this.selectedStory}
-                            storyCategory={this.state.storyCategory}
-                        />
+            <SafeAreaView
+                style={{ backgroundColor: '#00082F', height: screenHeight }}
+            >
+                <View style={[styles.ellips1, { left: -180 }]}></View>
+                <Text style={styles.categoryTitle}>
+                    {this.state.storyCategory == '' ? (
+                        <Text>All Stories</Text>
+                    ) : (
+                        <Text>{this.state.storyCategory}</Text>
                     )}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
+                </Text>
+                <View style={[styles.flatlistView]}>
+                    <Text style={styles.pageTitle}>
+                        Select story to add to your library
+                    </Text>
+                    <FlatList
+                        data={this.state.stories}
+                        style={styles.flatlist}
+                        renderItem={({ item }) => (
+                            <Story
+                                id={item.id}
+                                story={item}
+                                selectedStory={this.selectedStory}
+                                storyCategory={this.state.storyCategory}
+                            />
+                        )}
+                        keyExtractor={(item) => item.id}
+                    />
+                </View>
+            </SafeAreaView>
         );
     }
 }
