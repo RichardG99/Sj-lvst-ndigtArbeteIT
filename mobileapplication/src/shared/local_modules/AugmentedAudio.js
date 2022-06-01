@@ -245,7 +245,7 @@ pauseAudio = async () => {
 forcePauseAudio = async () => {
   try {
   if (audio !== null) {
-    //console.log('Audio Exists');
+    console.log('Audio Exists');
     paused = true;
     audio.pauseAsync();
   }

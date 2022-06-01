@@ -10,6 +10,7 @@ import {
     ScrollView,
     TouchableOpacity,
     BackHandler,
+    Alert,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import '../common.js';
@@ -27,7 +28,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // TODO : change activeStoryID -> activeStoryId
 // TODO : change timeStamp -> currentTime
 // FIXME : Audio files with same names when uploading
-// FIXME : Android laggar?
+// FIXME : Android laggar? 
 
 export default class Game extends React.Component {
     constructor(props) {
@@ -50,6 +51,7 @@ export default class Game extends React.Component {
             currentBoxTitle: 'Loading...',
             currentBoxTime: '0',
             storyTitle: this.props.route.params.storyTitle,
+            recording: false,
         };
         this.debugging = false;
         this.variableState = new VarState();
@@ -167,9 +169,11 @@ export default class Game extends React.Component {
 
     recordAndTranscribe = async (messageLength) => {
         stopAudio();
+        this.setState({ recording: true });
         record();
         await this.sleep(messageLength);
         await stopRecording();
+        this.setState({ recording: false });
         const audio = getRecording();
         const pelle = await this.speechToTextAPI(audio);
         return pelle;
@@ -188,6 +192,7 @@ export default class Game extends React.Component {
         });
     };
     downloadAudio = async (audioURL, fileName) => {
+        console.log(audioURL)
         const dl = FileSystem.createDownloadResumable(
             audioURL,
             FileSystem.documentDirectory + fileName
@@ -214,18 +219,20 @@ export default class Game extends React.Component {
         // DANGER DANGER MIGHT CONTINUE DOWNLOADING
         for (var i = 0; i < listOfURLs.length; i++) {
             var audioURL;
+            console.log("The list of URLS" + listOfURLs)
             const Box = Parse.Object.extend('Box');
             const query = new Parse.Query(Box);
             await query.get(listOfURLs[i]).then(async (box) => {
                 audioURL = box.get('audio_url');
-                console.log('debug: audioURL:' + audioURL + ' ,index:' + i);
+                console.log('debug: audioURL:' + audioURL + ',index:' + i);
                 const downloadedAudio = await this.downloadAudio(
                     audioURL,
-                    'audio' + i
+                    'audio' + i + '.mp3'
                 );
+                console.log(downloadedAudio);
                 this.potentialStoriesURI[i] = {
                     status: 1,
-                    address: downloadedAudio.fileObjectMeta,
+                    address: downloadedAudio.fileObjectMeta, 
                 };
             });
         }
@@ -373,8 +380,8 @@ export default class Game extends React.Component {
     // TODO remake this part... honestly  its bingo bango...
     playAugmentedAudio = async () => {
         await this.setState({ playing: true }); // Currently playing
-        this.savedBrightness = await Brightness.getBrightnessAsync();
-        Brightness.setSystemBrightnessAsync(0); // Lower Screen Brightness
+        // this.savedBrightness = await Brightness.getBrightnessAsync(); // TODO: MAYBE REINTRODUCE BRIGHTNESS
+        /// Brightness.setSystemBrightnessAsync(0); // Lower Screen Brightness
         this.trackEnded = false;
         let newBoxReady = true;
         let cheapCounterFix = 0;
@@ -412,7 +419,9 @@ export default class Game extends React.Component {
                             this.potentialStoriesURI[this.pickedPathIndex]
                                 .status === 1
                         ) {
-                            await setAudioWithUri(
+                            console.log("Setting Audio with URI: " + this.potentialStoriesURI + "\nDetail: "+this.potentialStoriesURI[this.pickedPathIndex]
+                            .address)
+                            await setAudioWithUri( // TODO: CHANGED TO URL INSTEAD OF URI
                                 this.potentialStoriesURI[this.pickedPathIndex]
                                     .address
                             ); //Load
@@ -488,9 +497,11 @@ export default class Game extends React.Component {
                 while (picking) {
                     if (this.potentialPaths.length === 0) {
                         console.log('story over, no more paths to take...');
-                        Brightness.setSystemBrightnessAsync(
-                            this.savedBrightness
-                        );
+                        // Brightness.setSystemBrightnessAsync( // TODO: MAYBE REINTRODUCE BRIGHTNESS
+                        //     this.savedBrightness
+                        // );
+                        //Alert.alert("You've reached an ending of the story")
+                        //this.setState({ playing: false })
                         return;
                     }
                     //If we have paths with keywords, we wait for a keyword
@@ -500,10 +511,12 @@ export default class Game extends React.Component {
                         if (!this.state.playing) {
                             return; // game has been ended during recording phase.
                         }
+                        console.log(this.potentialPaths) // TODO: REMOVE CONSOLE LOG
                         path = await this.pathPicking(
                             speechString,
                             this.potentialPaths
                         );
+                        console.log(path) // TODO: REMOVE CONSOLE LOG
                     } else {
                         console.log('no recording will be done');
                         path = await this.pathPicking(
@@ -514,6 +527,7 @@ export default class Game extends React.Component {
 
                     if (path.status === 1) {
                         let newBoxID = await path.chosenPath.get('toId');
+                        console.log(newBoxID)
                         this.currentBoxID = newBoxID;
                         this.currentTime = 0;
                         picking = false;
@@ -560,7 +574,7 @@ export default class Game extends React.Component {
     pauseAugmentedAudio = async () => {
         this.setState({ playing: false }); // No Longer Playing
         await forcePauseAudio();
-        Brightness.setSystemBrightnessAsync(this.savedBrightness); // Raise Screen Brightness
+        // Brightness.setSystemBrightnessAsync(this.savedBrightness); // Raise Screen Brightness // TODO: MAYBE REINTRODUCE BRIGHTNESS
         if (!this.trackEnded) {
             let newTime = await getAudioTime();
             if (newTime !== -1) {
@@ -622,9 +636,15 @@ export default class Game extends React.Component {
 
     enterMainLoop = async () => {
         await this.playAugmentedAudio();
-        Brightness.setSystemBrightnessAsync(this.savedBrightness);
+        //Brightness.setSystemBrightnessAsync(this.savedBrightness); // TODO: MAYBE REINTRODUCE BRIGHTNESS
         this.props.navigation.navigate('My Library');
     };
+
+    // {/*TODO: CHAPTER THAT SHOULD NOT BE STATIC */}
+
+    /*<View>
+        this.state.recording && <Text>What is your choice?</Text>
+    </View> */
 
     render() {
         return (
@@ -634,14 +654,14 @@ export default class Game extends React.Component {
                 {this.state.playing ? (
                     <View>
                         <TouchableOpacity
-                            style={{
-                                height: 9999, // TODO make this fullscreen not fixed value
-                                width: 9999, // TODO make this fullscreen not fixed value
-                                backgroundColor: 'black',
-                            }}
                             onPress={this.pauseAugmentedAudio}
+                            style={styles.pauseButton}
                         >
-                            <View></View>
+                            <Ionicons
+                                name={'pause'}
+                                color={'white'}
+                                size={60}
+                            />
                         </TouchableOpacity>
                     </View>
                 ) : (
@@ -670,7 +690,7 @@ export default class Game extends React.Component {
                                 backgroundColor: '#FF9900',
                             }}
                         >
-                            <Text style={styles.headerSmall}>Chapter : 2</Text>
+                            <Text style={styles.headerSmall}>Chapter : 2</Text> 
                         </View>
 
                         <Text style={styles.titleSmall}>

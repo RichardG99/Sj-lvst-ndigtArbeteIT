@@ -129,6 +129,22 @@ export const styles = StyleSheet.create({
         fontSize: 32,
         color: 'grey',
     },
+    pauseButton: {
+        borderRadius: 1000,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        width: 160,
+        height: 160,
+        backgroundColor: '#FF9900',
+        shadowOpacity: 0.5,
+        shadowColor: 'white',
+        shadowOffset: { width: 2, height: 4 },
+        shadowRadius: 3,
+    },
 
     //Stories
     containerConst: {
